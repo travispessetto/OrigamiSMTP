@@ -1,0 +1,97 @@
+package com.pessetto.main;
+
+import java.net.*;
+import java.util.Scanner;
+
+import com.pessetto.CommandHandlers.CommandHandler;
+import com.pessetto.Common.Variables;
+
+import java.io.*;
+
+public class ConsoleMain{
+
+	private static ServerSocket smtpSocket;
+	public static void main(String args[]) throws Exception
+	{
+		System.out.println("Starting SMTP");
+		smtpSocket = new ServerSocket(2525);
+		System.out.println("Socket Opened");
+		while(true)
+		{
+			boolean quit = false;
+			System.out.println("AWAIT CONNECTION");
+			Socket connectionSocket = smtpSocket.accept();;
+			DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
+			Scanner inFromClient = new Scanner(connectionSocket.getInputStream());
+			CommandHandler commandHandler = new CommandHandler(outToClient,inFromClient);
+			inFromClient.useDelimiter(Variables.CRLF);
+			String welcome = "220 127.0.0.1 SMTP Ready"+Variables.CRLF;
+			outToClient.writeBytes(welcome);
+			System.out.print(welcome);
+			try
+			{
+				String cmd = "";
+				while((cmd = GetFullCmd(inFromClient)) != "QUIT")
+				{
+					String cmdId = GetCmdIdentifier(cmd).toLowerCase();
+					if(cmdId.equals("data"))
+					{
+						commandHandler.HandleData();
+					}
+					else if(cmdId.equals("ehlo") || cmdId.equals("helo"))
+					{
+						commandHandler.HandleEHLO(cmd);
+					}
+					else if(cmdId.equals("mail"))
+					{
+					
+						commandHandler.HandleMAIL(cmd);
+					}
+					else if(cmdId.equals("rset") || cmd.equals("reset"))
+					{
+						commandHandler.HandleRSET();
+					}
+					else if(cmdId.equals("rcpt"))
+					{
+						commandHandler.HandleRCPT(cmd);
+					}
+					else if(cmdId.equals("starttls"))
+					{
+						commandHandler.HandleSTARTTLS();
+					}
+					else if(cmdId.equals("quit"))
+					{
+						commandHandler.HandleQuit();
+						quit = true;
+					}
+
+					else
+					{
+						commandHandler.HandleNotImplemented(cmd);
+					}
+				}
+			}
+			catch(Exception ex)
+			{
+				System.err.println("Client Disconnect");
+			}
+		}
+	}
+	
+	public static String GetFullCmd(Scanner inFromClient)
+	{
+		String raw = "QUIT";
+		if(inFromClient.hasNextLine())
+		{
+			raw = inFromClient.nextLine();
+			System.out.println(raw);
+		}
+		return raw;
+	}
+	
+	public static String GetCmdIdentifier(String cmd)
+	{
+		String[] parts = cmd.split(" ");
+		return parts[0];
+	}
+}
