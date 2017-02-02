@@ -31,6 +31,7 @@ public class STARTTLSHandler
 		SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
 		newSocket = (SSLSocket) factory.createSocket(old,null,old.getPort(),false);		
 		newSocket.setUseClientMode(false);
+		newSocket.startHandshake();
 		return newSocket;
 	}
 	

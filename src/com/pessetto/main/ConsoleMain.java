@@ -5,9 +5,6 @@ package com.pessetto.main;
 import java.net.*;
 import java.util.Scanner;
 
-import javax.net.ssl.SSLServerSocket;
-import javax.net.ssl.SSLServerSocketFactory;
-
 import com.pessetto.CommandHandlers.CommandHandler;
 import com.pessetto.Common.Variables;
 
@@ -18,9 +15,7 @@ public class ConsoleMain{
 	public static void main(String args[]) throws Exception
 	{
 		System.out.println("Starting SMTP");
-		SSLServerSocketFactory serverSocketFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
-		SSLServerSocket smtpSocket = (SSLServerSocket)serverSocketFactory.createServerSocket(2525);
-		smtpSocket.setUseClientMode(false);
+		ServerSocket smtpSocket = new ServerSocket(2525);
 		System.out.println("Socket Opened");
 		while(true)
 		{
