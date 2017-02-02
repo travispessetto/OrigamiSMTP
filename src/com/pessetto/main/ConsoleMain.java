@@ -5,6 +5,8 @@ package com.pessetto.main;
 import java.net.*;
 import java.util.Scanner;
 
+import javax.net.ssl.SSLSocket;
+
 import com.pessetto.CommandHandlers.CommandHandler;
 import com.pessetto.Common.Variables;
 
@@ -87,7 +89,7 @@ public class ConsoleMain{
 		if(inFromClient.hasNextLine())
 		{
 			raw = inFromClient.nextLine();
-			System.out.println(raw);
+			System.out.println("C: " + raw);
 		}
 		return raw;
 	}

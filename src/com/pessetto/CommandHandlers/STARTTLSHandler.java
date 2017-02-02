@@ -1,12 +1,18 @@
 // https://tools.ietf.org/html/rfc3207
 package com.pessetto.CommandHandlers;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
 
 import javax.net.ServerSocketFactory;
 import javax.net.ssl.HandshakeCompletedEvent;
 import javax.net.ssl.HandshakeCompletedListener;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSession;
@@ -20,18 +26,44 @@ public class STARTTLSHandler
 	String Response;
 	SSLServerSocketFactory socketFactory;
 	SSLSocket newSocket;
+	SSLContext sslContext;
+	KeyStore keyStore;
+	KeyManagerFactory keyManagerFactory;
 	
 	public STARTTLSHandler()
 	{
-		Response = "200 Go Ahead" + Variables.CRLF;
+		try
+		{
+			System.setProperty("javax.net.ssl.keyStore", "./keys");
+			System.setProperty("javax.net.ssl.keyStorePassword", "password");
+			keyStore  = KeyStore.getInstance(KeyStore.getDefaultType());
+			InputStream ksIs = new FileInputStream("./keys");
+			keyStore.load(ksIs,"password".toCharArray());
+			if(ksIs != null)
+			{
+				ksIs.close();
+			}
+			
+			keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+			keyManagerFactory.init(keyStore, "password".toCharArray());
+			sslContext = SSLContext.getInstance("TLSv1.2");
+			sslContext.init(keyManagerFactory.getKeyManagers(),null, null);
+			Response = "200 STARTLS" + Variables.CRLF;
+		}
+		catch(Exception e)
+		{
+			System.err.println("Fatal Error: "+e.getMessage());
+			e.printStackTrace();
+		}
 	}
 	
 	public SSLSocket EnableTLS(Socket old) throws IOException
 	{
-		SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-		newSocket = (SSLSocket) factory.createSocket(old,null,old.getPort(),false);		
+		//SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+		newSocket = (SSLSocket) sslContext.getSocketFactory().createSocket(old, null,old.getPort(),false);
+		newSocket.addHandshakeCompletedListener(new MyHandshakeListener());
+		newSocket.setEnabledProtocols(new String[]{"TLSv1.1","TLSv1.2"});
 		newSocket.setUseClientMode(false);
-		newSocket.startHandshake();
 		return newSocket;
 	}
 	
