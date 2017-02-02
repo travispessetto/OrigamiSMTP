@@ -3,6 +3,7 @@ package com.pessetto.CommandHandlers;
 import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -61,11 +62,14 @@ public class CommandHandler
 		HandleResponse(rset.GetResponse());
 	}
 	
-	public void HandleSTARTTLS(Socket old) throws IOException
+	public Socket HandleSTARTTLS(Socket old) throws IOException
 	{
 		tls = new STARTTLSHandler();
 		HandleResponse(tls.GetResponse());
-		old = tls.EnableTLS(old);
+		System.out.println("Secure socket setup");
+		//test stuff keep tls.EnableTLS(old) though just without variable
+		SSLSocket ssocket = tls.EnableTLS(old);
+		return ssocket;
 	}
 	
 	public void HandleQuit()

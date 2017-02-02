@@ -16,6 +16,7 @@ public class ConsoleMain{
 
 	public static void main(String args[]) throws Exception
 	{
+		Socket ssls = null;
 		System.out.println("Starting SMTP");
 		ServerSocket smtpSocket = new ServerSocket(2525);
 		System.out.println("Socket Opened");
@@ -60,7 +61,9 @@ public class ConsoleMain{
 					}
 					else if(cmdId.equals("starttls"))
 					{
-						commandHandler.HandleSTARTTLS(connectionSocket);
+						connectionSocket = commandHandler.HandleSTARTTLS(connectionSocket);
+						outToClient = new DataOutputStream(connectionSocket.getOutputStream());
+						inFromClient = new Scanner(connectionSocket.getInputStream());
 					}
 					else if(cmdId.equals("quit"))
 					{
