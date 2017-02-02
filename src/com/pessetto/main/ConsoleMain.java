@@ -1,7 +1,12 @@
+// https://tools.ietf.org/html/rfc2821#section-4.1.1
+// http://stackoverflow.com/questions/11985896/can-a-java-server-accept-both-ssl-and-plaintext-connections-on-one-port
 package com.pessetto.main;
 
 import java.net.*;
 import java.util.Scanner;
+
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
 
 import com.pessetto.CommandHandlers.CommandHandler;
 import com.pessetto.Common.Variables;
@@ -10,11 +15,12 @@ import java.io.*;
 
 public class ConsoleMain{
 
-	private static ServerSocket smtpSocket;
 	public static void main(String args[]) throws Exception
 	{
 		System.out.println("Starting SMTP");
-		smtpSocket = new ServerSocket(2525);
+		SSLServerSocketFactory serverSocketFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+		SSLServerSocket smtpSocket = (SSLServerSocket)serverSocketFactory.createServerSocket(2525);
+		smtpSocket.setUseClientMode(false);
 		System.out.println("Socket Opened");
 		while(true)
 		{
@@ -57,7 +63,7 @@ public class ConsoleMain{
 					}
 					else if(cmdId.equals("starttls"))
 					{
-						commandHandler.HandleSTARTTLS();
+						commandHandler.HandleSTARTTLS(connectionSocket);
 					}
 					else if(cmdId.equals("quit"))
 					{
@@ -74,6 +80,8 @@ public class ConsoleMain{
 			catch(Exception ex)
 			{
 				System.err.println("Client Disconnect");
+				System.err.println(ex.getMessage());
+				ex.printStackTrace(System.err);
 			}
 		}
 	}

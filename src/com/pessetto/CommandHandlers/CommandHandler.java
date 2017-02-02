@@ -3,7 +3,11 @@ package com.pessetto.CommandHandlers;
 import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.Socket;
 import java.util.Scanner;
+
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLSocket;
 
 import com.pessetto.Common.Variables;
 import com.pessetto.FileHandlers.EmailHandler;
@@ -57,10 +61,11 @@ public class CommandHandler
 		HandleResponse(rset.GetResponse());
 	}
 	
-	public void HandleSTARTTLS()
+	public void HandleSTARTTLS(Socket old) throws IOException
 	{
 		tls = new STARTTLSHandler();
 		HandleResponse(tls.GetResponse());
+		old = tls.EnableTLS(old);
 	}
 	
 	public void HandleQuit()
