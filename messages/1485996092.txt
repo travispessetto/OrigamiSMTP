@@ -1,0 +1,28 @@
+TO:  <travis@pessetto.com>
+FROM:  <travis@example.com>
+===MESSAGE===
+To: travis@pessetto.com
+From: travis@example.com
+Subject: Test from SMTP Diag Tool
+Date: Wed, 1 Feb 2017 17:41:32 -0700
+Message-Id: <4e875e3af618b21e53c346b738c9d1b5@example.com>
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="boundarybBIswQ=="
+
+
+This is a message encoded in MIME format.
+
+
+--boundarybBIswQ==
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+
+This is a test from SMTP Diag Tool
+--boundarybBIswQ==
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
+
+This is a test from SMTP Diag Tool
+--boundarybBIswQ==--
+
+===/MESSAGE===
