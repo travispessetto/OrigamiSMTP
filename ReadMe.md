@@ -33,7 +33,7 @@ does not seem to be working too well with it.  This may be because of how the
 cipher suites are chosen.  Anyways, this SMTP server uses a self-signed
 certificate so you must lower your security settings not to validate it. The following sections will tell you how to do it in your programming language.
 
-#### C\#
+#### C&#35;
 
 In C-Sharp if you have `EnableSsl` set to true like so:
 
