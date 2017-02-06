@@ -43,7 +43,7 @@ public class STARTTLSHandler
 		try
 		{
 			keyStore  = KeyStore.getInstance(KeyStore.getDefaultType());
-			InputStream ksIs = new FileInputStream("./keys");
+			InputStream ksIs = STARTTLSHandler.class.getClassLoader().getResourceAsStream("keys");
 			keyStore.load(ksIs,"password".toCharArray());
 			if(ksIs != null)
 			{
@@ -53,7 +53,7 @@ public class STARTTLSHandler
 			keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
 			keyManagerFactory.init(keyStore, "password".toCharArray());
 			
-			InputStream trustStoreIs = new FileInputStream("./truststore");
+			InputStream trustStoreIs = STARTTLSHandler.class.getClassLoader().getResourceAsStream("truststore");
 			trustStore = KeyStore.getInstance("JKS");
 			trustStore.load(trustStoreIs, "password".toCharArray());
 			trustFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());

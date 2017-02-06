@@ -1,0 +1,46 @@
+TO: <chris.dickson@es3inc.com>
+FROM: <dev.test@es3inc.com>
+===MESSAGE===
+MIME-Version: 1.0
+From: dev.test@es3inc.com
+To: john.doe@example.com
+Date: 6 Feb 2017 14:57:53 -0700
+Subject: ERP - Reset Password
+Content-Type: multipart/alternative;
+ boundary=--boundary_0_8084299b-7964-44a7-a9a1-6b76d54e08f7
+
+
+----boundary_0_8084299b-7964-44a7-a9a1-6b76d54e08f7
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
+
+RGVhciBKb2huLAoKWW91ciBhY2NvdW50IHBhc3N3b3JkIGhhcyBiZWVuIGZvcmNpYmx5
+IHJlc2V0LiAgWW91IG11c3QgY2hhbmdlIHlvdXIgcGFzc3dvcmQuICBUbyBkbyB0aGlz
+LCBwbGVhc2UgY2xpY2sgb24gdGhlIGxpbmsgYmVsb3cgd2hlcmUgeW91IHdpbGwgYmUg
+dGFrZW4gdG8gYSBwYWdlIHRvIHJlc2V0IHlvdXIgcGFzc3dvcmQ6CgpodHRwOi8vbG9j
+YWxob3N0OjU0OTU0L0FjY291bnRzL1Jlc2V0UGFzc3dvcmQ/dXNlcklkPTIzNSZjb2Rl
+PUViZGwzNTdqdHhoWm9USXNJTWJjRWVEUUx3VXFXYVpXa0tBZDdVcldGdUpUUjRGenNS
+QTllOU1aa0hLUyUyQjFuS0J4VVhwMGJZTEgwWUQzem10aFNPdkFJSHlRYmdUNXpIUUFF
+QiUyQnJPVE9MRTI4aTE4NFVHeGtxdnRuZ29NR2M4eUFpNmcxY3pNd1RsOGZCbjFmeCUy
+RmVFQSUzRCUzRAoKQ29yZGlhbGx5LCAKCkVSUFMgQWRtaW5pc3RyYXRvcnMKCihQbGVh
+c2UgZG8gbm90IGF0dGVtcHQgdG8gcmVwbHkgdG8gdGhpcyBtZXNzYWdlIGFzIGl0IGlz
+IGF1dG8gZ2VuZXJhdGVkLiBUaGFuayB5b3UhKQ==
+----boundary_0_8084299b-7964-44a7-a9a1-6b76d54e08f7
+Content-Type: text/html; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+
+<div>Dear John,</div><br /><div>Your account password has been fo=
+rcibly reset.  You must change your password.  To do this, please=
+ click on the link below where you will be taken to a page to res=
+et your password:</div><br /><div><a href=3D'http://localhost:549=
+54/Accounts/ResetPassword?userId=3D235&code=3DEbdl357jtxhZoTIsIMb=
+cEeDQLwUqWaZWkKAd7UrWFuJTR4FzsRA9e9MZkHKS%2B1nKBxUXp0bYLH0YD3zmth=
+SOvAIHyQbgT5zHQAEB%2BrOTOLE28i184UGxkqvtngoMGc8yAi6g1czMwTl8fBn1f=
+x%2FeEA%3D%3D'>Reset Password</a></div><br /><div>Cordially,</div=
+><br /><div>ERPS Administrators</div><br /><div>(Please do not at=
+tempt to reply to this message as it is auto generated. Thank you=
+!)</div>
+----boundary_0_8084299b-7964-44a7-a9a1-6b76d54e08f7--
+
+
+===/MESSAGE===
