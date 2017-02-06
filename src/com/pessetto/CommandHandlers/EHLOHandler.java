@@ -15,9 +15,32 @@ public class EHLOHandler
 			ClientDomain = parts[1];
 			if(Variables.EnableStartTLS)
 			{
+				
 				Response = "250-127.0.0.1 WELCOME TLS ENABLED"+Variables.CRLF;
-				Response += "250-STARTTLS"+Variables.CRLF;
-				Response += "250 DSN" + Variables.CRLF;
+				Response += "250 STARTTLS"+Variables.CRLF;
+			}
+			else
+			{
+				Response = "250 127.0.0.1"+Variables.CRLF;
+			}
+		}
+		else
+		{
+			Response = "501 Syntax Error"+Variables.CRLF;
+		}
+	}
+	
+	public EHLOHandler(String fullEHLO, boolean secure)
+	{
+		String[] parts = fullEHLO.split(" ");
+		if(parts.length == 2)
+		{
+			ClientDomain = parts[1];
+			if(Variables.EnableStartTLS && !secure)
+			{
+				
+				Response = "250-127.0.0.1 WELCOME TLS ENABLED"+Variables.CRLF;
+				Response += "250 STARTTLS"+Variables.CRLF;
 			}
 			else
 			{

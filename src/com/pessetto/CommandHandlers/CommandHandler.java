@@ -22,11 +22,13 @@ public class CommandHandler
 	private STARTTLSHandler tls;
 	private DataOutputStream outToClient;
 	private Scanner inFromClient;
+	private boolean secure;
 	
 	public CommandHandler(DataOutputStream outToClient, Scanner inFromClient)
 	{
 		this.outToClient = outToClient;
 		this.inFromClient = inFromClient;
+		secure = false;
 	}
 	
 	public void HandleData()
@@ -40,7 +42,7 @@ public class CommandHandler
 	
 	public void HandleEHLO(String fullEHLO)
 	{
-		ehlo = new EHLOHandler(fullEHLO);
+		ehlo = new EHLOHandler(fullEHLO,secure);
 		HandleResponse(ehlo.GetResponse());
 	}
 	
@@ -62,13 +64,13 @@ public class CommandHandler
 		HandleResponse(rset.GetResponse());
 	}
 	
-	public Socket HandleSTARTTLS(Socket old) throws IOException
+	public SSLSocket HandleSTARTTLS(Socket old) throws IOException
 	{
-		tls = new STARTTLSHandler();
+		tls = new STARTTLSHandler(old);
 		HandleResponse(tls.GetResponse());
-		System.out.println("Secure socket setup");
-		//test stuff keep tls.EnableTLS(old) though just without variable
 		SSLSocket ssocket = tls.EnableTLS(old);
+		System.out.println("Secure socket setup");
+		secure = true;
 		return ssocket;
 	}
 	
@@ -95,6 +97,12 @@ public class CommandHandler
 			System.err.println("Fatal Error");
 			e.printStackTrace();
 		}
+	}
+	
+	public void setInAndOutFromClient(Scanner in, DataOutputStream out)
+	{
+		inFromClient = in;
+		outToClient = out;
 	}
 
 }

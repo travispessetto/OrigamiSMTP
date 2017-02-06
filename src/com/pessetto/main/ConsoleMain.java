@@ -16,9 +16,24 @@ public class ConsoleMain{
 
 	public static void main(String args[]) throws Exception
 	{
+		int bindPort = 2525;
+		if(args.length == 1)
+		{
+			System.out.println("Setting port to " + args[0]);
+			bindPort = Integer.parseInt(args[0]);
+		}
+		else
+		{
+			System.out.println("Default to 2525");
+		}
+		java.lang.System.setProperty("sun.security.ssl.allowUnsafeRenegotiation", "true");
+		java.lang.System.setProperty("sun.security.ssl.allowLegacyHelloMessages", "true");
 		Socket ssls = null;
 		System.out.println("Starting SMTP");
-		ServerSocket smtpSocket = new ServerSocket(2525);
+		InetSocketAddress bindAddress = new InetSocketAddress(2525);
+		ServerSocket smtpSocket = new ServerSocket();
+		smtpSocket.setReuseAddress(true);
+		smtpSocket.bind(bindAddress);
 		System.out.println("Socket Opened");
 		while(true)
 		{
@@ -62,8 +77,10 @@ public class ConsoleMain{
 					else if(cmdId.equals("starttls"))
 					{
 						connectionSocket = commandHandler.HandleSTARTTLS(connectionSocket);
+						System.out.println("connectionSocket now set to TLS");
 						outToClient = new DataOutputStream(connectionSocket.getOutputStream());
 						inFromClient = new Scanner(connectionSocket.getInputStream());
+						commandHandler.setInAndOutFromClient(inFromClient, outToClient);
 					}
 					else if(cmdId.equals("quit"))
 					{

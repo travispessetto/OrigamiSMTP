@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
+import java.security.cert.Certificate;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 
@@ -16,6 +17,7 @@ import javax.net.ssl.HandshakeCompletedListener;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLHandshakeException;
+import javax.net.ssl.SSLPeerUnverifiedException;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSession;
@@ -36,12 +38,10 @@ public class STARTTLSHandler
 	KeyManagerFactory keyManagerFactory;
 	TrustManagerFactory trustFactory;
 	
-	public STARTTLSHandler()
+	public STARTTLSHandler(Socket old)
 	{
 		try
 		{
-			//System.setProperty("javax.net.ssl.keyStore", "./keys");
-			//System.setProperty("javax.net.ssl.keyStorePassword", "password");
 			keyStore  = KeyStore.getInstance(KeyStore.getDefaultType());
 			InputStream ksIs = new FileInputStream("./keys");
 			keyStore.load(ksIs,"password".toCharArray());
@@ -59,11 +59,17 @@ public class STARTTLSHandler
 			trustFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
 			trustFactory.init(trustStore);
 			
-			sslContext = SSLContext.getInstance("TLS");
+			sslContext = SSLContext.getInstance("TLSv1.2");
 			sslContext.init(keyManagerFactory.getKeyManagers(),trustFactory.getTrustManagers(), null);
 			
-			
-			Response = "200 STARTLS" + Variables.CRLF;
+			if(old instanceof SSLSocket)
+			{
+				Response = "454 TLS not available due to temporary reason: TLS already active";
+			}
+			else
+			{
+				Response = "220 Ready to start TLS" + Variables.CRLF;
+			}
 		}
 		catch(Exception e)
 		{
@@ -74,20 +80,37 @@ public class STARTTLSHandler
 	
 	public SSLSocket EnableTLS(Socket old) throws IOException
 	{
+		Response = null;
 		try
 		{
 			//SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
 			newSocket = (SSLSocket) sslContext.getSocketFactory().createSocket(old, null,old.getPort(),false);
-			newSocket.addHandshakeCompletedListener(new MyHandshakeListener());
+			//newSocket.addHandshakeCompletedListener(new MyHandshakeListener());
 			newSocket.setEnabledProtocols(newSocket.getSupportedProtocols());
 			newSocket.setEnabledCipherSuites(newSocket.getSupportedCipherSuites());
 			newSocket.setUseClientMode(false);
-			//newSocket.startHandshake();
+			Thread.sleep(1000);
+			//newSocket.setNeedClientAuth(true);
+			newSocket.startHandshake();
+			if(newSocket.getNeedClientAuth())
+			{
+				try
+				{
+					Certificate[] peerCerts = newSocket.getSession().getPeerCertificates();
+					
+				}
+				catch(SSLPeerUnverifiedException e)
+				{
+					System.out.println("PEERS UNVERIFIED; IGNORE"); 
+				}
+			}
 			return newSocket;
 		}
 		catch(SSLHandshakeException ex)
 		{
 			System.err.println("Handshake failed!");
+			System.err.println(ex.getMessage());
+			ex.printStackTrace(System.err);
 		}
 		catch(Exception ex)
 		{
@@ -103,9 +126,3 @@ public class STARTTLSHandler
 	}
 }
 
-class MyHandshakeListener implements HandshakeCompletedListener {
-	  public void handshakeCompleted(HandshakeCompletedEvent e) {
-	    System.out.println("Handshake succesful!");
-	    System.out.println("Using cipher suite: " + e.getCipherSuite());
-	  }
-	}
