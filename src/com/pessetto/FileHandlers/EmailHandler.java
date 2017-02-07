@@ -21,7 +21,7 @@ public class EmailHandler
 			messageFolder.mkdir();
 			try
 			{
-				BufferedWriter emailFile = new BufferedWriter(new FileWriter(messageFolder+"/"+Integer.toString(GetUnixTime())+".txt"));
+				BufferedWriter emailFile = new BufferedWriter(new FileWriter(messageFolder+"/"+Integer.toString(GetUnixTime())+".mht"));
 				emailFile.write("TO: " + rcpt.GetRecipient() + Variables.CRLF);
 				emailFile.write("FROM: "+ mail.GetSender() + Variables.CRLF);
 				emailFile.write("===MESSAGE==="+Variables.CRLF+data.GetData()+Variables.CRLF+"===/MESSAGE===");
