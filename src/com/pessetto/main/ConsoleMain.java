@@ -4,11 +4,14 @@ package com.pessetto.main;
 
 import java.net.*;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.net.ssl.SSLSocket;
 
 import com.pessetto.CommandHandlers.CommandHandler;
 import com.pessetto.Common.Variables;
+import com.pessetto.Threads.ConnectionHandler;
 
 import java.io.*;
 
@@ -16,6 +19,7 @@ public class ConsoleMain{
 
 	public static void main(String args[]) throws Exception
 	{
+		ExecutorService threadPool = Executors.newFixedThreadPool(2);
 		int bindPort = 2525;
 		if(args.length == 1)
 		{
@@ -37,86 +41,11 @@ public class ConsoleMain{
 		System.out.println("Socket Opened");
 		while(true)
 		{
-			boolean quit = false;
 			System.out.println("AWAIT CONNECTION");
-			Socket connectionSocket = smtpSocket.accept();;
-			DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
-			Scanner inFromClient = new Scanner(connectionSocket.getInputStream());
-			CommandHandler commandHandler = new CommandHandler(outToClient,inFromClient);
-			inFromClient.useDelimiter(Variables.CRLF);
-			String welcome = "220 127.0.0.1 SMTP Ready"+Variables.CRLF;
-			outToClient.writeBytes(welcome);
-			System.out.print(welcome);
-			try
-			{
-				String cmd = "";
-				while((cmd = GetFullCmd(inFromClient)) != "QUIT")
-				{
-					String cmdId = GetCmdIdentifier(cmd).toLowerCase();
-					if(cmdId.equals("data"))
-					{
-						commandHandler.HandleData();
-					}
-					else if(cmdId.equals("ehlo") || cmdId.equals("helo"))
-					{
-						commandHandler.HandleEHLO(cmd);
-					}
-					else if(cmdId.equals("mail"))
-					{
-					
-						commandHandler.HandleMAIL(cmd);
-					}
-					else if(cmdId.equals("rset") || cmd.equals("reset"))
-					{
-						commandHandler.HandleRSET();
-					}
-					else if(cmdId.equals("rcpt"))
-					{
-						commandHandler.HandleRCPT(cmd);
-					}
-					else if(cmdId.equals("starttls"))
-					{
-						connectionSocket = commandHandler.HandleSTARTTLS(connectionSocket);
-						System.out.println("connectionSocket now set to TLS");
-						outToClient = new DataOutputStream(connectionSocket.getOutputStream());
-						inFromClient = new Scanner(connectionSocket.getInputStream());
-						commandHandler.setInAndOutFromClient(inFromClient, outToClient);
-					}
-					else if(cmdId.equals("quit"))
-					{
-						commandHandler.HandleQuit();
-						quit = true;
-					}
-
-					else
-					{
-						commandHandler.HandleNotImplemented(cmd);
-					}
-				}
-			}
-			catch(Exception ex)
-			{
-				System.err.println("Client Disconnect");
-				System.err.println(ex.getMessage());
-				ex.printStackTrace(System.err);
-			}
+			Socket connectionSocket = smtpSocket.accept();
+			ConnectionHandler connectionHandler = new ConnectionHandler(connectionSocket);
+			threadPool.submit(connectionHandler);
+			System.out.println("Connection sent to thread");
 		}
-	}
-	
-	public static String GetFullCmd(Scanner inFromClient)
-	{
-		String raw = "QUIT";
-		if(inFromClient.hasNextLine())
-		{
-			raw = inFromClient.nextLine();
-			System.out.println("C: " + raw);
-		}
-		return raw;
-	}
-	
-	public static String GetCmdIdentifier(String cmd)
-	{
-		String[] parts = cmd.split(" ");
-		return parts[0];
 	}
 }

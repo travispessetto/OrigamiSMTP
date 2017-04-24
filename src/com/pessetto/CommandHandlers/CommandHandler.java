@@ -89,7 +89,6 @@ public class CommandHandler
 	{
 		try 
 		{
-			System.out.print("S: "+response);
 			outToClient.writeBytes(response);
 		}
 		catch (IOException e) 
