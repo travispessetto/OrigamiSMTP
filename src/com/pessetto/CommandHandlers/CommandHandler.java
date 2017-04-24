@@ -81,7 +81,6 @@ public class CommandHandler
 	
 	public void HandleNotImplemented(String cmd)
 	{
-		System.err.println("NOT IMPLEMENTED: " + cmd);
 		HandleResponse("502 Command Not Implemented"+Variables.CRLF);
 	}
 	

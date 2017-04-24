@@ -27,7 +27,7 @@ public class ConnectionHandler implements Runnable {
 			outToClient.writeBytes(welcome);
 			String cmd = "";
 			boolean quit = false;
-			while((cmd = GetFullCmd(inFromClient)) != "QUIT")
+			while(!quit && (cmd = GetFullCmd(inFromClient)) != "QUIT")
 			{
 				String cmdId = GetCmdIdentifier(cmd).toLowerCase();
 				if(cmdId.equals("data"))
@@ -92,7 +92,7 @@ public class ConnectionHandler implements Runnable {
 	private static String GetCmdIdentifier(String cmd)
 	{
 		String[] parts = cmd.split(" ");
-		return parts[0];
+		return parts[0].toLowerCase();
 	}
 
 }
