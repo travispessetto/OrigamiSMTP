@@ -21,17 +21,32 @@ You may replace 2525 with the port you would like to use.
 ### Getting your Messages
 
 Your messages will be stored in a folder named "messages" that will appear in
-the same folder as origami.jar.  Unfortunately, there is no good way to view
-these files right now.  You can open them in a text editor but the formating
-may not be the cleanest.
-
+the same folder as origami.jar.  Unfortunately, the only way we have found
+to view these messages is Internet Explorer.
 
 ### Working with STARTLS
 
 OrigamiSMTP does not work with all SMTP clients notably s\_client from OpenSSL
 does not seem to be working too well with it.  This may be because of how the
 cipher suites are chosen.  Anyways, this SMTP server uses a self-signed
-certificate so you must lower your security settings not to validate it. The following sections will tell you how to do it in your programming language.
+certificate so you must lower your security settings not to validate it.
+ The following sections will tell you how to do it in your programming language.
+
+You may have to download the [Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files 8][1].  This extension may be
+restricted in some countries and may have export controls enforced by the United State Government.  Since we do not have the funds for legal
+council this file must be downloaded from the link provided.  Follow the instructions in README.txt to install.
+
+### Swaks for Debugging STARTLS
+
+There is a Perl script called [Swaks][2] that can be used for debugging purposes.
+If you are using this script on Windows it will require [ActivePerl][3] by ActiveState.
+Just download the community edition.  We tried to use Strawberry Perl and found that
+this script is not compatible.
+
+To use Swaks the command is simply:
+
+```swaks.pl -t john.doe@example.com -f jane.doe@example.com -s localhost -p 2525 --tls-verify --tls-ca-path \Origami\CA\Origami_CA.crt -tls
+```
 
 #### C&#35;
 
@@ -64,3 +79,7 @@ Contributing is simple just fork this on GitHub and then send a pull request.
 ### License
 
 I am still trying to determine the license on this
+
+[1]: http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html
+[2]: http://www.jetmore.org/john/code/swaks/
+[3]: https://www.activestate.com/activeperl/downloads

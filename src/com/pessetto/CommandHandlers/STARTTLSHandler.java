@@ -83,14 +83,14 @@ public class STARTTLSHandler
 		Response = null;
 		try
 		{
-			//SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
 			newSocket = (SSLSocket) sslContext.getSocketFactory().createSocket(old, null,old.getPort(),false);
-			//newSocket.addHandshakeCompletedListener(new MyHandshakeListener());
 			newSocket.setEnabledProtocols(newSocket.getSupportedProtocols());
+			DisplayProtocols(newSocket.getSupportedProtocols());
+			
 			newSocket.setEnabledCipherSuites(newSocket.getSupportedCipherSuites());
+			DisplayCiphers(newSocket.getSupportedCipherSuites());
 			newSocket.setUseClientMode(false);
 			Thread.sleep(1000);
-			//newSocket.setNeedClientAuth(true);
 			newSocket.startHandshake();
 			if(newSocket.getNeedClientAuth())
 			{
@@ -123,6 +123,27 @@ public class STARTTLSHandler
 	public String GetResponse()
 	{
 		return Response;
+	}
+	
+	
+	private void DisplayArrayAsString(String[] arr)
+	{
+		for(String str : arr)
+		{
+			System.out.println("- " + str);
+		}
+	}
+	
+	private void DisplayCiphers(String[] ciphers)
+	{
+		System.out.println("Chiphers: ");
+		DisplayArrayAsString(ciphers);
+	}
+	
+	private void DisplayProtocols(String[] protocols)
+	{
+		System.out.println("Protocols:");
+		DisplayArrayAsString(protocols);
 	}
 }
 
