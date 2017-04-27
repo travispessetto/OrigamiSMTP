@@ -1,16 +1,18 @@
 # Origami SMTP
 
-The aim or Origami SMTP is to provide a local development client that is
-compatible with STARTTLS.  This way messages that must be sent over TLS
-can be used on a development machine.
+Origami SMTP is a fake SMTP server with SSL (STARTTLS) support. The
+reason it was developed was so that developers could test their
+applications that require a secure SMTP server without having
+to change more than just a couple settings.
 
-### Requirements
+## Requirements
 
 This server requires:
 
-* Java 1.8 or higher
+* [Java 1.8 or higher][6]
+* [Java JCE][1]
 
-### Starting the Server
+## Starting the Server
 
 To start the server run the following from the terminal or command line.
 
@@ -18,68 +20,92 @@ To start the server run the following from the terminal or command line.
 
 You may replace 2525 with the port you would like to use.
 
-### Getting your Messages
+### Windows Users (GUI)
+
+If you are using Windows there is a recommended GUI with this SMTP server
+bundled called [Origami GUI][7].  The reason it is only for Windows users
+is because of its dependence on Internet Explorer.  At a later date I hope
+to make it OS independent by creating a separate project named Origami MHTML
+Viewer.
+
+I recommend that you use the latest release where possible.  You can download
+them [here][8].
+
+### Other Operating Systems
+
+[Download SMTP Server][9]
+
+## Getting your Messages
 
 Your messages will be stored in a folder named "messages" that will appear in
 the same folder as origami.jar.  Unfortunately, the only way we have found
 to view these messages is Internet Explorer.
 
-### Working with STARTLS
+## Working with STARTLS
 
-OrigamiSMTP does not work with all SMTP clients notably s\_client from OpenSSL
-does not seem to be working too well with it.  This may be because of how the
-cipher suites are chosen.  Anyways, this SMTP server uses a self-signed
-certificate so you must lower your security settings not to validate it.
- The following sections will tell you how to do it in your programming language.
+Since this service requires some custom configuration, you will have to load
+the [Origami CA Certificate][4] into your Trusted Root Store. If you are
+unsure how to do this on Windows [follow this guide][5].  You will have
+to do this on other operating systems too but at this time we have no
+guides provided.
+
+Next make sure your SMTP settings set the host to localhost and not
+the IP address 127.0.0.1 or the validation may fail, notably in
+C#.
 
 You may have to download the [Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files 8][1].  This extension may be
 restricted in some countries and may have export controls enforced by the United State Government.  Since we do not have the funds for legal
 council this file must be downloaded from the link provided.  Follow the instructions in README.txt to install.
 
-### Swaks for Debugging STARTLS
+### Notice
 
-There is a Perl script called [Swaks][2] that can be used for debugging purposes.
-If you are using this script on Windows it will require [ActivePerl][3] by ActiveState.
-Just download the community edition.  We tried to use Strawberry Perl and found that
-this script is not compatible.
+This SMTP server is not compatible with everything.  In particular we have noticed
+that openssl's s_client does not complete the message sending.
 
-To use Swaks the command is simply:
+## Debugging
 
-```swaks.pl -t john.doe@example.com -f jane.doe@example.com -s localhost -p 2525 --tls-verify --tls-ca-path \Origami\CA\Origami_CA.crt -tls
+### Using Swaks
+
+To use Swaks to debug you will need Perl installed.  To do this on Windows we suggest
+the use of [ActivePerl][3] as we could not get it to work with Strawberry Perl. After
+that is installed you can use the following command to help with debugging.
+
+```sh
+swaks.pl -t john.doe@example.com -f jane.doe@example.com -s localhost -p 2525 -tls --tls-verify --tls-ca-path /path/to/origami/ca.crt
 ```
 
-#### C&#35;
+### Using OpenSSL
 
-In C-Sharp if you have `EnableSsl` set to true like so:
+To use OpenSSL s_client to try and debug use the following command
 
-```csharp
-var client = new SmtpClient
-{
-    enableSsl = true
-};
+```sh
+openssl s_client -connect localhost:2525 -starttls smtp
 ```
 
-Then before you use the SMTP Client you will want to override the validation
-callback like so
+Previously 127.0.0.1 was used in place of localhost so it may validate
+correctly now but has not been tested.
 
-```csharp
-System.Net.ServicePointManager.ServerCertificateValidationCallback += delegate{return true;};
-```
-
-### Helpful Tips
+## Helpful Tips
 
 * When working in Eclipse it is recommended to set the VM arguments to
 -Djavax.net.debug=ssl,handshake
-* You can use openssl to help you debug the program with the command `openssl s_client -connect 127.0.0.1:2525 -starttls smtp`
+* You can use openssl to help you debug
+* You can use [Swaks][2] to help debug 
 
-### Contributing
+## Contributing
 
 Contributing is simple just fork this on GitHub and then send a pull request.
 
-### License
+## License
 
 I am still trying to determine the license on this
 
 [1]: http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html
 [2]: http://www.jetmore.org/john/code/swaks/
 [3]: https://www.activestate.com/activeperl/downloads
+[4]: https://raw.githubusercontent.com/travispessetto/OrigamiSMTP/0.2.0/certs/CA/Origami_CA.crt
+[5]: https://technet.microsoft.com/en-us/library/cc754841(v=ws.11).aspx
+[6]: https://java.com
+[7]: https://github.com/travispessetto/OrigamiGUI
+[8]: https://github.com/travispessetto/OrigamiGUI/releases
+[9]: https://github.com/travispessetto/OrigamiSMTP/releases
