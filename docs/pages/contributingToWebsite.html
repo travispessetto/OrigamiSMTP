@@ -1,0 +1,33 @@
+<div data-load="pages/menu.html"></div>
+<div class="container container-fluid">
+  <div class="col-md-12 whiter">
+    <h1>Contributing to the Website</h1>
+    <p>
+      Contributing to the website is easy.  Just fork the git repository and
+      edit the files in the docs folder of the master branch.  Then send a pull
+      request.
+    </p>
+    <p>
+      On a similar note, there are some things that have been done to make
+      development a bit easier.  Since GitHub does not support any server-side
+      dynamic programming language there is a JavaScript file, site.js, that
+      can load partial pieces of a website.  The downside is there is currrently
+      no navigation possible using the back and forward buttons, no way to link
+      directly to a page on the site, and no history avalible.  We hope to resolve
+      this at a later date.
+    </p>
+    <p>
+      Some ideas for resolving this issue is to enance the history possibly using
+      history.js or using the HTML5 history API.  We are also going to look into
+      having a JavaScript file on our partial pages to see if it is the first one
+      loaded and if so load the content you would see on the index.
+    </p>
+    <p>
+      Now, to use the template function all you have to do is include a div with
+      the attribute data-load set to the url you would like to bring in relative
+      to the index and that div will be replaced with the contents of the file.
+      If you would like to link to an external website you must include the
+      atribute data-type set to the value external.
+    </p>
+  </div>
+</div>
