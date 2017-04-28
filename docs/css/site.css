@@ -1,0 +1,42 @@
+html, body
+{
+  width: 100%;
+  height: 100%;
+  background-image: url("../images/envelopes.jpg");
+  background-size: cover;
+}
+
+#content
+{
+  background: rgba(0,0,0,.7);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#site-title
+{
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  color: #fff;
+}
+
+#site-title h1
+{
+  font-size: 5em;
+  font-weight: bold;
+}
+
+.whiter
+{
+  background: rgba(255,255,255,.4);
+}
+
+table
+{
+  font-size: 1.3em;
+}
