@@ -17,9 +17,10 @@ import java.io.*;
 
 public class ConsoleMain{
 
+	private ServerSocket smtpSocket;
+	private int port;
 	public static void main(String args[]) throws Exception
 	{
-		ExecutorService threadPool = Executors.newFixedThreadPool(2);
 		int bindPort = 2525;
 		if(args.length == 1)
 		{
@@ -30,22 +31,57 @@ public class ConsoleMain{
 		{
 			System.out.println("Default to 2525");
 		}
-		java.lang.System.setProperty("sun.security.ssl.allowUnsafeRenegotiation", "true");
-		java.lang.System.setProperty("sun.security.ssl.allowLegacyHelloMessages", "true");
-		Socket ssls = null;
-		System.out.println("Starting SMTP");
-		InetSocketAddress bindAddress = new InetSocketAddress(2525);
-		ServerSocket smtpSocket = new ServerSocket();
-		smtpSocket.setReuseAddress(true);
-		smtpSocket.bind(bindAddress);
-		System.out.println("Socket Opened");
-		while(true)
+		ConsoleMain console = new ConsoleMain(bindPort);
+		console.startSMTP();
+	}
+	
+	// To also be able to use it in a library
+	public ConsoleMain(int port)
+	{
+		this.port = port;
+	}
+	
+	public void closeSMTP()
+	{
+		try {
+			smtpSocket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void startSMTP()
+	{
+		try
 		{
-			System.out.println("AWAIT CONNECTION");
-			Socket connectionSocket = smtpSocket.accept();
-			ConnectionHandler connectionHandler = new ConnectionHandler(connectionSocket);
-			threadPool.submit(connectionHandler);
-			System.out.println("Connection sent to thread");
+			ExecutorService threadPool = Executors.newWorkStealingPool();
+			java.lang.System.setProperty("sun.security.ssl.allowUnsafeRenegotiation", "true");
+			java.lang.System.setProperty("sun.security.ssl.allowLegacyHelloMessages", "true");
+			Socket ssls = null;
+			System.out.println("Starting SMTP");
+			InetSocketAddress bindAddress = new InetSocketAddress(port);
+			smtpSocket = new ServerSocket();
+			smtpSocket.setReuseAddress(true);
+			smtpSocket.bind(bindAddress);
+			System.out.println("Socket Opened");
+			while(!Thread.interrupted()  || !Thread.currentThread().isInterrupted())
+			{
+				System.out.println("AWAIT CONNECTION");
+				Socket connectionSocket = smtpSocket.accept();
+				ConnectionHandler connectionHandler = new ConnectionHandler(connectionSocket);
+				threadPool.submit(connectionHandler);
+				System.out.println("Connection sent to thread");
+			}
+			if(Thread.interrupted() || Thread.currentThread().isInterrupted())
+			{
+				System.out.println("Quit due to interupted thread");
+			}
+		}
+		catch(Exception ex)
+		{
+			System.err.println("Failed to open socket");
+			ex.printStackTrace(System.err);
 		}
 	}
 }

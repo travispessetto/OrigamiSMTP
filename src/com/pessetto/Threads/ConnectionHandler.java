@@ -27,7 +27,7 @@ public class ConnectionHandler implements Runnable {
 			outToClient.writeBytes(welcome);
 			String cmd = "";
 			boolean quit = false;
-			while(!quit && (cmd = GetFullCmd(inFromClient)) != "QUIT")
+			while(!Thread.currentThread().isInterrupted() && !quit && (cmd = GetFullCmd(inFromClient)) != "QUIT")
 			{
 				String cmdId = GetCmdIdentifier(cmd).toLowerCase();
 				if(cmdId.equals("data"))
