@@ -68,6 +68,7 @@ public class Message implements Serializable
 				MimeMultipart mimeMultipart = (MimeMultipart) mimeMessage.getContent();
 				processedMessage = getTextFromMimeMultipart(mimeMultipart);
 			}
+			subject = mimeMessage.getSubject();
 		}
 		catch(Exception ex)
 		{
@@ -80,6 +81,7 @@ public class Message implements Serializable
 	    String result = "";
 	    int count = mimeMultipart.getCount();
 	    for (int i = 0; i < count; i++) {
+	    	System.out.println("part " + i);
 	        BodyPart bodyPart = mimeMultipart.getBodyPart(i);
 	        if (bodyPart.isMimeType("text/html") || bodyPart.isMimeType("text/plain")) {
 	            String html = (String) bodyPart.getContent();

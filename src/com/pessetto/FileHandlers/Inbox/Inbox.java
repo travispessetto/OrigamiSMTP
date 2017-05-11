@@ -44,7 +44,10 @@ public class Inbox implements Serializable
 	
 	public void addMessage(Message msg)
 	{
-		notifyListenersOfNewMessage();
+		if(newMessageListeners != null)
+		{
+			notifyListenersOfNewMessage();
+		}
 		messages.add(msg);
 		this.serialize();
 	}
@@ -52,7 +55,10 @@ public class Inbox implements Serializable
 	public void deleteMessage(int id)
 	{
 		messages.remove(id);
-		this.notifyListenersOfDeletedMessage(id);
+		if(deleteMessageListeners != null)
+		{
+			this.notifyListenersOfDeletedMessage(id);
+		}
 		this.serialize();
 	}
 	
