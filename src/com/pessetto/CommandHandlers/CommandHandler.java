@@ -15,6 +15,7 @@ import com.pessetto.FileHandlers.EmailHandler;
 
 public class CommandHandler
 {
+	private AUTHHandler auth;
 	private DataHandler data;
 	private EHLOHandler ehlo;
 	private MAILHandler mail;
@@ -29,6 +30,15 @@ public class CommandHandler
 		this.outToClient = outToClient;
 		this.inFromClient = inFromClient;
 		secure = false;
+	}
+	
+	public void HandleAuth()
+	{
+		if(auth == null)
+		{
+			auth = new AUTHHandler();
+		}
+		HandleResponse(auth.GetResponse());
 	}
 	
 	public void HandleData()

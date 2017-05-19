@@ -16,12 +16,14 @@ public class EHLOHandler
 			if(Variables.EnableStartTLS)
 			{
 				
-				Response = "250-127.0.0.1 WELCOME TLS ENABLED"+Variables.CRLF;
+				Response = "250-localhost WELCOME TLS ENABLED"+Variables.CRLF;
+				Response += "250-AUTH PLAIN" + Variables.CRLF;
 				Response += "250 STARTTLS"+Variables.CRLF;
 			}
 			else
 			{
-				Response = "250 127.0.0.1"+Variables.CRLF;
+				Response = "250-localhost WELCOME" + Variables.CRLF;
+				Response += "250 AUTH PLAIN" + Variables.CRLF;
 			}
 		}
 		else
@@ -39,12 +41,14 @@ public class EHLOHandler
 			if(Variables.EnableStartTLS && !secure)
 			{
 				
-				Response = "250-127.0.0.1 WELCOME TLS ENABLED"+Variables.CRLF;
+				Response = "250-localhost WELCOME TLS ENABLED"+Variables.CRLF;
+				Response += "250-AUTH PLAIN" + Variables.CRLF;
 				Response += "250 STARTTLS"+Variables.CRLF;
 			}
 			else
 			{
-				Response = "250 127.0.0.1"+Variables.CRLF;
+				Response += "250-localhost WELCOME" + Variables.CRLF;
+				Response = "250 AUTH PLAIN"+Variables.CRLF;
 			}
 		}
 		else

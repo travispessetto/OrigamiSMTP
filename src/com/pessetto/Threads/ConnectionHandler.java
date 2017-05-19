@@ -30,7 +30,11 @@ public class ConnectionHandler implements Runnable {
 			while(!Thread.currentThread().isInterrupted() && !quit && (cmd = GetFullCmd(inFromClient)) != "QUIT")
 			{
 				String cmdId = GetCmdIdentifier(cmd).toLowerCase();
-				if(cmdId.equals("data"))
+				if(cmdId.equals("auth"))
+				{
+					commandHandler.HandleAuth();
+				}
+				else if(cmdId.equals("data"))
 				{
 					commandHandler.HandleData();
 				}
