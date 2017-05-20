@@ -51,7 +51,7 @@ public class ConsoleMain{
 		}
 	}
 	
-	public void startSMTP()
+	public void startSMTP() throws BindException
 	{
 		try
 		{
@@ -77,6 +77,11 @@ public class ConsoleMain{
 			{
 				System.out.println("Quit due to interupted thread");
 			}
+		}
+		catch(BindException ex)
+		{
+			System.err.println("Could not bind to port");
+			throw ex;
 		}
 		catch(Exception ex)
 		{
