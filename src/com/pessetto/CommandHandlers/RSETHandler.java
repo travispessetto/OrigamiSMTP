@@ -4,9 +4,11 @@ import com.pessetto.Common.Variables;
 
 public class RSETHandler 
 {
-	public RSETHandler(EHLOHandler ehlo)
+	public RSETHandler(MAILHandler mail, RCPTHandler rcpt, DataHandler data)
 	{
-		ehlo = null;
+		mail = null;
+		rcpt = null;
+		data = null;
 	}
 	
 	public String GetResponse()

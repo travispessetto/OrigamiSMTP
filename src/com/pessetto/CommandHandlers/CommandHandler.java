@@ -10,6 +10,7 @@ import java.util.Scanner;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLSocket;
 
+import com.pessetto.CommandHandlers.Interfaces.Validatable;
 import com.pessetto.Common.Variables;
 import com.pessetto.FileHandlers.EmailHandler;
 
@@ -43,34 +44,41 @@ public class CommandHandler
 	
 	public void HandleData()
 	{
-		data = new DataHandler();
+		data = new DataHandler(rcpt);
 		HandleResponse(data.GetResponse());
-		data.ProcessMessage(inFromClient);
-		HandleResponse(data.GetResponse());
-		EmailHandler email = new EmailHandler(mail, rcpt, data);
+		data = (DataHandler)data.ValidateOrNullify();
+		if(data != null)
+		{
+			data.ProcessMessage(inFromClient);
+			HandleResponse(data.GetResponse());
+			EmailHandler email = new EmailHandler(mail, rcpt, data);
+		}
 	}
 	
 	public void HandleEHLO(String fullEHLO)
 	{
 		ehlo = new EHLOHandler(fullEHLO,secure);
 		HandleResponse(ehlo.GetResponse());
+		ehlo = (EHLOHandler)ehlo.ValidateOrNullify();
 	}
 	
 	public void HandleMAIL(String fullMAIL)
 	{
-		mail = new MAILHandler(fullMAIL);
+		mail = new MAILHandler(fullMAIL,ehlo);
 		HandleResponse(mail.GetResponse());
+		mail = (MAILHandler) mail.ValidateOrNullify();
 	}
 	
 	public void HandleRCPT(String fullCmd)
 	{
-		rcpt = new RCPTHandler(fullCmd);
+		rcpt = new RCPTHandler(fullCmd,mail);
 		HandleResponse(rcpt.GetResponse());
+		rcpt = (RCPTHandler) rcpt.ValidateOrNullify();
 	}
 	
 	public void HandleRSET()
 	{
-		RSETHandler rset = new RSETHandler(ehlo);
+		RSETHandler rset = new RSETHandler(mail,rcpt,data);
 		HandleResponse(rset.GetResponse());
 	}
 	
@@ -87,6 +95,8 @@ public class CommandHandler
 	public void HandleQuit()
 	{
 		QUITHandler quitH = new QUITHandler(outToClient,inFromClient);
+		HandleResponse(quitH.GetResponse());
+		//quitH = (QUITHandler)quitH.ValidateOrNullify();
 	}
 	
 	public void HandleNotImplemented(String cmd)

@@ -1,8 +1,9 @@
 package com.pessetto.CommandHandlers;
 
+import com.pessetto.CommandHandlers.Interfaces.Validatable;
 import com.pessetto.Common.Variables;
 
-public class EHLOHandler 
+public class EHLOHandler implements Validatable
 {
 	private String ClientDomain;
 	private String Response;
@@ -60,6 +61,11 @@ public class EHLOHandler
 	public String GetResponse()
 	{
 		return Response;
+	}
+
+	@Override
+	public Validatable ValidateOrNullify() {
+		return this;
 	}
 
 }

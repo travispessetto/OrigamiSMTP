@@ -2,15 +2,27 @@ package com.pessetto.CommandHandlers;
 
 import java.util.Scanner;
 
+import com.pessetto.CommandHandlers.Interfaces.Validatable;
 import com.pessetto.Common.Variables;
 
-public class DataHandler
+public class DataHandler implements Validatable
 {
 	private String Data;
 	private String Response;
-	public DataHandler()
+	private boolean valid;
+	public DataHandler(RCPTHandler rcpt)
 	{
-		Response = "354 Start mail input; end with <CRLF>.<CRLF>"+Variables.CRLF;
+		valid = false;
+		if(rcpt == null)
+		{
+			Response = "503 Invalid Sequence of Commands;  Must use MAIL and RCPT before DATA" + Variables.CRLF;
+			valid = false;
+		}
+		else
+		{
+			Response = "354 Start mail input; end with <CRLF>.<CRLF>"+Variables.CRLF;
+			valid = true;
+		}
 	}
 	
 	public void ProcessMessage(Scanner inFromClient)
@@ -40,5 +52,10 @@ public class DataHandler
 	public String GetResponse()
 	{
 		return Response;
+	}
+
+	@Override
+	public Validatable ValidateOrNullify() {
+		return valid ? this : null;
 	}
 }
