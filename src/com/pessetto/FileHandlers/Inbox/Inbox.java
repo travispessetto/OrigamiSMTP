@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.pessetto.Variables.InboxVariables;
@@ -14,14 +15,14 @@ import com.pessetto.Variables.InboxVariables;
 public class Inbox implements Serializable
 {
 	private static Inbox instance;
-	private static final long serialVersionUID = -1686234852843453025L;
-	private ArrayList<Message> messages;
+	private static final long serialVersionUID = -1686234852843453026L;
+	private LinkedList<Message> messages;
 	private transient List<NewMessageListener> newMessageListeners;
 	private transient List<DeleteMessageListener> deleteMessageListeners;
 	
 	private Inbox()
 	{
-		messages = new ArrayList<Message>();
+		messages = new LinkedList<Message>();
 	}
 	
 	public void addNewMessageListener(NewMessageListener listener)
@@ -48,7 +49,7 @@ public class Inbox implements Serializable
 		{
 			notifyListenersOfNewMessage();
 		}
-		messages.add(msg);
+		messages.add(0,msg);
 		this.serialize();
 	}
 	
@@ -101,7 +102,7 @@ public class Inbox implements Serializable
 	
 	public Message getNewestMessage()
 	{
-		return messages.get(messages.size() - 1);
+		return messages.get(0);
 	}
 	
 	private void notifyListenersOfNewMessage()

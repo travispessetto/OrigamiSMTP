@@ -19,7 +19,8 @@ public class Message implements Serializable
 	private String to;
 	private String subject;
 	private String message;
-	private String processedMessage;
+	private String plainMessage;
+	private String htmlMessage;
 	
 	public String getFrom() {
 		return from;
@@ -47,9 +48,14 @@ public class Message implements Serializable
 		processMessage();
 	}
 	
-	public String getProcessedMessage()
+	public String getHTMLMessage()
 	{
-		return processedMessage;
+		return htmlMessage;
+	}
+	
+	public String getPlainMessage()
+	{
+		return plainMessage;
 	}
 	
 	public void processMessage()
@@ -61,12 +67,12 @@ public class Message implements Serializable
 			MimeMessage mimeMessage = new MimeMessage(session,inputStream);
 			if(mimeMessage.isMimeType(InboxVariables.plainMime))
 			{
-				processedMessage = mimeMessage.getContent().toString();
+				plainMessage = mimeMessage.getContent().toString();
 			}
 			else if(mimeMessage.isMimeType(InboxVariables.multipartMime))
 			{
 				MimeMultipart mimeMultipart = (MimeMultipart) mimeMessage.getContent();
-				processedMessage = getTextFromMimeMultipart(mimeMultipart);
+				htmlMessage = getTextFromMimeMultipart(mimeMultipart);
 			}
 			subject = mimeMessage.getSubject();
 		}

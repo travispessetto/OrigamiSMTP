@@ -3,6 +3,8 @@
 package com.pessetto.main;
 
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -12,12 +14,14 @@ import com.pessetto.CommandHandlers.CommandHandler;
 import com.pessetto.Common.Variables;
 import com.pessetto.Threads.ConnectionHandler;
 import com.pessetto.FileHandlers.Inbox.*;
+import com.pessetto.Status.StatusListener;
 
 import java.io.*;
 
 public class ConsoleMain{
 
 	private ServerSocket smtpSocket;
+	private List<StatusListener> statusListeners;
 	private int port;
 	public static void main(String args[]) throws Exception
 	{
@@ -39,6 +43,12 @@ public class ConsoleMain{
 	public ConsoleMain(int port)
 	{
 		this.port = port;
+		statusListeners = new ArrayList<StatusListener>();
+	}
+	
+	public void addStatusListener(StatusListener sl)
+	{
+		statusListeners.add(sl);
 	}
 	
 	public void closeSMTP()
@@ -65,6 +75,7 @@ public class ConsoleMain{
 			smtpSocket.setReuseAddress(true);
 			smtpSocket.bind(bindAddress);
 			System.out.println("Socket Opened");
+			notifyStarted();
 			while(!Thread.interrupted()  || !Thread.currentThread().isInterrupted())
 			{
 				System.out.println("AWAIT CONNECTION");
@@ -75,18 +86,37 @@ public class ConsoleMain{
 			}
 			if(Thread.interrupted() || Thread.currentThread().isInterrupted())
 			{
+				notifyStopped();
 				System.out.println("Quit due to interupted thread");
 			}
 		}
 		catch(BindException ex)
 		{
+			notifyStopped();
 			System.err.println("Could not bind to port");
 			throw ex;
 		}
 		catch(Exception ex)
 		{
+			notifyStopped();
 			System.err.println("Failed to open socket");
 			ex.printStackTrace(System.err);
+		}
+	}
+	
+	private void notifyStarted()
+	{
+		for(StatusListener listener : statusListeners)
+		{
+			listener.smtpStarted();
+		}
+	}
+	
+	private void notifyStopped()
+	{
+		for(StatusListener listener : statusListeners)
+		{
+			listener.smtpStopped();
 		}
 	}
 }

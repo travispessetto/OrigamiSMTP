@@ -14,7 +14,7 @@ public class ConnectionHandler implements Runnable {
 	{
 		this.connectionSocket = connectionSocket;
 	}
-	
+
 	@Override
 	public void run() {
 		try
