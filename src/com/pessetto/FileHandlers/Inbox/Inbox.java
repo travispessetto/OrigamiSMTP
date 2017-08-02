@@ -15,7 +15,7 @@ import com.pessetto.Variables.InboxVariables;
 public class Inbox implements Serializable
 {
 	private static Inbox instance;
-	private static final long serialVersionUID = -1686234852843453026L;
+	private static final long serialVersionUID = -1686234852843453027L;
 	private LinkedList<Message> messages;
 	private transient List<NewMessageListener> newMessageListeners;
 	private transient List<DeleteMessageListener> deleteMessageListeners;
@@ -125,6 +125,7 @@ public class Inbox implements Serializable
 	{
 		try
 		{
+			String appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 			File inboxFile = new File(InboxVariables.inboxFile);
 			inboxFile.setWritable(true, false);	
 			FileOutputStream fout = new FileOutputStream(inboxFile);
