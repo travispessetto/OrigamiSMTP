@@ -125,7 +125,6 @@ public class Inbox implements Serializable
 	{
 		try
 		{
-			String appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 			File inboxFile = new File(InboxVariables.inboxFile);
 			inboxFile.setWritable(true, false);	
 			FileOutputStream fout = new FileOutputStream(inboxFile);

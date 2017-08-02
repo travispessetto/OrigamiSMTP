@@ -103,7 +103,8 @@ public class Message implements Serializable
 	    int count = mimeMultipart.getCount();
 	    for (int i = 0; i < count; i++) {
 	        BodyPart bodyPart = mimeMultipart.getBodyPart(i);
-	        if (bodyPart.isMimeType("text/plain")) {
+	        String fileName = this.getFileName(bodyPart.getContentType());
+	        if (fileName == null && bodyPart.isMimeType("text/plain")) {
 	        	if(plainMessage == null)
 	        	{
 	        		String html = (String) bodyPart.getContent();
@@ -114,7 +115,7 @@ public class Message implements Serializable
 	        		addPlainTextAttachment(bodyPart);
 	        	}
 	        }
-	        else if(bodyPart.isMimeType("text/html"))
+	        else if(fileName == null && bodyPart.isMimeType("text/html"))
 	        {
 	        	if(htmlMessage == null)
 	        	{
@@ -131,13 +132,18 @@ public class Message implements Serializable
 	        {
 	        	processMimeMultipart((MimeMultipart)bodyPart.getContent());
 	        }
+	        else if(bodyPart.isMimeType("text/*"))
+	        {
+	        	String content = (String) bodyPart.getContent();
+	        	Attachment attach = new Attachment(fileName,content.getBytes());
+	        	attachments.add(attach);
+	        }
 	        else
 	        {
-	        	String details = bodyPart.getContentType();
 	        	BASE64DecoderStream ds = (BASE64DecoderStream)bodyPart.getContent();
 	        	byte[] content = new byte[ds.available()];
 	        	ds.read(content);
-	        	Attachment attach = new Attachment(getFileName(details),content);
+	        	Attachment attach = new Attachment(fileName,content);
 	        	attachments.add(attach);
 	        }
 	    }
