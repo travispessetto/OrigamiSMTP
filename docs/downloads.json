@@ -1,7 +1,11 @@
 {
 	"versions": 
 	{
-		"0.11.RC (Executable)": [{"Windows Installer (EXE)" : "https://github.com/travispessetto/OrigamiGUI/releases/download/v0.11.RC/Origami_Setup.exe"}],
+		"0.12.RC (Executable)": [{"Windows Installer (EXE)" : "https://github.com/travispessetto/OrigamiGUI/releases/download/v0.12.RC/Origami_Setup.exe"},
+		{"Windows Stand-alone (EXE)" : "https://github.com/travispessetto/OrigamiGUI/releases/download/v0.12.RC/Origami_SMTP.exe"},
+		{"jar" : "https://github.com/travispessetto/OrigamiGUI/releases/download/v0.12.RC/Origami_SMTP.jar"}],
+		"0.12.RC (Source)" : [{"zip" : "https://github.com/travispessetto/OrigamiGUI/archive/v0.12.RC.zip"},
+		"tar.gz" : "https://github.com/travispessetto/OrigamiGUI/archive/v0.12.RC.tar.gz"}],
 		"0.10.0 (Executable)": [{"jar": "https://github.com/travispessetto/OrigamiGUI/releases/download/v0.10.0/origami.jar"}],
 		"0.10.0 (Source)": [{"zip": "https://github.com/travispessetto/OrigamiGUI/archive/v0.10.0.zip"},{"tar.gz": "https://github.com/travispessetto/OrigamiGUI/archive/v0.10.0.tar.gz"}]
 	}
