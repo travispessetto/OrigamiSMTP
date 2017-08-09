@@ -7,6 +7,8 @@ import com.pessetto.CommandHandlers.DataHandler;
 import com.pessetto.CommandHandlers.MAILHandler;
 import com.pessetto.CommandHandlers.RCPTHandler;
 import com.pessetto.Common.Variables;
+import com.pessetto.FileHandlers.Inbox.Inbox;
+import com.pessetto.FileHandlers.Inbox.Message;
 
 import java.util.Calendar;
 import java.util.Scanner;
@@ -17,20 +19,13 @@ public class EmailHandler
 	{
 		if(mail != null && rcpt != null && data != null)
 		{
-			File messageFolder = new File(Variables.MessageFolder);
-			messageFolder.mkdir();
-			try
-			{
-				BufferedWriter emailFile = new BufferedWriter(new FileWriter(messageFolder+"/"+Integer.toString(GetUnixTime())+".txt"));
-				emailFile.write("TO: " + rcpt.GetRecipient() + Variables.CRLF);
-				emailFile.write("FROM: "+ mail.GetSender() + Variables.CRLF);
-				emailFile.write("===MESSAGE==="+Variables.CRLF+data.GetData()+Variables.CRLF+"===/MESSAGE===");
-				emailFile.close();
-			}
-			catch(Exception e)
-			{
-				System.err.println("Could not write email to file");
-			}
+			Inbox inbox = Inbox.getInstance();
+			Message message = new Message();
+			message.setFrom(mail.GetSender());
+			message.setTo(rcpt.GetRecipient());
+			message.setSubject(Integer.toString(GetUnixTime()));
+			message.setMessage(data.GetData());
+			inbox.addMessage(message);
 		}
 	}
 	
