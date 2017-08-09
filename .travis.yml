@@ -3,3 +3,12 @@ jdk:
         - oraclejdk8
 script:
         - ant build
+deploy:
+        provider: releases
+        file:
+                - "origami.jar"
+        skip_cleanup: true
+        on:
+                tags: on
+        api_key:
+                secure: "TrRvI2511JBschk4kSdWEWQAX37CdaqHX4rTtkwOzGxqftBZmzz/km/MsZVYhIkyVKXlexkIdPka5Ukb7lM97u0G5B4a3xreul55KZeqpIhbnFl508eGdLY0AH1DhifzxBz6r6f6Hsg0RJ5UexIBK3Uw9X1iVjDTVjeyIzpdunyPAhOeb6lpHKW5TTjNx9zSkrOq+H/YJVCRH7r0DK5b/CJOPVLvqUSca9CGOiCYNoD+Sp2XB0cTO3Ll6wiIeb8vYxXT5teKVkV0+p29zpndFY4nGcTwRsl2+NSDxJENucBRTGCLK0s4TPdp/3giB3KZ8/jiAzMlxtdC4eWKCmVN/XqsA2QIRFFu41k7fTuGK99FWkOs8Zs3csd9qqyze9EkSQEQN04mXp8hp293MtvbR1iPdKdtzpV4o8PFuGFZdBPANPuytEj+2aA2e/NuCIRFrXXCBHqmapi+1rwrrjxFKxuQCufSp4TXBH4+4iBzIu7Z8daCBhrdUKpEL9dmk4lZfipQ/yLl/epi7sfM0JdbUEy9JaUvz7J04C1BlzhyC3tIRGfaVjEzmPNTwRjqzlwdEo6Ez7vIVQMiqUNOUfrUxalHAombyQccIOeFmvLhle1b7Rn7v5KwQYBAhvEvVYxTmeybZJXpnMNoxo6ahQksQHKfM9vVM1kf6tAOi5gIyYA="
