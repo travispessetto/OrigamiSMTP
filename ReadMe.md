@@ -1,4 +1,4 @@
-[![gitcheese.com](https://s3.amazonaws.com/gitcheese-ui-master/images/badge.svg)](https://www.gitcheese.com/donate/users/930497/repos/81178106) [![Gitter chat](https://badges.gitter.im/OrigamiSMTP/gitter.png)](https://gitter.im/OrigamiSMTP)
+[![gitcheese.com](https://s3.amazonaws.com/gitcheese-ui-master/images/badge.svg)](https://www.gitcheese.com/donate/users/930497/repos/81178106) [![Gitter chat](https://badges.gitter.im/OrigamiSMTP/gitter.png)](https://gitter.im/OrigamiSMTP) [![Build Status](https://travis-ci.org/travispessetto/OrigamiSMTP.svg?branch=master)](https://travis-ci.org/travispessetto/OrigamiSMTP)
 
 # Origami SMTP
 
