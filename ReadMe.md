@@ -1,9 +1,14 @@
+[![gitcheese.com](https://s3.amazonaws.com/gitcheese-ui-master/images/badge.svg)](https://www.gitcheese.com/donate/users/930497/repos/81178106) [![Gitter chat](https://badges.gitter.im/OrigamiSMTP/gitter.png)](https://gitter.im/OrigamiSMTP)
+
 # Origami SMTP
 
 Origami SMTP is a fake SMTP server with SSL (STARTTLS) support. The
 reason it was developed was so that developers could test their
 applications that require a secure SMTP server without having
 to change more than just a couple settings.
+
+This project is the runnable jar file but you can download a easier to
+use application (also know as Origami SMTP) from the [official website][10]
 
 ## Requirements
 
@@ -20,27 +25,6 @@ To start the server run the following from the terminal or command line.
 
 You may replace 2525 with the port you would like to use.
 
-### Windows Users (GUI)
-
-If you are using Windows there is a recommended GUI with this SMTP server
-bundled called [Origami GUI][7].  The reason it is only for Windows users
-is because of its dependence on Internet Explorer.  At a later date I hope
-to make it OS independent by creating a separate project named Origami MHTML
-Viewer.
-
-I recommend that you use the latest release where possible.  You can download
-them [here][8].
-
-### Other Operating Systems
-
-[Download SMTP Server][9]
-
-## Getting your Messages
-
-Your messages will be stored in a folder named "messages" that will appear in
-the same folder as origami.jar.  Unfortunately, the only way we have found
-to view these messages is Internet Explorer.
-
 ## Working with STARTLS
 
 Since this service requires some custom configuration, you will have to load
@@ -56,11 +40,6 @@ C#.
 You may have to download the [Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files 8][1].  This extension may be
 restricted in some countries and may have export controls enforced by the United State Government.  Since we do not have the funds for legal
 council this file must be downloaded from the link provided.  Follow the instructions in README.txt to install.
-
-### Notice
-
-This SMTP server is not compatible with everything.  In particular we have noticed
-that openssl's s_client does not complete the message sending.
 
 ## Debugging
 
@@ -98,7 +77,7 @@ Contributing is simple just fork this on GitHub and then send a pull request.
 
 ## License
 
-I am still trying to determine the license on this
+[MIT License](license.txt)
 
 [1]: http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html
 [2]: http://www.jetmore.org/john/code/swaks/
@@ -109,3 +88,4 @@ I am still trying to determine the license on this
 [7]: https://github.com/travispessetto/OrigamiGUI
 [8]: https://github.com/travispessetto/OrigamiGUI/releases
 [9]: https://github.com/travispessetto/OrigamiSMTP/releases
+[10]: https://travispessetto.github.io/OrigamiSMTP
