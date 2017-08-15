@@ -9,14 +9,16 @@ var loadDownloads = function()
 	console.log(downloads);
 	$.get("https://api.github.com/repos/travispessetto/OrigamiGUI/releases",function(releases,status,jqXHR)
 	{
-		for(var release in releases)
+		for(var index in releases)
 		{
-			var releaseRow = "<tr><th>"+release.tag_name+"</th></tr>";
+			var release = releases[index];
+			var releaseRow = "<tr><th colspan=\"2\">"+release.tag_name+"</th></tr>";
 			downloads.append(releaseRow);
-			for(var file in releases.assets)
+			for(var fileIndex in release.assets)
 			{
+				var file = release.assets[fileIndex];
 				var link = '<tr><td><a href="'+file.browser_download_url+'">'+file.name+'</a>';
-				link += ' (Download Count : ' + file.download_count + ')</td></tr>';
+				link += '</td><td class="text-right">'+file.download_count + ' Downloads</td></tr>';
 				downloads.append(link);
 			}
 		}
