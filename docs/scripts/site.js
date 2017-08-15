@@ -7,28 +7,18 @@ var loadDownloads = function()
 {
 	var downloads = $("#download-sources");
 	console.log(downloads);
-	$.get("downloads.json",function(data,status,jqXHR)
+	$.get("https://api.github.com/repos/travispessetto/OrigamiGUI/releases",function(releases,status,jqXHR)
 	{
-		var versions = data.versions;
-		for(var version in versions)
+		for(var release in releases)
 		{
-			downloads.append("<tr><th>"+version+"</th></tr>");
-			var downloadLinks = "<tr><td>";
-			var first = true;
-			for(var index in versions[version])
+			var releaseRow = "<tr><th>"+release.tag_name+"</th></tr>";
+			downloads.append(releaseRow);
+			for(var file in releases.assets)
 			{
-				if(!first)
-				{
-					downloadLinks += " | ";
-				}
-				for(var type in versions[version][index])
-				{
-					downloadLinks += '<a href="'+versions[version][index][type]+'">'+type+'</a>';
-				}
-				first = false;
+				var link = '<tr><td><a href="'+file.browser_download_url+'">'+file.name+'</a>';
+				link += ' (Download Count : ' + file.download_count + ')'</td></tr>;
+				downloads.append(link);
 			}
-			downloadLinks += "</td></tr>";
-			downloads.append(downloadLinks);
 		}
 	}).fail(function(xhr,status,error){alert("Failed to load downloads: " + error);});
 }
