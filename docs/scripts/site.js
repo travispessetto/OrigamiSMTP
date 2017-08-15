@@ -16,7 +16,7 @@ var loadDownloads = function()
 			for(var file in releases.assets)
 			{
 				var link = '<tr><td><a href="'+file.browser_download_url+'">'+file.name+'</a>';
-				link += ' (Download Count : ' + file.download_count + ')'</td></tr>;
+				link += ' (Download Count : ' + file.download_count + ')</td></tr>';
 				downloads.append(link);
 			}
 		}
