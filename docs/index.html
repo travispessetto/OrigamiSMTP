@@ -7,7 +7,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-	<script src="./scripts/site.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	<script src="scripts/site.js"></script>
 	<link href="stylesheets/site.css" rel="stylesheet" />
 </head>
 <body>
@@ -33,6 +34,27 @@
 			it is written in Java to be operating system independent.
 			</p>
 		</div>
+	</div>
+</div>
+<div class="container-fluid aniview slow" data-av-animation="fadeIn">
+	<div class="col-md-8 col-md-offset-2">
+		<div class="row" id="comparison">
+			<div class="panel panel-info">
+				<div class="panel-heading"><h4>Comparisons *</h4></div>
+				<table class="table table-striped">
+					<tbody class="text-center">
+						<tr><th></th><th class="text-center">Origami SMTP</th><th class="text-center">SMTP4Dev</th><th class="text-center">Fake SMTP</th><th class="text-center">Papercut</td></tr>
+						<tr><th>TLS Support</th><td class="text-success">Yes</td><td class="text-success">Yes</td><td class="text-danger">No</td><td class="text-danger">No</td></tr>
+						<tr><th>IMAP Support</t><td class="text-warning">Planned</td><td class="text-danger">No</td><td class="text-danger">No</td><td class="text-danger">No</td></tr>
+						<tr><th>Share with Members of Team</th><td class="text-warning">Planned</td><td class="text-warning">Planned</td><td class="text-danger">No</td><td class="text-danger">No</td></tr>
+						<tr><th>Cross Platform</th><td class="text-success">Yes</td><td class="text-danger">No</td><td class="text-success">Yes</td><td class="text-danger">No</td></tr>
+						<tr><th>HTML Messages</th><td class="text-success">Yes</td><td class="text-danger">No</td><td class="text-danger">No</td><td class="text-success">Yes</td></tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<p>* The content of the comparisons table above has been compiled to the best of our knowledge.  It may contain
+				inaccuracies, if you spot one please report it in on <a href="https://github.com/travispessetto/OrigamiSMTP/issues">Github</a>.</p>
 	</div>
 </div>
 <div class="container-fluid">
@@ -134,8 +156,16 @@
 		<div class="row">
 			<div class="panel panel-info">
 				<div class="panel-heading text-right"><a href="https://sourceforge.net/projects/origamismtp/" class="btn btn-success"><i class="fa fa-download" aria-hidden="true"></i> SourceForge</a></div>
-				<table class="table table-stripped">
-					<tbody id="download-sources">
+				<table class="table table-striped">
+					<tbody id="download-sources" ng-app="origamiDownloads" ng-controller="origamiController">
+						<tr ng-show="!versions.length"><td>At the current time the download links could not be retrieved.
+							Please use <a href="https://sourceforge.net/projects/origamismtp/">SourceForge</a> if you need a 
+							copy of Origami SMTP at this time.</td></tr>
+						<tr ng-repeat-start="version in versions" ng-if="$index < 3"><th colspan="2">{{version.tag_name}}</th></tr>
+						<tr ng-repeat-end ng-repeat="asset in version.assets">
+							<td><a href="{{asset.browser_download_url}}">{{asset.name}}</a></td>
+							<td class="text-right">{{asset.download_count}} Downloads</td>
+						</tr>				
 					</tbody>
 				</table>
 			</div>
