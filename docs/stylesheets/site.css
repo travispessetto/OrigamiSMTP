@@ -28,12 +28,18 @@ h4
 div#welcome
 {
 	background: url("../images/envelopes.jpg");
+}
+
+div.fullpage
+{
 	width: 100%;
-	height: 100%;
 	margin: 0px;
 	padding: 0px;
 	border: none;
+	height: 100% !important;
+	clear: both;
 }
+
 
 #site-title
 {
