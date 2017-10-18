@@ -34,7 +34,7 @@ $(document).ready(function()
 
 var scrollToAnchor = function(event)
 {
-	if(canScroll)
+	if(canScroll && this.hash != "")
 	{
 		event.preventDefault();
 		var hash = this.hash;
