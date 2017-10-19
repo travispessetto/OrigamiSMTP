@@ -6,4 +6,5 @@ public class Variables {
 	public final static String CRLF = "" + CR + LF;
 	public final static String MessageFolder = "messages";
 	public final static boolean EnableStartTLS = true;
+	public final static String LogFolder = "logs/";
 }

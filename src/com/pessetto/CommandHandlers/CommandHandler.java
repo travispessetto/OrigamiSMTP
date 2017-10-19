@@ -12,7 +12,9 @@ import javax.net.ssl.SSLSocket;
 
 import com.pessetto.CommandHandlers.Interfaces.Validatable;
 import com.pessetto.Common.Variables;
+import com.pessetto.Debug.ThreadLogger;
 import com.pessetto.FileHandlers.EmailHandler;
+import com.pessetto.Status.AuthStatus;
 
 public class CommandHandler
 {
@@ -25,21 +27,26 @@ public class CommandHandler
 	private DataOutputStream outToClient;
 	private Scanner inFromClient;
 	private boolean secure;
+	private ThreadLogger threadLogger;
+	private AuthStatus authStatus;
 	
-	public CommandHandler(DataOutputStream outToClient, Scanner inFromClient)
+	public CommandHandler(DataOutputStream outToClient, Scanner inFromClient, ThreadLogger threadLogger)
 	{
 		this.outToClient = outToClient;
 		this.inFromClient = inFromClient;
 		secure = false;
+		this.threadLogger = threadLogger;
+		authStatus = AuthStatus.START;
 	}
 	
-	public void HandleAuth()
+	public AuthStatus HandleAuth(String fullAuth)
 	{
 		if(auth == null)
 		{
-			auth = new AUTHHandler();
+			auth = new AUTHHandler(fullAuth);
 		}
 		HandleResponse(auth.GetResponse());
+		return auth.getStatus();
 	}
 	
 	public void HandleData()
@@ -108,6 +115,7 @@ public class CommandHandler
 	{
 		try 
 		{
+			threadLogger.logMessage(false, response);
 			outToClient.writeBytes(response);
 		}
 		catch (IOException e) 
