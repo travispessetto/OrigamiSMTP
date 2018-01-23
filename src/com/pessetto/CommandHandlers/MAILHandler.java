@@ -28,7 +28,7 @@ public class MAILHandler implements Validatable
 			}
 			else
 			{
-				Response = "501 Syntax Error could not seperate from and email"+Variables.CRLF;
+				Response = "501 Syntax Error could not seperate from and email given ("+fullCmd+")"+Variables.CRLF;
 				valid = false;
 			}
 		}

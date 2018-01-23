@@ -173,7 +173,7 @@ public class Message implements Serializable
     	}
     	else
     	{
-    		System.out.println("Could not use regex to find name");
+    		System.out.println("Could not use regex to find file name");
     	}
     	return null;
     }
@@ -181,6 +181,7 @@ public class Message implements Serializable
 	private void addPlainTextAttachment(BodyPart b)
 	{
 		try {
+			System.out.println("Adding plain text attachment");
 			String fileName = getFileName(b.getContentType());
 			String content = (String)b.getContent();
 			Attachment attach = new Attachment(fileName,content.getBytes());

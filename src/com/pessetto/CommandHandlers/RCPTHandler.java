@@ -8,9 +8,17 @@ public class RCPTHandler implements Validatable {
 	private String Response;
 	private String ToEmail;
 	private boolean valid;
-	public RCPTHandler(String fullCmd,MAILHandler mail)
+	private MAILHandler mail;
+	public RCPTHandler(String fullCmd,MAILHandler mailHandler)
 	{
-		String[] parts = fullCmd.split(" ",2);
+		ToEmail = "";
+		mail = mailHandler;
+		AddAddress(fullCmd);
+	}
+	
+	public void AddAddress(String fullCmd)
+	{
+		String[] parts = fullCmd.split(" ");
 		valid = false;
 		if(mail == null)
 		{
@@ -22,7 +30,11 @@ public class RCPTHandler implements Validatable {
 			parts = parts[1].split(":",2);
 			if(parts.length > 1)
 			{
-				ToEmail = parts[1];
+				if(!ToEmail.equals(""))
+				{
+					ToEmail += ", ";
+				}
+				ToEmail += parts[1];
 				Response = "250 OK"+Variables.CRLF;
 				valid = true;
 			}

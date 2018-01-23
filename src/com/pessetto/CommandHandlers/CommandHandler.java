@@ -78,7 +78,14 @@ public class CommandHandler
 	
 	public void HandleRCPT(String fullCmd)
 	{
-		rcpt = new RCPTHandler(fullCmd,mail);
+		if(rcpt == null)
+		{
+			rcpt = new RCPTHandler(fullCmd,mail);
+		}
+		else
+		{
+			rcpt.AddAddress(fullCmd);
+		}
 		HandleResponse(rcpt.GetResponse());
 		rcpt = (RCPTHandler) rcpt.ValidateOrNullify();
 	}
