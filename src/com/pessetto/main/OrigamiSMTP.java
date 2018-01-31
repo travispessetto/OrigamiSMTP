@@ -18,7 +18,7 @@ import com.pessetto.Status.StatusListener;
 
 import java.io.*;
 
-public class ConsoleMain{
+public class OrigamiSMTP{
 
 	private ServerSocket smtpSocket;
 	private List<StatusListener> statusListeners;
@@ -35,12 +35,12 @@ public class ConsoleMain{
 		{
 			System.out.println("Default to 2525");
 		}
-		ConsoleMain console = new ConsoleMain(bindPort);
+		OrigamiSMTP console = new OrigamiSMTP(bindPort);
 		console.startSMTP();
 	}
 	
 	// To also be able to use it in a library
-	public ConsoleMain(int port)
+	public OrigamiSMTP(int port)
 	{
 		this.port = port;
 		statusListeners = new ArrayList<StatusListener>();

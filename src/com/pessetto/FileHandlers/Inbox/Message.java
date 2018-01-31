@@ -135,15 +135,17 @@ public class Message implements Serializable
 	        else if(bodyPart.isMimeType("text/*"))
 	        {
 	        	String content = (String) bodyPart.getContent();
-	        	Attachment attach = new Attachment(fileName,content.getBytes());
+	        	int size = bodyPart.getSize();
+	        	Attachment attach = new Attachment(fileName,content.getBytes(),size);
 	        	attachments.add(attach);
 	        }
 	        else
 	        {
 	        	BASE64DecoderStream ds = (BASE64DecoderStream)bodyPart.getContent();
-	        	byte[] content = new byte[ds.available()];
+	        	byte[] content = new byte[bodyPart.getSize()];
 	        	ds.read(content);
-	        	Attachment attach = new Attachment(fileName,content);
+	        	int size = bodyPart.getSize();
+	        	Attachment attach = new Attachment(fileName,content,size);
 	        	attachments.add(attach);
 	        }
 	    }
@@ -184,7 +186,8 @@ public class Message implements Serializable
 			System.out.println("Adding plain text attachment");
 			String fileName = getFileName(b.getContentType());
 			String content = (String)b.getContent();
-			Attachment attach = new Attachment(fileName,content.getBytes());
+			int size = b.getSize();
+			Attachment attach = new Attachment(fileName,content.getBytes(),size);
 			attachments.add(attach);
 		} catch (MessagingException | IOException e) {
 			System.err.println("Could not get file name or read file content");

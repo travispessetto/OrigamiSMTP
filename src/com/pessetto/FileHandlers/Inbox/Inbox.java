@@ -102,6 +102,10 @@ public class Inbox implements Serializable
 	
 	public Message getNewestMessage()
 	{
+		if(messages.size() == 0)
+		{
+			return null;
+		}
 		return messages.get(0);
 	}
 	
