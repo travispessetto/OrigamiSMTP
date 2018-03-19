@@ -23,12 +23,6 @@ app.controller('origamiController', function($scope,$http,$sce){
 $(document).ready(function()
 {
 	$("a").on('click',scrollToAnchor);
-	$(document).on('scroll',scrollToNextPage);
-	$(window).resize(function()
-	{
-		lastScrollTop = $(document).scrollTop();
-		centerContainers();
-	});
 	centerContainers();
 });
 

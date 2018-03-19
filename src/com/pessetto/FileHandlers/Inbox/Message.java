@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.beans.property.SimpleBooleanProperty;
 
 import javax.mail.BodyPart;
 import javax.mail.MessagingException;
@@ -28,13 +29,37 @@ public class Message implements Serializable
 	private String message;
 	private String plainMessage;
 	private String htmlMessage;
+	private boolean read;
+	private transient SimpleBooleanProperty isRead;
 	private LinkedList<Attachment> attachments;
 	
 	public Message()
 	{
 		attachments = new LinkedList<Attachment>();
+		read = false;
+		isRead = new SimpleBooleanProperty(read);
 	}
 	
+	public SimpleBooleanProperty isRead() {
+		if(isRead == null)
+		{
+			System.out.println("Creating simple boolean set to " + read + " for email read");
+			isRead = new SimpleBooleanProperty(read);
+		}
+		return isRead;
+	}
+
+	public void setRead(boolean isRead) {
+		if(this.isRead == null)
+		{
+			System.out.println("Creating simple boolean set to " + read + " for email read");
+			this.isRead = new SimpleBooleanProperty(read);
+		}
+		System.out.println("Setting message read flag to: " + isRead);
+		read = isRead;
+		this.isRead.set(read);
+	}
+
 	public String getFrom() {
 		return from;
 	}

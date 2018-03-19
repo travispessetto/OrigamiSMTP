@@ -42,7 +42,7 @@
 						<tr><th></th><th class="text-center">Origami SMTP</th><th class="text-center">SMTP4Dev</th><th class="text-center">Fake SMTP</th><th class="text-center">Papercut</th></tr>
 						<tr><th>TLS Support</th><td class="text-success">Yes</td><td class="text-success">Yes</td><td class="text-danger">No</td><td class="text-danger">No</td></tr>
 						<tr><th>IMAP Support</th><td class="text-warning">Planned</td><td class="text-danger">No</td><td class="text-danger">No</td><td class="text-danger">No</td></tr>
-						<tr><th>Share with Members of Team</th><td class="text-warning">Planned</td><td class="text-warning">Planned</td><td class="text-danger">No</td><td class="text-danger">No</td></tr>
+						<tr><th>Share with Members of Team</th><td class="text-warning">via SMTP Forwarding</td><td class="text-warning">Planned</td><td class="text-danger">No</td><td class="text-danger">No</td></tr>
 						<tr><th>Cross Platform</th><td class="text-success">Yes</td><td class="text-danger">No</td><td class="text-success">Yes</td><td class="text-danger">No</td></tr>
 						<tr><th>HTML Messages</th><td class="text-success">Yes</td><td class="text-danger">No</td><td class="text-danger">No</td><td class="text-success">Yes</td></tr>
 					</tbody>
@@ -150,22 +150,8 @@
 			<div class="row">
 				<h3 class="text-center">Downloads</h3>
 			</div>
-			<div class="row">
-				<div class="panel panel-info">
-					<div class="panel-heading text-right"><a href="https://sourceforge.net/projects/origamismtp/" class="btn btn-success"><i class="fa fa-download" aria-hidden="true"></i> SourceForge</a></div>
-					<table class="table table-striped">
-						<tbody id="download-sources" ng-app="origamiDownloads" ng-controller="origamiController">
-							<tr ng-show="!versions.length"><td colspan="2">At the current time the download links could not be retrieved.
-								Please use <a href="https://sourceforge.net/projects/origamismtp/">SourceForge</a> if you need a 
-								copy of Origami SMTP at this time.</td></tr>
-							<tr ng-repeat-start="version in versions" ng-if="$index < 3"><th colspan="2">{{version.tag_name}}</th></tr>
-							<tr ng-repeat-end ng-repeat="asset in version.assets">
-								<td><a href="{{asset.browser_download_url}}">{{asset.name}}</a></td>
-								<td class="text-right">{{asset.download_count}} Downloads</td>
-							</tr>				
-						</tbody>
-					</table>
-				</div>
+			<div class="row text-center">
+				<a href="btn btn-primary btn-xl">Windows</a>
 			</div>
 		</div>
 	</div>

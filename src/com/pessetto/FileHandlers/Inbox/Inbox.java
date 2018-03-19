@@ -67,10 +67,12 @@ public class Inbox implements Serializable
 	{
 		if(instance != null) return instance;
 		File file = new File(InboxVariables.inboxFile);
+		System.out.println("Checking for inbox file: " + InboxVariables.inboxFile);
 		if(file.exists())
 		{
 			try
 			{
+				System.out.println("Inbox file exists");
 				FileInputStream fin = new FileInputStream(file);
 				ObjectInputStream oin = new ObjectInputStream(fin);
 				instance = (Inbox)oin.readObject();
@@ -85,6 +87,7 @@ public class Inbox implements Serializable
 		// if not just create a new instance
 		else
 		{
+			System.out.println("Inbox file does not exist. Creating new.");
 			instance = new Inbox();
 		}
 		return instance;
@@ -129,6 +132,7 @@ public class Inbox implements Serializable
 	{
 		try
 		{
+			System.out.println("Saving inbox to " + InboxVariables.inboxFile);
 			File inboxFile = new File(InboxVariables.inboxFile);
 			inboxFile.setWritable(true, false);	
 			FileOutputStream fout = new FileOutputStream(inboxFile);
