@@ -3,28 +3,67 @@ var lastScrollTop = 0;
 var scrollPage = 0;
 var canScroll = true;
 
-// angular stuff
-var app = angular.module('origamiDownloads',[]);
-app.controller('origamiController', function($scope,$http,$sce){
-  $scope.method = "JSONP";
-  $scope.url = "https://api.github.com/repos/travispessetto/OrigamiGUI/releases";
-  $http({method: $scope.method, url: $sce.trustAsResourceUrl($scope.url)})
-  	.then(function(response)
-  	{
-  		$scope.status = status;
-  		$scope.versions = response.data.data;
-  	},
-  	function(response) {
-       console.error(response);
-  	});
-});
-
 // jquery stuff
 $(document).ready(function()
 {
 	$("a").on('click',scrollToAnchor);
 	centerContainers();
+	loadDownloads();
 });
+
+var loadDownloads = function()
+{
+	var url = "https://api.github.com/repos/travispessetto/OrigamiGUI/releases";
+	var isPrerelease = false;
+	$.get(url,function(data)
+	{
+		var nonPreReleaseIndex = 0;
+		while(nonPreReleaseIndex < data.length)
+		{
+			if(data[nonPreReleaseIndex].prerelease)
+			{
+				++nonPreReleaseIndex;
+			}
+			else
+			{
+				break;
+			}
+		}
+		var version = data[nonPreReleaseIndex];
+		$("body :not(script)").contents().filter(function()
+		{
+			return this.nodeType == 3;
+		}).replaceWith(function()
+		{
+			return this.nodeValue.replace("{{version.tag_name}}",version.tag_name);
+		});
+		loadAssets(version);
+	});
+}
+
+var loadAssets = function(version)
+{
+	var assets = version.assets;
+	for(var i = 0; i < assets.length; ++i)
+	{
+		var asset = assets[i];
+		console.log(asset.content_type);
+		if(asset.content_type.includes("msdos"))
+		{
+			var link = $('a[href="{{asset.windows}}"]');
+			link.prop("href",asset.browser_download_url);
+		}
+		else if(asset.content_type.includes("debian"))
+		{
+			$('a[href="{{asset.debian}}"]').prop("href",asset.browser_download_url);
+		}
+		else if(asset.content_type.includes("java"))
+		{
+			$('a[href="{{asset.java}}"]').prop("href",asset.browser_download_url);
+		}
+
+	}	
+}
 
 var scrollToAnchor = function(event)
 {
