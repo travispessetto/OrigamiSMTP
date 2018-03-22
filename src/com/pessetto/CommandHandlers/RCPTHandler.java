@@ -18,31 +18,22 @@ public class RCPTHandler implements Validatable {
 	
 	public void AddAddress(String fullCmd)
 	{
-		String[] parts = fullCmd.split(" ");
 		valid = false;
 		if(mail == null)
 		{
 			Response = "503 Sender required before recipient"+Variables.CRLF;
 			valid = false;
 		}
-		else if(parts.length > 1)
+		String[] parts = fullCmd.split(":",2);
+		if(parts.length > 1)
 		{
-			parts = parts[1].split(":",2);
-			if(parts.length > 1)
+			if(!ToEmail.equals(""))
 			{
-				if(!ToEmail.equals(""))
-				{
-					ToEmail += ", ";
-				}
-				ToEmail += parts[1];
-				Response = "250 OK"+Variables.CRLF;
-				valid = true;
+				ToEmail += ", ";
 			}
-			else
-			{
-				Response = "501 Syntax Error could not seperate from and email"+Variables.CRLF;
-				valid = false;
-			}
+			ToEmail += parts[1];
+			Response = "250 OK"+Variables.CRLF;
+			valid = true;
 		}
 		else
 		{

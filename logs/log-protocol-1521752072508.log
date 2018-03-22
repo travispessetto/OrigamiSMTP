@@ -1,0 +1,15 @@
+Client > EHLO ES3CF-NB2533
+Server > 250-localhost WELCOME TLS ENABLED
+Server > 250-AUTH PLAIN
+Server > 250 STARTTLS
+Client > RSET
+Server > 250 OK
+Client > MAIL FROM: <travis@pessetto.com>
+Server > 250 OK
+Client > RCPT TO: <travis@pessetto.com>
+Server > 250 OK
+Client > DATA
+Server > 354 Start mail input; end with <CRLF>.<CRLF>
+Server > 250 OK
+Client > QUIT
+Server > 221 Closing connection; Goodbye;
