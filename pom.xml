@@ -34,7 +34,12 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.0.2</version>
                 <configuration>
-                    <finalName>origami.jar</finalName>                   
+                    <finalName>origami.jar</finalName>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.pessetto.main.OrigamiSMTP</mainClass>
+                        </manifest>
+                    </archive>                
                 </configuration>
             </plugin>
             <!--Copy dependencyfiles to bin folder-->
