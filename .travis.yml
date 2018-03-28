@@ -2,11 +2,11 @@ language: java
 jdk:
         - oraclejdk8
 script:
-        - ant build
+        - mvn install
 deploy:
         provider: releases
         file:
-                - "origami.jar"
+                - "target/origami.jar"
         skip_cleanup: true
         on:
                 tags: on
