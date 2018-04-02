@@ -1,4 +1,4 @@
-package com.pessetto.CommandHandlers.Interfaces;
+package com.pessetto.origamismtp.commandhandlers.interfaces;
 
 public interface Validatable 
 {

@@ -1,9 +1,10 @@
-package com.pessetto.CommandHandlers;
+package com.pessetto.origamismtp.commandhandlers;
 
 import java.util.Scanner;
 
-import com.pessetto.CommandHandlers.Interfaces.Validatable;
-import com.pessetto.Common.Variables;
+import com.pessetto.origamismtp.commandhandlers.interfaces.Validatable;
+import com.pessetto.origamismtp.constants.Constants;
+
 
 public class DataHandler implements Validatable
 {
@@ -15,30 +16,30 @@ public class DataHandler implements Validatable
 		valid = false;
 		if(rcpt == null)
 		{
-			Response = "503 Invalid Sequence of Commands;  Must use MAIL and RCPT before DATA" + Variables.CRLF;
+			Response = "503 Invalid Sequence of Commands;  Must use MAIL and RCPT before DATA" + Constants.CRLF;
 			valid = false;
 		}
 		else
 		{
-			Response = "354 Start mail input; end with <CRLF>.<CRLF>"+Variables.CRLF;
+			Response = "354 Start mail input; end with <CRLF>.<CRLF>"+Constants.CRLF;
 			valid = true;
 		}
 	}
 	
 	public void ProcessMessage(Scanner inFromClient)
 	{
-		inFromClient.useDelimiter(""+Variables.CRLF+"."+Variables.CRLF);
+		inFromClient.useDelimiter(""+Constants.CRLF+"."+Constants.CRLF);
 		if(inFromClient.hasNext())
 		{
 			Data = inFromClient.next();
 			// Clear out buffer
 			inFromClient.nextLine();
 			inFromClient.nextLine();
-			Response = "250 OK" + Variables.CRLF;
+			Response = "250 OK" + Constants.CRLF;
 		}
 		else
 		{
-			Response = "501 Syntax Error no lines" + Variables.CRLF;
+			Response = "501 Syntax Error no lines" + Constants.CRLF;
 		}
 		
 		

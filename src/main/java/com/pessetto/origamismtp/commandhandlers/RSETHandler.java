@@ -1,6 +1,6 @@
-package com.pessetto.CommandHandlers;
+package com.pessetto.origamismtp.commandhandlers;
 
-import com.pessetto.Common.Variables;
+import com.pessetto.origamismtp.constants.Constants;
 
 public class RSETHandler 
 {
@@ -13,6 +13,6 @@ public class RSETHandler
 	
 	public String GetResponse()
 	{
-		return "250 OK" + Variables.CRLF;
+		return "250 OK" + Constants.CRLF;
 	}
 }

@@ -1,4 +1,4 @@
-package com.pessetto.FileHandlers.Inbox;
+package com.pessetto.origamismtp.filehandlers.inbox;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;

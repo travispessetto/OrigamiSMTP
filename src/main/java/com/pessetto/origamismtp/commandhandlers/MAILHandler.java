@@ -1,7 +1,7 @@
-package com.pessetto.CommandHandlers;
+package com.pessetto.origamismtp.commandhandlers;
 
-import com.pessetto.CommandHandlers.Interfaces.Validatable;
-import com.pessetto.Common.Variables;
+import com.pessetto.origamismtp.commandhandlers.interfaces.Validatable;
+import com.pessetto.origamismtp.constants.Constants;
 
 public class MAILHandler implements Validatable
 {
@@ -15,7 +15,7 @@ public class MAILHandler implements Validatable
 		String[] parts = fullCmd.split(" ",2);
 		if(ehloHandler == null)
 		{
-			Response = "503 Invalid Sequence of Commands;  Expected EHLO"+Variables.CRLF;
+			Response = "503 Invalid Sequence of Commands;  Expected EHLO"+Constants.CRLF;
 		}
 		else if(parts.length > 1)
 		{
@@ -23,18 +23,18 @@ public class MAILHandler implements Validatable
 			if(parts.length > 1)
 			{
 				fromEmail = parts[1];
-				Response = "250 OK"+Variables.CRLF;
+				Response = "250 OK"+Constants.CRLF;
 				valid = true;
 			}
 			else
 			{
-				Response = "501 Syntax Error could not seperate from and email given ("+fullCmd+")"+Variables.CRLF;
+				Response = "501 Syntax Error could not seperate from and email given ("+fullCmd+")"+Constants.CRLF;
 				valid = false;
 			}
 		}
 		else
 		{
-			Response = "501 Syntax Error could net seperate cmd and cmdId" + Variables.CRLF;
+			Response = "501 Syntax Error could net seperate cmd and cmdId" + Constants.CRLF;
 			valid = false;
 		}
 	}

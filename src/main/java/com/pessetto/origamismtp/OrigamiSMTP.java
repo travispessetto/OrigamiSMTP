@@ -1,6 +1,6 @@
 // https://tools.ietf.org/html/rfc2821#section-4.1.1
 // http://stackoverflow.com/questions/11985896/can-a-java-server-accept-both-ssl-and-plaintext-connections-on-one-port
-package com.pessetto.main;
+package com.pessetto.origamismtp;
 
 import java.net.*;
 import java.util.ArrayList;
@@ -10,11 +10,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.net.ssl.SSLSocket;
 
-import com.pessetto.CommandHandlers.CommandHandler;
-import com.pessetto.Common.Variables;
-import com.pessetto.Threads.ConnectionHandler;
-import com.pessetto.FileHandlers.Inbox.*;
-import com.pessetto.Status.StatusListener;
+import com.pessetto.origamismtp.tatus.StatusListener;
+import com.pessetto.origamismtp.threads.ConnectionHandler;
 
 import java.io.*;
 

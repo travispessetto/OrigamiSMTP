@@ -1,7 +1,7 @@
-package com.pessetto.CommandHandlers;
+package com.pessetto.origamismtp.commandhandlers;
 
-import com.pessetto.CommandHandlers.Interfaces.Validatable;
-import com.pessetto.Common.Variables;
+import com.pessetto.origamismtp.commandhandlers.interfaces.Validatable;
+import com.pessetto.origamismtp.constants.Constants;
 
 public class RCPTHandler implements Validatable {
 	
@@ -21,7 +21,7 @@ public class RCPTHandler implements Validatable {
 		valid = false;
 		if(mail == null)
 		{
-			Response = "503 Sender required before recipient"+Variables.CRLF;
+			Response = "503 Sender required before recipient"+Constants.CRLF;
 			valid = false;
 		}
 		String[] parts = fullCmd.split(":",2);
@@ -32,12 +32,12 @@ public class RCPTHandler implements Validatable {
 				ToEmail += ", ";
 			}
 			ToEmail += parts[1];
-			Response = "250 OK"+Variables.CRLF;
+			Response = "250 OK"+Constants.CRLF;
 			valid = true;
 		}
 		else
 		{
-			Response = "501 Syntax Error could net seperate cmd and cmdId" + Variables.CRLF;
+			Response = "501 Syntax Error could net seperate cmd and cmdId" + Constants.CRLF;
 			valid = false;
 		}
 	}

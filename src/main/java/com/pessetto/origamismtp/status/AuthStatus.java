@@ -1,4 +1,4 @@
-package com.pessetto.Status;
+package com.pessetto.origamismtp.status;
 
 public enum AuthStatus
 {

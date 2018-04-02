@@ -1,4 +1,4 @@
-package com.pessetto.FileHandlers.Inbox;
+package com.pessetto.origamismtp.filehandlers.inbox;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.pessetto.Variables.InboxVariables;
+import com.pessetto.origamismtp.constants.Constants;
+
 
 public class Inbox implements Serializable
 {
@@ -66,8 +67,8 @@ public class Inbox implements Serializable
 	public static Inbox getInstance()
 	{
 		if(instance != null) return instance;
-		File file = new File(InboxVariables.inboxFile);
-		System.out.println("Checking for inbox file: " + InboxVariables.inboxFile);
+		File file = new File(Constants.INBOX_FILE);
+		System.out.println("Checking for inbox file: " + Constants.INBOX_FILE);
 		if(file.exists())
 		{
 			try
@@ -132,8 +133,8 @@ public class Inbox implements Serializable
 	{
 		try
 		{
-			System.out.println("Saving inbox to " + InboxVariables.inboxFile);
-			File inboxFile = new File(InboxVariables.inboxFile);
+			System.out.println("Saving inbox to " + Constants.INBOX_FILE);
+			File inboxFile = new File(Constants.INBOX_FILE);
 			inboxFile.setWritable(true, false);	
 			FileOutputStream fout = new FileOutputStream(inboxFile);
 			ObjectOutputStream oout = new ObjectOutputStream(fout);

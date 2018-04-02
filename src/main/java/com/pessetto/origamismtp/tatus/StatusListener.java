@@ -1,4 +1,4 @@
-package com.pessetto.Status;
+package com.pessetto.origamismtp.tatus;
 
 public interface StatusListener
 {

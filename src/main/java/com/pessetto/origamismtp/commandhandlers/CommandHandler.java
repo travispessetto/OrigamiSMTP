@@ -1,4 +1,4 @@
-package com.pessetto.CommandHandlers;
+package com.pessetto.origamismtp.commandhandlers;
 
 import java.io.BufferedWriter;
 import java.io.DataOutputStream;
@@ -10,11 +10,10 @@ import java.util.Scanner;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLSocket;
 
-import com.pessetto.CommandHandlers.Interfaces.Validatable;
-import com.pessetto.Common.Variables;
-import com.pessetto.Debug.ThreadLogger;
-import com.pessetto.FileHandlers.EmailHandler;
-import com.pessetto.Status.AuthStatus;
+import com.pessetto.origamismtp.constants.Constants;
+import com.pessetto.origamismtp.filehandlers.EmailHandler;
+import com.pessetto.origamismtp.status.AuthStatus;
+
 
 public class CommandHandler
 {
@@ -27,15 +26,13 @@ public class CommandHandler
 	private DataOutputStream outToClient;
 	private Scanner inFromClient;
 	private boolean secure;
-	private ThreadLogger threadLogger;
 	private AuthStatus authStatus;
 	
-	public CommandHandler(DataOutputStream outToClient, Scanner inFromClient, ThreadLogger threadLogger)
+	public CommandHandler(DataOutputStream outToClient, Scanner inFromClient)
 	{
 		this.outToClient = outToClient;
 		this.inFromClient = inFromClient;
 		secure = false;
-		this.threadLogger = threadLogger;
 		authStatus = AuthStatus.START;
 	}
 	
@@ -115,14 +112,13 @@ public class CommandHandler
 	
 	public void HandleNotImplemented(String cmd)
 	{
-		HandleResponse("502 Command Not Implemented"+Variables.CRLF);
+		HandleResponse("502 Command Not Implemented"+Constants.CRLF);
 	}
 	
 	public void HandleResponse(String response)
 	{
 		try 
 		{
-			threadLogger.logMessage(false, response);
 			outToClient.writeBytes(response);
 		}
 		catch (IOException e) 

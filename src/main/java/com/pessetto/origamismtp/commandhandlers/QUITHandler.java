@@ -1,10 +1,11 @@
-package com.pessetto.CommandHandlers;
+package com.pessetto.origamismtp.commandhandlers;
 
 import java.io.DataOutputStream;
 import java.util.Scanner;
+import com.pessetto.origamismtp.commandhandlers.interfaces.Validatable;
+import com.pessetto.origamismtp.constants.Constants;
 
-import com.pessetto.CommandHandlers.Interfaces.Validatable;
-import com.pessetto.Common.Variables;
+
 
 public class QUITHandler implements Validatable
 {
@@ -19,7 +20,7 @@ public class QUITHandler implements Validatable
 	@Override
 	public String GetResponse() 
 	{
-		return "221 Closing connection; Goodbye;"+Variables.CRLF;
+		return "221 Closing connection; Goodbye;"+Constants.CRLF;
 	}
 
 	@Override

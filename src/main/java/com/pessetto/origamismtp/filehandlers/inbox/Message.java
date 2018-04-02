@@ -1,4 +1,4 @@
-package com.pessetto.FileHandlers.Inbox;
+package com.pessetto.origamismtp.filehandlers.inbox;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -15,7 +15,7 @@ import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import com.pessetto.Variables.InboxVariables;
+import com.pessetto.origamismtp.constants.Constants;
 import com.sun.mail.util.BASE64DecoderStream;
 
 import javafx.beans.property.SimpleBooleanProperty;
@@ -124,11 +124,11 @@ public class Message implements Serializable
       Session session = Session.getDefaultInstance(new Properties());
       InputStream inputStream = new ByteArrayInputStream(message.getBytes());
       MimeMessage mimeMessage = new MimeMessage(session, inputStream);
-      if (mimeMessage.isMimeType(InboxVariables.plainMime))
+      if (mimeMessage.isMimeType(Constants.PLAIN_MIME))
       {
         plainMessage = mimeMessage.getContent().toString();
       }
-      else if (mimeMessage.isMimeType(InboxVariables.multipartMime))
+      else if (mimeMessage.isMimeType(Constants.MULTIPART_MIME))
       {
         MimeMultipart mimeMultipart = (MimeMultipart) mimeMessage.getContent();
         processMimeMultipart(mimeMultipart);

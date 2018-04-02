@@ -1,7 +1,4 @@
-// https://tools.ietf.org/html/rfc3207
-// http://blog.trifork.com/2009/11/10/securing-connections-with-tls/
-// http://docs.oracle.com/javase/7/docs/technotes/guides/security/jsse/ReadDebug.html
-package com.pessetto.CommandHandlers;
+package com.pessetto.origamismtp.commandhandlers;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -25,7 +22,7 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
-import com.pessetto.Common.Variables;
+import com.pessetto.origamismtp.constants.Constants;
 
 public class STARTTLSHandler 
 {
@@ -68,7 +65,7 @@ public class STARTTLSHandler
 			}
 			else
 			{
-				Response = "220 Ready to start TLS" + Variables.CRLF;
+				Response = "220 Ready to start TLS" + Constants.CRLF;
 			}
 		}
 		catch(Exception e)

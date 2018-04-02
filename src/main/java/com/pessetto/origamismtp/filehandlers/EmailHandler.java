@@ -1,17 +1,15 @@
-package com.pessetto.FileHandlers;
+package com.pessetto.origamismtp.filehandlers;
 
 import java.io.File;
 import java.io.*;
-
-import com.pessetto.CommandHandlers.DataHandler;
-import com.pessetto.CommandHandlers.MAILHandler;
-import com.pessetto.CommandHandlers.RCPTHandler;
-import com.pessetto.Common.Variables;
-import com.pessetto.FileHandlers.Inbox.Inbox;
-import com.pessetto.FileHandlers.Inbox.Message;
-
 import java.util.Calendar;
 import java.util.Scanner;
+
+import com.pessetto.origamismtp.commandhandlers.DataHandler;
+import com.pessetto.origamismtp.commandhandlers.MAILHandler;
+import com.pessetto.origamismtp.commandhandlers.RCPTHandler;
+import com.pessetto.origamismtp.filehandlers.inbox.Inbox;
+import com.pessetto.origamismtp.filehandlers.inbox.Message;
 
 public class EmailHandler
 {
