@@ -73,7 +73,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.0.2</version>
                 <configuration>
-                    <finalName>origami.jar</finalName>
+                    <finalName>origami</finalName>
                     <archive>
                         <manifest>
                             <mainClass>com.pessetto.main.OrigamiSMTP</mainClass>
@@ -94,7 +94,6 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/bin</outputDirectory>
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>false</overWriteSnapshots>
                             <overWriteIfNewer>true</overWriteIfNewer>
