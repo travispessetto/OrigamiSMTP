@@ -26,10 +26,15 @@ import com.pessetto.origamismtp.testing.*;
 import org.junit.Test;
 
 
-class TestSMTPServerTest {
+public class TestSMTPServerTest {
 
+	public TestSMTPServerTest()
+	{
+		
+	}
+	
 	@Test
-	void testGetRecievedMessage() 
+	public void testGetRecievedMessage() 
 	{
 		TestSMTPServer server = new TestSMTPServer(2525);
 		Thread smtpServerThread = new Thread(server);
