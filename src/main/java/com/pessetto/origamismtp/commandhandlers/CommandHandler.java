@@ -1,20 +1,19 @@
 package com.pessetto.origamismtp.commandhandlers;
 
-import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Scanner;
-
-import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLSocket;
-
 import com.pessetto.origamismtp.constants.Constants;
 import com.pessetto.origamismtp.filehandlers.EmailHandler;
 import com.pessetto.origamismtp.status.AuthStatus;
 
 
+/** Represents a handler able to pass commands to other classes
+ * @author travis.pessetto
+ * @author pessetto.com
+ */
 public class CommandHandler
 {
 	private AUTHHandler auth;
@@ -26,54 +25,70 @@ public class CommandHandler
 	private DataOutputStream outToClient;
 	private Scanner inFromClient;
 	private boolean secure;
-	private AuthStatus authStatus;
 	
+	/** Creates a new CommandHandler
+	 * @param outToClient A stream that goes out to the client
+	 * @param inFromClient A stream that comes in from the client
+	 */
 	public CommandHandler(DataOutputStream outToClient, Scanner inFromClient)
 	{
 		this.outToClient = outToClient;
 		this.inFromClient = inFromClient;
 		secure = false;
-		authStatus = AuthStatus.START;
 	}
 	
-	public AuthStatus HandleAuth(String fullAuth)
+	/** Handles the AUTH command
+	 * @param fullAuth The full auth command 
+	 * @return an Enum value of the current authentication status
+	 */
+	public AuthStatus handleAuth(String fullAuth)
 	{
 		if(auth == null)
 		{
 			auth = new AUTHHandler(fullAuth);
 		}
-		HandleResponse(auth.GetResponse());
+		handleResponse(auth.getResponse());
 		return auth.getStatus();
 	}
 	
-	public void HandleData()
+	/** Handles the DATA command
+	 */
+	public void handleData()
 	{
 		data = new DataHandler(rcpt);
-		HandleResponse(data.GetResponse());
-		data = (DataHandler)data.ValidateOrNullify();
+		handleResponse(data.getResponse());
+		data = (DataHandler)data.validateOrNullify();
 		if(data != null)
 		{
-			data.ProcessMessage(inFromClient);
-			HandleResponse(data.GetResponse());
-			EmailHandler email = new EmailHandler(mail, rcpt, data);
+			data.processMessage(inFromClient);
+			handleResponse(data.getResponse());
 		}
 	}
 	
-	public void HandleEHLO(String fullEHLO)
+	/** Handles the EHLO command
+	 * @param fullEHLO The full line of the command from client
+	 */
+	public void handleEHLO(String fullEHLO)
 	{
 		ehlo = new EHLOHandler(fullEHLO,secure);
-		HandleResponse(ehlo.GetResponse());
-		ehlo = (EHLOHandler)ehlo.ValidateOrNullify();
+		handleResponse(ehlo.getResponse());
+		ehlo = (EHLOHandler)ehlo.validateOrNullify();
 	}
 	
-	public void HandleMAIL(String fullMAIL)
+	/** Handles the Mail command
+	 * @param fullMAIL The full line of the command from the client
+	 */
+	public void handleMAIL(String fullMAIL)
 	{
 		mail = new MAILHandler(fullMAIL,ehlo);
-		HandleResponse(mail.GetResponse());
-		mail = (MAILHandler) mail.ValidateOrNullify();
+		handleResponse(mail.getResponse());
+		mail = (MAILHandler) mail.validateOrNullify();
 	}
 	
-	public void HandleRCPT(String fullCmd)
+	/** Handles the RCPT command
+	 * @param fullCmd The full line of the RCPT command
+	 */
+	public void handleRCPT(String fullCmd)
 	{
 		if(rcpt == null)
 		{
@@ -81,41 +96,56 @@ public class CommandHandler
 		}
 		else
 		{
-			rcpt.AddAddress(fullCmd);
+			rcpt.addAddress(fullCmd);
 		}
-		HandleResponse(rcpt.GetResponse());
-		rcpt = (RCPTHandler) rcpt.ValidateOrNullify();
+		handleResponse(rcpt.getResponse());
+		rcpt = (RCPTHandler) rcpt.validateOrNullify();
 	}
 	
-	public void HandleRSET()
+	/** Handles the RSET command
+	 */
+	public void handleRSET()
 	{
 		RSETHandler rset = new RSETHandler(mail,rcpt,data);
-		HandleResponse(rset.GetResponse());
+		handleResponse(rset.getResponse());
 	}
 	
-	public SSLSocket HandleSTARTTLS(Socket old) throws IOException
+	/** Handles the STARTTLS command
+	 * @param old The old non-ssl socket
+	 * @return The new encrypted socket
+	 * @throws IOException
+	 */
+	public SSLSocket handleSTARTTLS(Socket old) throws IOException
 	{
 		tls = new STARTTLSHandler(old);
-		HandleResponse(tls.GetResponse());
-		SSLSocket ssocket = tls.EnableTLS(old);
+		handleResponse(tls.getResponse());
+		SSLSocket ssocket = tls.enableTLS(old);
 		System.out.println("Secure socket setup");
 		secure = true;
 		return ssocket;
 	}
 	
-	public void HandleQuit()
+	/** Handles the QUIT command
+	 */
+	public void handleQuit()
 	{
 		QUITHandler quitH = new QUITHandler(outToClient,inFromClient);
-		HandleResponse(quitH.GetResponse());
+		handleResponse(quitH.getResponse());
 		//quitH = (QUITHandler)quitH.ValidateOrNullify();
 	}
 	
-	public void HandleNotImplemented(String cmd)
+	/** Handles any command not implemented (missing) or not valid
+	 * @param cmd The command that is not implemented
+	 */
+	public void handleNotImplemented(String cmd)
 	{
-		HandleResponse("502 Command Not Implemented"+Constants.CRLF);
+		handleResponse("502 Command Not Implemented"+Constants.CRLF);
 	}
 	
-	public void HandleResponse(String response)
+	/** Handles the response to the client
+	 * @param response The response to send to the client
+	 */
+	public void handleResponse(String response)
 	{
 		try 
 		{
@@ -128,6 +158,10 @@ public class CommandHandler
 		}
 	}
 	
+	/** Sets the in and out streams to and from the client
+	 * @param in The stream in from the client
+	 * @param out The stream out to the client
+	 */
 	public void setInAndOutFromClient(Scanner in, DataOutputStream out)
 	{
 		inFromClient = in;

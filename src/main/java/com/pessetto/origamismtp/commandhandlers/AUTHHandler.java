@@ -1,22 +1,24 @@
 package com.pessetto.origamismtp.commandhandlers;
 
-import java.io.BufferedWriter;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.util.Scanner;
-
 import com.pessetto.origamismtp.constants.Constants;
 import com.pessetto.origamismtp.status.AuthStatus;
 
 
+/** Represents a handler for the AUTH command
+ * @author Travis Pessetto
+ * @author pessetto.com
+ */
 public class AUTHHandler 
 {
 	private boolean used;
 	private String cmd;
-	private Scanner in;
-	private DataOutputStream out;
 	private AuthStatus authStatus;
 	
+	/** Creates an auth handler
+	 * @param fullAuth the whole line of the auth command
+	 */
 	public AUTHHandler(String fullAuth)
 	{
 		used = false;
@@ -24,7 +26,10 @@ public class AUTHHandler
 		authStatus = AuthStatus.START;
 	}
 	
-	public String GetResponse()
+	/** Gets the response to the client
+	 * @return A string to be passed to the client
+	 */
+	public String getResponse()
 	{
 		String[] cmdSections = cmd.replace(Constants.CRLF, "").split("\\s");
 		if(authStatus != AuthStatus.CONTINUE && cmdSections.length == 2 && cmdSections[1].toLowerCase().equals("plain"))
@@ -45,6 +50,9 @@ public class AUTHHandler
 		}
 	}
 	
+	/** Gets the current state of authentication
+	 * @return An Enum representing the current state of authentication
+	 */
 	public AuthStatus getStatus()
 	{
 		return authStatus;

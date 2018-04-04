@@ -8,18 +8,19 @@ import java.util.LinkedList;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.mail.BodyPart;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-
 import com.pessetto.origamismtp.constants.Constants;
 import com.sun.mail.util.BASE64DecoderStream;
-
 import javafx.beans.property.SimpleBooleanProperty;
 
+/** Represents a message
+ * @author Travis Pessetto
+ * @author pessetto.com
+ */
 public class Message implements Serializable
 {
 

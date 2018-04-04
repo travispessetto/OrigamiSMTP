@@ -9,10 +9,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
 import com.pessetto.origamismtp.constants.Constants;
 
-
+/** Represents the inbox
+ * @author Travis Pessetto
+ * @author pessetto.com
+ */
 public class Inbox implements Serializable
 {
 	private static Inbox instance;
@@ -21,11 +23,16 @@ public class Inbox implements Serializable
 	private transient List<NewMessageListener> newMessageListeners;
 	private transient List<DeleteMessageListener> deleteMessageListeners;
 	
+	/** Creates new instance of inbox
+	 */
 	private Inbox()
 	{
 		messages = new LinkedList<Message>();
 	}
 	
+	/** Adds new message listener to inbox
+	 * @param listener Class that implements the NewMessageListener
+	 */
 	public void addNewMessageListener(NewMessageListener listener)
 	{
 		if(newMessageListeners == null)
@@ -35,6 +42,9 @@ public class Inbox implements Serializable
 		newMessageListeners.add(listener);
 	}
 	
+	/** Adds a delte message listener to inbox
+	 * @param listener Class that implments DeleteMessageListener
+	 */
 	public void addDeleteMessageListener(DeleteMessageListener listener)
 	{
 		if(deleteMessageListeners == null)
@@ -44,6 +54,9 @@ public class Inbox implements Serializable
 		deleteMessageListeners.add(listener);
 	}
 	
+	/** Adds a message to inbox and notifies all listeners
+	 * @param msg The message recieved
+	 */
 	public void addMessage(Message msg)
 	{
 		if(newMessageListeners != null)
@@ -54,6 +67,9 @@ public class Inbox implements Serializable
 		this.serialize();
 	}
 	
+	/** Deletes the message with the given id
+	 * @param id The index of the email to delete
+	 */
 	public void deleteMessage(int id)
 	{
 		messages.remove(id);
@@ -64,6 +80,9 @@ public class Inbox implements Serializable
 		this.serialize();
 	}
 	
+	/** Gets the inbox instance
+	 * @return The inbox instance
+	 */
 	public static Inbox getInstance()
 	{
 		if(instance != null) return instance;
@@ -94,16 +113,26 @@ public class Inbox implements Serializable
 		return instance;
 	}
 	
+	/** Gets the message at the specified index
+	 * @param id The index of the message
+	 * @return Message at the index
+	 */
 	public Message getMessage(int id)
 	{
 		return messages.get(id);
 	}
 	
+	/** Gets how many messages are in the inbox
+	 * @return The count of the message in inbox
+	 */
 	public int getMessageCount()
 	{
 		return messages.size();
 	}
 	
+	/** Gets the last message to be recieved
+	 * @return The last message recieved
+	 */
 	public Message getNewestMessage()
 	{
 		if(messages.size() == 0)
@@ -113,6 +142,8 @@ public class Inbox implements Serializable
 		return messages.get(0);
 	}
 	
+	/** Notifies the new message listners of a new message
+	 */
 	private void notifyListenersOfNewMessage()
 	{
 		for(NewMessageListener listener : newMessageListeners)
@@ -121,6 +152,9 @@ public class Inbox implements Serializable
 		}
 	}
 	
+	/** Notifies the deleted message listender of a delete message
+	 * @param index The index that was deleted
+	 */
 	private void notifyListenersOfDeletedMessage(int index)
 	{
 		for(DeleteMessageListener listener : deleteMessageListeners)
@@ -129,6 +163,8 @@ public class Inbox implements Serializable
 		}
 	}
 	
+	/** Serializes the class to store on disk
+	 */
 	public void serialize()
 	{
 		try

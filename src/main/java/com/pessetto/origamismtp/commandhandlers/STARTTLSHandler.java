@@ -1,32 +1,26 @@
 package com.pessetto.origamismtp.commandhandlers;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 import java.security.cert.Certificate;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-
-import javax.net.ServerSocketFactory;
-import javax.net.ssl.HandshakeCompletedEvent;
-import javax.net.ssl.HandshakeCompletedListener;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLHandshakeException;
 import javax.net.ssl.SSLPeerUnverifiedException;
-import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
-
 import com.pessetto.origamismtp.constants.Constants;
 
+/** Represents a handler for the STARTTLS command
+ * @author Travis Pessetto
+ * @author pessetto.com
+ */
 public class STARTTLSHandler 
 {
-	String Response;
+	String response;
 	SSLServerSocketFactory socketFactory;
 	SSLSocket newSocket;
 	SSLContext sslContext;
@@ -35,6 +29,9 @@ public class STARTTLSHandler
 	KeyManagerFactory keyManagerFactory;
 	TrustManagerFactory trustFactory;
 	
+	/** Creates a new instance of the STARTTLSHandler
+	 * @param old The socket that is currently in use (not encrypted)
+	 */
 	public STARTTLSHandler(Socket old)
 	{
 		try
@@ -61,11 +58,11 @@ public class STARTTLSHandler
 			
 			if(old instanceof SSLSocket)
 			{
-				Response = "454 TLS not available due to temporary reason: TLS already active";
+				response = "454 TLS not available due to temporary reason: TLS already active";
 			}
 			else
 			{
-				Response = "220 Ready to start TLS" + Constants.CRLF;
+				response = "220 Ready to start TLS" + Constants.CRLF;
 			}
 		}
 		catch(Exception e)
@@ -75,17 +72,19 @@ public class STARTTLSHandler
 		}
 	}
 	
-	public SSLSocket EnableTLS(Socket old) throws IOException
+	/** Enables SSL on the socket
+	 * @param old The old (unencrypted) socket
+	 * @return A new encrypted socket
+	 * @throws IOException
+	 */
+	public SSLSocket enableTLS(Socket old) throws IOException
 	{
-		Response = null;
+		response = null;
 		try
 		{
 			newSocket = (SSLSocket) sslContext.getSocketFactory().createSocket(old, null,old.getPort(),false);
 			newSocket.setEnabledProtocols(newSocket.getSupportedProtocols());
-			DisplayProtocols(newSocket.getSupportedProtocols());
-			
 			newSocket.setEnabledCipherSuites(newSocket.getSupportedCipherSuites());
-			DisplayCiphers(newSocket.getSupportedCipherSuites());
 			newSocket.setUseClientMode(false);
 			Thread.sleep(1000);
 			newSocket.startHandshake();
@@ -117,30 +116,14 @@ public class STARTTLSHandler
 		return null;
 	}
 	
-	public String GetResponse()
+	/** The response to send to the client
+	 * @return The string response to the client
+	 */
+	public String getResponse()
 	{
-		return Response;
+		return response;
 	}
 	
 	
-	private void DisplayArrayAsString(String[] arr)
-	{
-		for(String str : arr)
-		{
-			System.out.println("- " + str);
-		}
-	}
-	
-	private void DisplayCiphers(String[] ciphers)
-	{
-		System.out.println("Chiphers: ");
-		DisplayArrayAsString(ciphers);
-	}
-	
-	private void DisplayProtocols(String[] protocols)
-	{
-		System.out.println("Protocols:");
-		DisplayArrayAsString(protocols);
-	}
 }
 

@@ -3,19 +3,28 @@ package com.pessetto.origamismtp.threads;
 import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
-
 import com.pessetto.origamismtp.commandhandlers.CommandHandler;
 import com.pessetto.origamismtp.constants.Constants;
 import com.pessetto.origamismtp.status.AuthStatus;
 
+/** Represents a class to handle connections
+ * @author Travis Pessetto
+ * @author pessetto.com
+ */
 public class ConnectionHandler implements Runnable {
 
 	private Socket connectionSocket;
+	
+	/** Creates new instance of the ConnectionHandler on socket
+	 * @param connectionSocket The socket to use
+	 */
 	public ConnectionHandler(Socket connectionSocket)
 	{
 		this.connectionSocket = connectionSocket;
 	}
 
+	/** Runs the connection in a new thread
+	 */
 	@Override
 	public void run() {
 		try
@@ -29,54 +38,54 @@ public class ConnectionHandler implements Runnable {
 			String cmd = "";
 			boolean quit = false;
 			AuthStatus authStatus = AuthStatus.START;
-			while(!Thread.currentThread().isInterrupted() && !quit && (cmd = GetFullCmd(inFromClient)) != "QUIT")
+			while(!Thread.currentThread().isInterrupted() && !quit && (cmd = getFullCmd(inFromClient)) != "QUIT")
 			{
-				String cmdId = GetCmdIdentifier(cmd).toLowerCase();
+				String cmdId = getCmdIdentifier(cmd).toLowerCase();
 				if(authStatus == AuthStatus.CONTINUE)
 				{
-					authStatus = commandHandler.HandleAuth(cmd);
+					authStatus = commandHandler.handleAuth(cmd);
 				}
 				else if(cmdId.equals("auth"))
 				{
-					authStatus = commandHandler.HandleAuth(cmd);
+					authStatus = commandHandler.handleAuth(cmd);
 				}
 				else if(cmdId.equals("data"))
 				{
-					commandHandler.HandleData();
+					commandHandler.handleData();
 				}
 				else if(cmdId.equals("ehlo") || cmdId.equals("helo"))
 				{
-					commandHandler.HandleEHLO(cmd);
+					commandHandler.handleEHLO(cmd);
 				}
 				else if(cmdId.equals("mail"))
 				{
 				
-					commandHandler.HandleMAIL(cmd);
+					commandHandler.handleMAIL(cmd);
 				}
 				else if(cmdId.equals("rset") || cmd.equals("reset"))
 				{
-					commandHandler.HandleRSET();
+					commandHandler.handleRSET();
 				}
 				else if(cmdId.equals("rcpt"))
 				{
-					commandHandler.HandleRCPT(cmd);
+					commandHandler.handleRCPT(cmd);
 				}
 				else if(cmdId.equals("starttls"))
 				{
-					connectionSocket = commandHandler.HandleSTARTTLS(connectionSocket);
+					connectionSocket = commandHandler.handleSTARTTLS(connectionSocket);
 					outToClient = new DataOutputStream(connectionSocket.getOutputStream());
 					inFromClient = new Scanner(connectionSocket.getInputStream());
 					commandHandler.setInAndOutFromClient(inFromClient, outToClient);
 				}
 				else if(cmdId.equals("quit"))
 				{
-					commandHandler.HandleQuit();
+					commandHandler.handleQuit();
 					quit = true;
 				}
 
 				else
 				{
-					commandHandler.HandleNotImplemented(cmd);
+					commandHandler.handleNotImplemented(cmd);
 				}
 			}
 		}
@@ -89,7 +98,11 @@ public class ConnectionHandler implements Runnable {
 		
 	}
 	
-	private static String GetFullCmd(Scanner inFromClient)
+	/** Gets the full command
+	 * @param inFromClient The stream in from client
+	 * @return The string represnetation of the command
+	 */
+	private static String getFullCmd(Scanner inFromClient)
 	{
 		String raw = "QUIT";
 		if(inFromClient.hasNextLine())
@@ -99,7 +112,11 @@ public class ConnectionHandler implements Runnable {
 		return raw;
 	}
 	
-	private static String GetCmdIdentifier(String cmd)
+	/** Gets the command identifier
+	 * @param cmd The full command
+	 * @return The command identifier
+	 */
+	private static String getCmdIdentifier(String cmd)
 	{
 		String[] parts = cmd.split(" ");
 		return parts[0].toLowerCase();

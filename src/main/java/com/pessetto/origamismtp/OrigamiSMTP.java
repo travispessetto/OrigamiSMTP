@@ -1,25 +1,39 @@
-// https://tools.ietf.org/html/rfc2821#section-4.1.1
-// http://stackoverflow.com/questions/11985896/can-a-java-server-accept-both-ssl-and-plaintext-connections-on-one-port
 package com.pessetto.origamismtp;
 
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import javax.net.ssl.SSLSocket;
-
-import com.pessetto.origamismtp.tatus.StatusListener;
+import com.pessetto.origamismtp.status.StatusListener;
 import com.pessetto.origamismtp.threads.ConnectionHandler;
-
 import java.io.*;
 
+
+/** The OrigamiSMTP main class
+ * @author Travis Pessetto
+ * @author pessetto.com
+ */
 public class OrigamiSMTP{
 
 	private ServerSocket smtpSocket;
 	private List<StatusListener> statusListeners;
 	private int port;
+	
+	/** Creates an instance opened to the specified port
+	 * @param port The port to open SMTP on
+	 */
+	public OrigamiSMTP(int port)
+	{
+		this.port = port;
+		statusListeners = new ArrayList<StatusListener>();
+	}
+	
+	
+	/** Starts the server.  Here for command line usage.
+	 * @param args
+	 * @throws Exception
+	 */
 	public static void main(String args[]) throws Exception
 	{
 		int bindPort = 2525;
@@ -36,18 +50,17 @@ public class OrigamiSMTP{
 		console.startSMTP();
 	}
 	
-	// To also be able to use it in a library
-	public OrigamiSMTP(int port)
-	{
-		this.port = port;
-		statusListeners = new ArrayList<StatusListener>();
-	}
-	
+	/**
+	 * Adds a status listener
+	 * @param sl A class that implements StatusListener
+	 */
 	public void addStatusListener(StatusListener sl)
 	{
 		statusListeners.add(sl);
 	}
 	
+	/** Closes the SMTP connection
+	 */
 	public void closeSMTP()
 	{
 		try {
@@ -58,6 +71,9 @@ public class OrigamiSMTP{
 		}
 	}
 	
+	/** Starts the SMTP server
+	 * @throws BindException
+	 */
 	public void startSMTP() throws BindException
 	{
 		try
@@ -101,6 +117,8 @@ public class OrigamiSMTP{
 		}
 	}
 	
+	/** Notifies the status listeners of SMTP start
+	 */
 	private void notifyStarted()
 	{
 		for(StatusListener listener : statusListeners)
@@ -109,6 +127,8 @@ public class OrigamiSMTP{
 		}
 	}
 	
+	/** Notifies the status listeners of SMTP stopped
+	 */
 	private void notifyStopped()
 	{
 		for(StatusListener listener : statusListeners)

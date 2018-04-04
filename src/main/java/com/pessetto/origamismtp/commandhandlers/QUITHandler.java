@@ -18,13 +18,13 @@ public class QUITHandler implements Validatable
 	}
 
 	@Override
-	public String GetResponse() 
+	public String getResponse() 
 	{
 		return "221 Closing connection; Goodbye;"+Constants.CRLF;
 	}
 
 	@Override
-	public Validatable ValidateOrNullify() 
+	public Validatable validateOrNullify() 
 	{
 		// Always go to null and close
 		try
