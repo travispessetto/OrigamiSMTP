@@ -5,13 +5,15 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 import javax.net.ssl.SSLSocket;
+
+import com.pessetto.origamismtp.commandhandlers.*;
 import com.pessetto.origamismtp.constants.Constants;
 import com.pessetto.origamismtp.filehandlers.EmailHandler;
-import com.pessetto.origamismtp.status.AuthStatus;
+import com.pessetto.origamismtp.status.*;
 
 
 /** Represents a handler able to pass commands to other classes
- * @author travis.pessetto
+ * @author Travis Pessetto
  * @author pessetto.com
  */
 public class CommandHandler
@@ -62,6 +64,7 @@ public class CommandHandler
 		{
 			data.processMessage(inFromClient);
 			handleResponse(data.getResponse());
+			EmailHandler eh = new EmailHandler(this.mail,this.rcpt,this.data);
 		}
 	}
 	
