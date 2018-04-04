@@ -1,6 +1,3 @@
-package com.pessetto.origamismtp.testing;
-
-
 import static org.junit.Assert.fail;
 
 import java.util.Date;
@@ -13,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import javax.mail.BodyPart;
+import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Session;
@@ -23,11 +21,10 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.junit.jupiter.api.Test;
-
 import com.pessetto.origamismtp.filehandlers.inbox.Inbox;
-import com.pessetto.origamismtp.filehandlers.inbox.Message;
-import com.sun.mail.smtp.SMTPTransport;
+import com.pessetto.origamismtp.testing.*;
+import org.junit.Test;
+
 
 class TestSMTPServerTest {
 
@@ -50,7 +47,7 @@ class TestSMTPServerTest {
 			Boolean messageRecieved = messageFuture.get(10,TimeUnit.SECONDS);
 			if(messageRecieved.booleanValue())
 			{
-				Message latestMessage = inbox.getNewestMessage();
+				com.pessetto.origamismtp.filehandlers.inbox.Message latestMessage = inbox.getNewestMessage();
 				if(latestMessage.getSubject().equals("Test email"))
 				{
 					return;
