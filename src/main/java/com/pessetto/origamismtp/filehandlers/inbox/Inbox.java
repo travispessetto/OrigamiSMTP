@@ -169,7 +169,11 @@ public class Inbox implements Serializable
 	{
 		try
 		{
-			System.out.println("Saving inbox to " + Constants.INBOX_FILE);
+			File inboxFolder = new File(Constants.INBOX_FOLDER);
+			if(!inboxFolder.exists())
+			{
+				inboxFolder.mkdirs();
+			}
 			File inboxFile = new File(Constants.INBOX_FILE);
 			inboxFile.setWritable(true, false);	
 			FileOutputStream fout = new FileOutputStream(inboxFile);

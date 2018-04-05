@@ -1,34 +1,49 @@
 package com.pessetto.origamismtp.testing;
 
-import java.net.BindException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-import com.pessetto.origamismtp.OrigamiSMTP;
-import com.pessetto.origamismtp.filehandlers.inbox.NewMessageListener;
+import com.pessetto.origamismtp.filehandlers.inbox.Inbox;
+import com.pessetto.origamismtp.filehandlers.inbox.Message;
 
-/** Represents a test thread for the SMTP server
- * @author travis.pessetto
+/** A test server for testing email
+ * @author Travis Pessetto
+ * @author pessetto.com
  */
-public class TestSMTPServer implements Runnable
+public class TestSMTPServer
 {
-	private OrigamiSMTP server;
+	private Thread origamiThread;
+	private TestSMTPMessageListener messageListener;
 	
+	/** Creates a new instance of a test server
+	 * @param port The Port to open the server on
+	 */
 	public TestSMTPServer(int port)
 	{
-		server = new OrigamiSMTP(port);
+		Inbox inbox = Inbox.getInstance();
+		messageListener = new TestSMTPMessageListener();
+		inbox.addNewMessageListener(messageListener);
+		OrigamiSMTPServerThread osst = new OrigamiSMTPServerThread(port);
+		origamiThread = new Thread(osst);
+		origamiThread.start();
 	}
 	
-
-	/** Runs the server thread */
-	@Override
-	public void run() 
+	/** Closes the SMTP server
+	 */
+	public void closeServer()
 	{
-		try 
-		{
-			server.startSMTP();
-		} catch (BindException e)
-		{
-			// This is OK
-		}	
+		origamiThread.interrupt();
 	}
+	
+	/** Gets the message future for the latest message
+	 * @return The future of the message
+	 */
+	public Future<Message> getLatestMessageFuture()
+	{
+		ExecutorService executor = Executors.newSingleThreadExecutor();
+		return executor.submit(messageListener);
+	}
+	
 
 }

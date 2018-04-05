@@ -3,18 +3,19 @@ package com.pessetto.origamismtp.testing;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.pessetto.origamismtp.filehandlers.inbox.Inbox;
+import com.pessetto.origamismtp.filehandlers.inbox.Message;
 import com.pessetto.origamismtp.filehandlers.inbox.NewMessageListener;
 
 /** Thread to wait for a new message
  * @author Travis Pessetto
  * @author pessetto.com
  */
-public class TestSMTPNewMessageListener  implements Callable<Boolean>, NewMessageListener{
+public class TestSMTPMessageListener  implements Callable<Message>, NewMessageListener{
 
 	private AtomicBoolean messageRecieved;
 	
-	
-	public TestSMTPNewMessageListener()
+	public TestSMTPMessageListener()
 	{
 		messageRecieved = new AtomicBoolean(false);
 	}
@@ -35,13 +36,17 @@ public class TestSMTPNewMessageListener  implements Callable<Boolean>, NewMessag
 		return messageRecieved;
 	}
 
+	/** Returns the newest message
+	 * @return Message The latest message
+	 */
 	@Override
-	public Boolean call() throws Exception {
+	public Message call() throws Exception {
 		while(!messageRecieved.get())
 		{
 			Thread.sleep(100);
 		}
-		return messageRecieved.get();
+		Inbox inbox = Inbox.getInstance();
+		return inbox.getNewestMessage();
 	}
 
 

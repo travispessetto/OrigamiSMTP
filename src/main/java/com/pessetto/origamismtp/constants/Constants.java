@@ -12,8 +12,10 @@ public class Constants {
 	public final static boolean ENABLE_START_TLS = true;
 	/** Constant for the log folder */
 	public final static String LOG_FOLDER = System.getProperty("user.dir")+"/logs/";
+	/** Constant for the inbox folder*/
+	public final static String INBOX_FOLDER = System.getProperty("user.dir")+"Origami SMTP/";
 	/** Constant for the inbox file*/
-	public final static String INBOX_FILE = System.getProperty("user.dir")+"/Origami SMTP/inbox.ser";
+	public final static String INBOX_FILE = INBOX_FOLDER + "inbox.ser";
 	/** Constant representing plain mime type */
 	public final static String PLAIN_MIME = "text/plain";
 	/** Constatn representing the multipart mime type */

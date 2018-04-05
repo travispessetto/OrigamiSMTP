@@ -1,28 +1,18 @@
-import static org.junit.Assert.fail;
+package com.pessetto.origamismtp.testing;
 
-import java.util.Date;
+import static org.junit.Assert.fail;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import javax.mail.BodyPart;
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-
-import com.pessetto.origamismtp.filehandlers.inbox.Inbox;
-import com.pessetto.origamismtp.testing.*;
 import org.junit.Test;
 
 
@@ -36,27 +26,16 @@ public class TestSMTPServerTest {
 	@Test
 	public void testGetRecievedMessage() 
 	{
-		TestSMTPServer server = new TestSMTPServer(2525);
-		Thread smtpServerThread = new Thread(server);
-		smtpServerThread.start();
-		
-		Inbox inbox = Inbox.getInstance();
-		TestSMTPNewMessageListener newMessageListener = new TestSMTPNewMessageListener();
-		inbox.addNewMessageListener(newMessageListener);
-		
-		ExecutorService executor = Executors.newSingleThreadExecutor();
-		Future<Boolean> messageFuture = executor.submit(newMessageListener);
+		TestSMTPServer server = new TestSMTPServer(2525);	
 		try 
 		{
 			sendTestMessage();
-			Boolean messageRecieved = messageFuture.get(10,TimeUnit.SECONDS);
-			if(messageRecieved.booleanValue())
+			Future<com.pessetto.origamismtp.filehandlers.inbox.Message> messageFuture = server.getLatestMessageFuture();
+			com.pessetto.origamismtp.filehandlers.inbox.Message latestMessage = messageFuture.get(10,TimeUnit.SECONDS);
+			server.closeServer();
+			if(latestMessage.getSubject().equals("Test email"))
 			{
-				com.pessetto.origamismtp.filehandlers.inbox.Message latestMessage = inbox.getNewestMessage();
-				if(latestMessage.getSubject().equals("Test email"))
-				{
-					return;
-				}
+				return;
 			}
 			else
 			{
