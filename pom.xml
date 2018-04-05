@@ -73,7 +73,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.0.2</version>
                 <configuration>
-                    <finalName>origami</finalName>
+		    <finalName>origami-${project.version}</finalName>
                     <archive>
                         <manifest>
                             <mainClass>com.pessetto.main.OrigamiSMTP</mainClass>
