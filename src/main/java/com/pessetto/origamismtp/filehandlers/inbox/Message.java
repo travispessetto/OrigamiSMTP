@@ -4,6 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.LinkedList;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -35,6 +37,8 @@ public class Message implements Serializable
   private transient SimpleBooleanProperty isRead;
   private final LinkedList<Attachment> attachments;
 
+  /** Constructs a new instance of Message
+   */
   public Message()
   {
     attachments = new LinkedList<>();
@@ -42,6 +46,9 @@ public class Message implements Serializable
     isRead = new SimpleBooleanProperty(read);
   }
 
+  /** Gets the read flag.  It is read if true.
+   * @return
+   */
   public SimpleBooleanProperty isRead()
   {
     if (isRead == null)
@@ -53,6 +60,9 @@ public class Message implements Serializable
     return isRead;
   }
 
+  /** Sets the read flag.  true is yes; fase is no.
+   * @param isRead The boolean value for yes or no
+   */
   public void setRead(boolean isRead)
   {
     if (this.isRead == null)
@@ -66,57 +76,89 @@ public class Message implements Serializable
     this.isRead.set(read);
   }
 
+  /** Returns who the message is from
+   * @return who the message is from
+   */
   public String getFrom()
   {
     return from;
   }
 
+  /** Sets who the message is from
+   * @param from The address the message is from
+   */
   public void setFrom(String from)
   {
     this.from = from;
   }
 
+  /** Gets who the message is from
+   * @return The address the message is to
+   */
   public String getTo()
   {
     return to;
   }
 
+  /** Gets who the message is to
+   * @param to
+   */
   public void setTo(String to)
   {
     this.to = to;
   }
 
+  /** Gets the message subject
+   * @return String of the subject
+   */
   public String getSubject()
   {
     return subject;
   }
 
+  /** Sets the subject of the message
+   * @param subject
+   */
   public void setSubject(String subject)
   {
     this.subject = subject;
   }
 
+  /** Gets the message as a string
+   * @return
+   */
   public String getMessage()
   {
     return message;
   }
 
+  /** Sets the message
+   * @param message
+   */
   public void setMessage(String message)
   {
     this.message = message;
     processMessage();
   }
 
+  /** Gets the message formatted as HTML
+   * @return String
+   */
   public String getHTMLMessage()
   {
     return htmlMessage;
   }
 
+  /** Gets the plain message of the message
+   * @return String
+   */
   public String getPlainMessage()
   {
     return plainMessage;
   }
 
+  /** Processes the message
+   */
   public void processMessage()
   {
     System.out.println("Process message");
@@ -143,6 +185,24 @@ public class Message implements Serializable
     }
   }
 
+  /** Converts a Byte[] array to a byte[] array
+   * @param array
+   * @return byte[]
+   */
+  private byte[] convertByteObjectArrayToPrimativeByteArray(Byte[] array)
+  {
+	  byte[] bytes = new byte[array.length];
+	  for(int i = 0; i < array.length; ++i)
+	  {
+		  bytes[i] = array[i];
+	  }
+	  return bytes;
+  }
+  
+  /** Processes the multipart part of the message
+   * @param mimeMultipart
+   * @throws Exception
+   */
   private void processMimeMultipart(
           MimeMultipart mimeMultipart) throws Exception
   {
@@ -190,9 +250,16 @@ public class Message implements Serializable
       else
       {
         BASE64DecoderStream ds = (BASE64DecoderStream) bodyPart.getContent();
-        byte[] content = new byte[bodyPart.getSize()];
-        ds.read(content);
-        int size = bodyPart.getSize();
+        ArrayList<Byte> contentList = new ArrayList<Byte>();
+        int intVal;
+        while((intVal = ds.read()) >= 0)
+        {
+        	byte byteVal = (byte)intVal;
+        	contentList.add(byteVal);
+        }
+        int size = contentList.size();
+        Byte[] ByteContent = contentList.toArray(new Byte[contentList.size()]);
+        byte[] content = this.convertByteObjectArrayToPrimativeByteArray(ByteContent);
         Attachment attach = new Attachment(fileName, content, size);
         attachments.add(attach);
       }
@@ -200,16 +267,26 @@ public class Message implements Serializable
 
   }
 
+  /** Returns list of attachments
+   * @return LinkedList<Attachment>
+   */
   public LinkedList<Attachment> getAttachments()
   {
     return attachments;
   }
 
+  /** Gets how many attachments the message has
+   * @return int
+   */
   public int getAttachmentCount()
   {
     return attachments.size();
   }
 
+  /** Gets the file name
+   * @param details
+   * @return String of filename
+   */
   private String getFileName(String details)
   {
     Pattern p = Pattern.compile("name=\"(.+?)\"");
@@ -221,13 +298,12 @@ public class Message implements Serializable
         return m.group(1);
       }
     }
-    else
-    {
-      System.out.println("Could not use regex to find file name");
-    }
     return null;
   }
 
+  /** Adds a plain text attachment
+   * @param BodyPart
+   */
   private void addPlainTextAttachment(BodyPart b)
   {
     try

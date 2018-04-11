@@ -48,7 +48,7 @@ public class Attachment implements Serializable
 	/** Gets the file name
 	 * @return The file name of the attachment
 	 */
-	public String getfileName() {
+	public String getFileName() {
 		return fileName;
 	}
 	
@@ -62,7 +62,7 @@ public class Attachment implements Serializable
 	/** Gets the content in (bytes)
 	 * @return The content in bytes
 	 */
-	public byte[] getcontent() {
+	public byte[] getContent() {
 		return content;
 	}
 	
@@ -76,7 +76,7 @@ public class Attachment implements Serializable
 	/** Gets the size of the attachment
 	 * @return The size of the attachment
 	 */
-	public int getsize() {
+	public int getSize() {
 		return size;
 	}
 	

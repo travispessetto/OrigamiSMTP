@@ -13,7 +13,7 @@ public class Constants {
 	/** Constant for the log folder */
 	public final static String LOG_FOLDER = System.getProperty("user.dir")+"/logs/";
 	/** Constant for the inbox folder*/
-	public final static String INBOX_FOLDER = System.getProperty("user.dir")+"Origami SMTP/";
+	public final static String INBOX_FOLDER = System.getProperty("user.dir")+"/Origami SMTP/";
 	/** Constant for the inbox file*/
 	public final static String INBOX_FILE = INBOX_FOLDER + "inbox.ser";
 	/** Constant representing plain mime type */
