@@ -3,6 +3,9 @@ package com.pessetto.origamismtp.threads;
 import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
+
+import javax.net.ssl.SSLHandshakeException;
+
 import com.pessetto.origamismtp.commandhandlers.CommandHandler;
 import com.pessetto.origamismtp.constants.Constants;
 import com.pessetto.origamismtp.status.AuthStatus;
@@ -41,6 +44,7 @@ public class ConnectionHandler implements Runnable {
 			while(!Thread.currentThread().isInterrupted() && !quit && (cmd = getFullCmd(inFromClient)) != "QUIT")
 			{
 				String cmdId = getCmdIdentifier(cmd).toLowerCase();
+				System.out.println(cmd);
 				if(authStatus == AuthStatus.CONTINUE)
 				{
 					authStatus = commandHandler.handleAuth(cmd);
@@ -88,6 +92,11 @@ public class ConnectionHandler implements Runnable {
 					commandHandler.handleNotImplemented(cmd);
 				}
 			}
+		}
+		catch(SSLHandshakeException ex)
+		{
+			System.out.println("SSL Handshake failed");
+			ex.printStackTrace(System.err);
 		}
 		catch(Exception ex)
 		{

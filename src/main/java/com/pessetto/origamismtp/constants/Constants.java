@@ -18,6 +18,6 @@ public class Constants {
 	public final static String INBOX_FILE = INBOX_FOLDER + "inbox.ser";
 	/** Constant representing plain mime type */
 	public final static String PLAIN_MIME = "text/plain";
-	/** Constatn representing the multipart mime type */
+	/** Constant representing the multipart mime type */
 	public final static String MULTIPART_MIME = "multipart/*";
 }

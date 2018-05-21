@@ -152,6 +152,7 @@ public class CommandHandler
 	{
 		try 
 		{
+			System.out.println(response);
 			outToClient.writeBytes(response);
 		}
 		catch (IOException e) 

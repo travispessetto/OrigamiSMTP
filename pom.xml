@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.pessetto.origamismtp</groupId>
     <artifactId>OrigamiSMTP</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>Origami SMTP</name>
     <description>
         A TLS Enabled Fake SMTP Server for Development https://travispessetto.github.io/OrigamiSMTP
@@ -73,10 +73,10 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.0.2</version>
                 <configuration>
-			<finalName>${project.artifactId}-${project.version}</finalName>
+			        <finalName>${project.artifactId}-${project.version}</finalName>
                     <archive>
                         <manifest>
-                            <mainClass>com.pessetto.main.OrigamiSMTP</mainClass>
+                            <mainClass>com.pessetto.origamismtp.OrigamiSMTP</mainClass>
                         </manifest>
                     </archive>                
                 </configuration>
