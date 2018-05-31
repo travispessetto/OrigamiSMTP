@@ -12,6 +12,9 @@ import javax.net.ssl.SSLPeerUnverifiedException;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.TrustManagerFactory;
+import java.security.cert.X509Certificate;
+import java.util.Date;
+
 import com.pessetto.origamismtp.constants.Constants;
 
 /** Represents a handler for the STARTTLS command
@@ -55,7 +58,6 @@ public class STARTTLSHandler
 			
 			sslContext = SSLContext.getInstance("TLSv1.2");
 			sslContext.init(keyManagerFactory.getKeyManagers(),trustFactory.getTrustManagers(), null);
-			
 			if(old instanceof SSLSocket)
 			{
 				response = "454 TLS not available due to temporary reason: TLS already active";
@@ -90,14 +92,26 @@ public class STARTTLSHandler
 			newSocket.startHandshake();
 			if(newSocket.getNeedClientAuth())
 			{
-				try
+				Certificate[] serverCerts = newSocket.getSession().getLocalCertificates();
+				System.out.println("Checking server certificates");
+				Date today = new Date();
+				for(Certificate cert : serverCerts)
 				{
-					Certificate[] peerCerts = newSocket.getSession().getPeerCertificates();
-					
-				}
-				catch(SSLPeerUnverifiedException e)
-				{
-					System.out.println("PEERS UNVERIFIED; IGNORE"); 
+					X509Certificate x509Cert = (X509Certificate) cert;
+					Date notAfter = x509Cert.getNotAfter();
+					Date notBefore = x509Cert.getNotBefore();
+					if(today.after(notAfter))
+					{
+						System.out.println("Bad certificate: past valid date.");
+					}
+					else if(today.before(notBefore))
+					{
+						System.out.println("Bad certificate: before valid date");
+					}
+					else
+					{
+						System.out.println("Certifcate appears to have valid date");
+					}
 				}
 			}
 			return newSocket;
