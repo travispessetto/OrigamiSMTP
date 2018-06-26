@@ -47,7 +47,7 @@ public class Message implements Serializable
   }
 
   /** Gets the read flag.  It is read if true.
-   * @return
+   * @return SimpleBooleanProperty if the message has been read or not
    */
   public SimpleBooleanProperty isRead()
   {
@@ -101,7 +101,7 @@ public class Message implements Serializable
   }
 
   /** Gets who the message is to
-   * @param to
+   * @param to The recipient of the message
    */
   public void setTo(String to)
   {
@@ -117,7 +117,7 @@ public class Message implements Serializable
   }
 
   /** Sets the subject of the message
-   * @param subject
+   * @param subject The subject of the message
    */
   public void setSubject(String subject)
   {
@@ -125,7 +125,7 @@ public class Message implements Serializable
   }
 
   /** Gets the message as a string
-   * @return
+   * @return String representing the message body
    */
   public String getMessage()
   {
@@ -133,7 +133,7 @@ public class Message implements Serializable
   }
 
   /** Sets the message
-   * @param message
+   * @param message The message body
    */
   public void setMessage(String message)
   {
@@ -268,7 +268,7 @@ public class Message implements Serializable
   }
 
   /** Returns list of attachments
-   * @return LinkedList<Attachment>
+   * @return LinkedList Linked list of attachments
    */
   public LinkedList<Attachment> getAttachments()
   {

@@ -31,8 +31,8 @@ public class OrigamiSMTP{
 	
 	
 	/** Starts the server.  Here for command line usage.
-	 * @param args
-	 * @throws Exception
+	 * @param args Program arguments
+	 * @throws Exception Anything that could go wrong with the connection
 	 */
 	public static void main(String args[]) throws Exception
 	{
@@ -72,7 +72,7 @@ public class OrigamiSMTP{
 	}
 	
 	/** Starts the SMTP server
-	 * @throws BindException
+	 * @throws BindException Failure to bind to port
 	 */
 	public void startSMTP() throws BindException
 	{

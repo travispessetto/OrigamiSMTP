@@ -77,7 +77,7 @@ public class STARTTLSHandler
 	/** Enables SSL on the socket
 	 * @param old The old (unencrypted) socket
 	 * @return A new encrypted socket
-	 * @throws IOException
+	 * @throws IOException Input or Output failed most likely from failed Handshake
 	 */
 	public SSLSocket enableTLS(Socket old) throws IOException
 	{

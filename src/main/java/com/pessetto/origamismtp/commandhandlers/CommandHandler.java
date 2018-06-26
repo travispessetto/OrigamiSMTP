@@ -116,7 +116,7 @@ public class CommandHandler
 	/** Handles the STARTTLS command
 	 * @param old The old non-ssl socket
 	 * @return The new encrypted socket
-	 * @throws IOException
+	 * @throws IOException Input or Output failed
 	 */
 	public SSLSocket handleSTARTTLS(Socket old) throws IOException
 	{

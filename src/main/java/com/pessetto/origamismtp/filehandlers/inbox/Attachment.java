@@ -81,7 +81,7 @@ public class Attachment implements Serializable
 	}
 	
 	/** Sets the size of the attachment
-	 * @param size
+	 * @param size The size of the attachment
 	 */
 	public void setSize(int size) {
 		this.size = size;

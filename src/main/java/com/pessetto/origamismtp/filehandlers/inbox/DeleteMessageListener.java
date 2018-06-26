@@ -6,6 +6,7 @@ package com.pessetto.origamismtp.filehandlers.inbox;
  */
 public interface DeleteMessageListener
 {
-	/** Method to let listener know of deleted message*/
+	/** Method to let listener know of deleted message
+	 * @param index The index of the message*/
 	void removeEmail(int index);
 }
