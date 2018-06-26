@@ -57,6 +57,19 @@
         <tag>HEAD</tag>
     </scm>
 
+    <developers>
+        <developer>
+            <id>travispessetto</id>
+            <name>Travis Pessetto</name>
+            <email>travis@pessetto.com</email>
+            <url>https://pessetto.com</url>
+            <roles>
+                <role>Lead Developer</role>
+            </roles>
+            <timezone>America/Denver</timezone>
+        </developer>
+    </developers>
+
     <build>
         <plugins>
             <plugin>
