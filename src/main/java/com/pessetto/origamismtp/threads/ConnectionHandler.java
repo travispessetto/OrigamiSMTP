@@ -45,6 +45,7 @@ public class ConnectionHandler implements Runnable {
 			{
 				String cmdId = getCmdIdentifier(cmd).toLowerCase();
 				System.out.println(cmd);
+				System.out.println("Command Handler auth Status: " + authStatus);
 				if(authStatus == AuthStatus.CONTINUE)
 				{
 					authStatus = commandHandler.handleAuth(cmd);

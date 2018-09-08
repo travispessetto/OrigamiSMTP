@@ -14,6 +14,8 @@ public class AUTHHandler
 {
 	private boolean used;
 	private String cmd;
+	private int loginCount;
+
 	private AuthStatus authStatus;
 	
 	/** Creates an auth handler
@@ -24,7 +26,9 @@ public class AUTHHandler
 		used = false;
 		cmd = fullAuth;
 		authStatus = AuthStatus.START;
+		loginCount = 0;
 	}
+	
 	
 	/** Gets the response to the client
 	 * @return A string to be passed to the client
@@ -32,10 +36,30 @@ public class AUTHHandler
 	public String getResponse()
 	{
 		String[] cmdSections = cmd.replace(Constants.CRLF, "").split("\\s");
+		System.out.println("Command sections: "+cmdSections.length);
+		System.out.println("Auth Status: " + authStatus);
+		System.out.println("CMD: " + cmd);
 		if(authStatus != AuthStatus.CONTINUE && cmdSections.length == 2 && cmdSections[1].toLowerCase().equals("plain"))
 		{
 			authStatus = AuthStatus.CONTINUE;
 			return "334 Continue"+Constants.CRLF;
+		}
+		else if(authStatus == AuthStatus.START && cmdSections.length == 2 && cmdSections[1].toLowerCase().equals("login"))
+		{
+			authStatus = AuthStatus.CONTINUE;
+			return "334 Continue" + Constants.CRLF;
+		}
+		else if(authStatus == AuthStatus.CONTINUE && cmdSections.length == 2 && cmdSections[1].toLowerCase().equals("login") && loginCount == 0)
+		{
+			++loginCount;
+			authStatus = AuthStatus.CONTINUE;
+			return "334 Continue" + Constants.CRLF;
+		}
+		else if(authStatus == AuthStatus.CONTINUE && cmdSections.length == 2 && cmdSections[1].toLowerCase().equals("login") && loginCount == 1)
+		{
+			++loginCount;
+			authStatus = AuthStatus.FINISHED;
+			return "235 AUTH SUCCESS" + Constants.CRLF;
 		}
 		if(used)
 		{
