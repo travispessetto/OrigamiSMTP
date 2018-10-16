@@ -1,4 +1,4 @@
-[![gitcheese.com](https://s3.amazonaws.com/gitcheese-ui-master/images/badge.svg)](https://www.gitcheese.com/donate/users/930497/repos/81178106) [![Gitter chat](https://badges.gitter.im/OrigamiSMTP/gitter.png)](https://gitter.im/OrigamiSMTP) [![Build Status](https://travis-ci.org/travispessetto/OrigamiSMTP.svg?branch=master)](https://travis-ci.org/travispessetto/OrigamiSMTP)
+[![Gitter chat](https://badges.gitter.im/OrigamiSMTP/gitter.png)](https://gitter.im/OrigamiSMTP) [![Build Status](https://travis-ci.org/travispessetto/OrigamiSMTP.svg?branch=master)](https://travis-ci.org/travispessetto/OrigamiSMTP)
 
 # Origami SMTP
 
@@ -9,6 +9,34 @@ to change more than just a couple settings.
 
 This project is the runnable jar file but you can download a easier to
 use application (also know as Origami SMTP) from the [official website][10]
+
+## How to Help the Project
+
+The best way you can help support this project is by suggesting features via 
+the issue tracker and posting a bounty for it.  There will be a link to post
+a bounty after the issue is submitted.
+
+## Getting Help
+
+If you need help the best way to obtain it is by visiting [https://pessetto.com/submit-ticket][11].  Select department of Open Source and the Product of 
+Origami SMTP.  Support has two levels you can choose from; free and paid. To
+upgrade support just wait for the response offering paid support and you will
+be provided an invoice for your request which can be paid online with a credit
+card via the billing portal.
+
+Paid support will be invoiced based on estimated work required.  Minimum of
+$10.00 (USD) charge applies to paid request.
+
+### Free Support
+
+* 1 week minimum wait time
+* Major issues may take significant time
+
+### Paid Support
+
+* Issue will be handled with no wait time
+* Major issues can be solved in a timely manner
+* Helps keep the project alive
 
 ## Requirements
 
@@ -89,3 +117,4 @@ Contributing is simple just fork this on GitHub and then send a pull request.
 [8]: https://github.com/travispessetto/OrigamiGUI/releases
 [9]: https://github.com/travispessetto/OrigamiSMTP/releases
 [10]: https://travispessetto.github.io/OrigamiSMTP
+[11]: https://pessetto.com/submit-ticket/
