@@ -82,7 +82,7 @@ Contributing is simple just fork this on GitHub and then send a pull request.
 [1]: http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html
 [2]: http://www.jetmore.org/john/code/swaks/
 [3]: https://www.activestate.com/activeperl/downloads
-[4]: https://raw.githubusercontent.com/travispessetto/OrigamiSMTP/0.2.0/certs/CA/Origami_CA.crt
+[4]: https://raw.githubusercontent.com/travispessetto/OrigamiSMTP/master/src/main/resources/certs/CA/Origami_CA.crt
 [5]: https://technet.microsoft.com/en-us/library/cc754841(v=ws.11).aspx
 [6]: https://java.com
 [7]: https://github.com/travispessetto/OrigamiGUI
