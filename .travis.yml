@@ -6,7 +6,7 @@ script:
 deploy:
         provider: releases
         file:
-                - "target/OrigamiSMTP-1.0.3-SNAPSHOT.jar"
+                - "target/OrigamiSMTP-1.1.0.jar"
         skip_cleanup: true
         on:
                 tags: on
