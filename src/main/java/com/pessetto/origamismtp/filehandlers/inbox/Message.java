@@ -211,6 +211,10 @@ public class Message implements Serializable
     {
       BodyPart bodyPart = mimeMultipart.getBodyPart(i);
       String fileName = this.getFileName(bodyPart.getContentType());
+      if(fileName == null)
+	  {
+    	  bodyPart.getFileName();
+	  }
       if (fileName == null && bodyPart.isMimeType("text/plain"))
       {
         if (plainMessage == null)

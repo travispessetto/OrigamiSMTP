@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.pessetto.origamismtp</groupId>
     <artifactId>OrigamiSMTP</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <name>Origami SMTP</name>
     <url>https://travispessetto.github.io/OrigamiSMTP/</url>
     <description>
