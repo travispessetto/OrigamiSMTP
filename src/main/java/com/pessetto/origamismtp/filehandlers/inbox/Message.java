@@ -213,7 +213,7 @@ public class Message implements Serializable
       String fileName = this.getFileName(bodyPart.getContentType());
       if(fileName == null)
 	  {
-    	  bodyPart.getFileName();
+    	  fileName = bodyPart.getFileName();
 	  }
       if (fileName == null && bodyPart.isMimeType("text/plain"))
       {
