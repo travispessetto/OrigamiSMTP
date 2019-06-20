@@ -1,6 +1,6 @@
 [![Gitter chat](https://badges.gitter.im/OrigamiSMTP/gitter.png)](https://gitter.im/OrigamiSMTP) [![Build Status](https://travis-ci.org/travispessetto/OrigamiSMTP.svg?branch=master)](https://travis-ci.org/travispessetto/OrigamiSMTP)
 
-# Origami SMTP
+# ![Imgur][12] Origami SMTP
 
 Origami SMTP is a fake SMTP server with SSL (STARTTLS) support. The
 reason it was developed was so that developers could test their
@@ -118,3 +118,4 @@ Contributing is simple just fork this on GitHub and then send a pull request.
 [9]: https://github.com/travispessetto/OrigamiSMTP/releases
 [10]: https://travispessetto.github.io/OrigamiSMTP
 [11]: https://pessetto.com/submit-ticket/
+[12]: https://i.imgur.com/Cs9GmyW.png
