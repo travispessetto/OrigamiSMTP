@@ -61,18 +61,18 @@ public class TestSMTPServerTest {
 	
 	private void sendTestMessage() throws AddressException, MessagingException
 	{
-		Properties props = System.getProperties();
-		props.put("mail.smtp.host","localhost");
-        props.put("mail.smtp.port","2525");
-        props.put("mail.smtp.socketFactory.port","2525");
-        //props.put("mail.smtp.starttls.enable","true");
-        Session session = Session.getDefaultInstance(props);
-        MimeMessage msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress("test@example.com"));
-        msg.setRecipient(javax.mail.Message.RecipientType.TO,new InternetAddress("testTo@example.com"));
-        msg.setSubject("Test email");
-        msg.setText("Hello!");
-        Transport.send(msg);
+            Properties props = System.getProperties();
+            props.put("mail.smtp.host","localhost");
+            props.put("mail.smtp.port","2525");
+            props.put("mail.smtp.socketFactory.port","2525");
+            //props.put("mail.smtp.starttls.enable","true");
+            Session session = Session.getDefaultInstance(props);
+            MimeMessage msg = new MimeMessage(session);
+            msg.setFrom(new InternetAddress("test@example.com"));
+            msg.setRecipient(javax.mail.Message.RecipientType.TO,new InternetAddress("testTo@example.com"));
+            msg.setSubject("Test email");
+            msg.setText("Hello!");
+            Transport.send(msg);
 	}
 
 }

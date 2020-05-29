@@ -22,12 +22,14 @@ public class Inbox implements Serializable
 	private LinkedList<Message> messages;
 	private transient List<NewMessageListener> newMessageListeners;
 	private transient List<DeleteMessageListener> deleteMessageListeners;
+        private transient int size;
 	
 	/** Creates new instance of inbox
 	 */
 	private Inbox()
 	{
 		messages = new LinkedList<Message>();
+                size = 0;
 	}
 	
 	/** Adds new message listener to inbox
@@ -42,8 +44,8 @@ public class Inbox implements Serializable
 		newMessageListeners.add(listener);
 	}
 	
-	/** Adds a delte message listener to inbox
-	 * @param listener Class that implments DeleteMessageListener
+	/** Adds a delete message listener to inbox
+	 * @param listener Class that implements DeleteMessageListener
 	 */
 	public void addDeleteMessageListener(DeleteMessageListener listener)
 	{
@@ -55,18 +57,32 @@ public class Inbox implements Serializable
 	}
 	
 	/** Adds a message to inbox and notifies all listeners
-	 * @param msg The message recieved
+	 * @param msg The message received
 	 */
 	public void addMessage(Message msg)
 	{
 		if(newMessageListeners != null)
 		{
-			notifyListenersOfNewMessage();
+                    notifyListenersOfNewMessage();
 		}
+                if(size > 0 && messages.size() == size)
+                {
+                    messages.removeLast();
+                }
 		messages.add(0,msg);
 		this.serialize();
 	}
 	
+        /** Clears all the messages out of the inbox
+         */
+        public void clearInbox()
+        {
+            while(messages.size() > 0)
+            {
+                deleteMessage(0);
+            }
+        }
+        
 	/** Deletes the message with the given id
 	 * @param id The index of the email to delete
 	 */
@@ -130,19 +146,44 @@ public class Inbox implements Serializable
 		return messages.size();
 	}
 	
-	/** Gets the last message to be recieved
-	 * @return The last message recieved
+	/** Gets the last message to be received
+	 * @return The last message received
 	 */
 	public Message getNewestMessage()
 	{
 		if(messages.size() == 0)
 		{
-			return null;
+                    return null;
 		}
 		return messages.get(0);
 	}
+        
+        /** Gets the size of the inbox
+         * @return The size the inbox can hold
+         */
+        public int getSize()
+        {
+            return size;
+        }
+        
+        /** Sets the size of the inbox
+         * @param s Size of the inbox
+         */
+        public void setSize(int s)
+        {
+            size = s;
+            // Clear old messages if size is too small
+            if(size > 0 && messages.size() > size)
+            {
+                int messageToDeleteCount = messages.size() - size;
+                for(int i = 0; i < messageToDeleteCount; ++i)
+                {
+                    deleteMessage(messages.size() - 1);
+                }
+            }
+        }
 	
-	/** Notifies the new message listners of a new message
+	/** Notifies the new message listeners of a new message
 	 */
 	private void notifyListenersOfNewMessage()
 	{
@@ -152,7 +193,7 @@ public class Inbox implements Serializable
 		}
 	}
 	
-	/** Notifies the deleted message listender of a delete message
+	/** Notifies the deleted message listener of a delete message
 	 * @param index The index that was deleted
 	 */
 	private void notifyListenersOfDeletedMessage(int index)

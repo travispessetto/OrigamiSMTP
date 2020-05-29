@@ -1,5 +1,6 @@
 package com.pessetto.origamismtp;
 
+import com.pessetto.origamismtp.filehandlers.inbox.Inbox;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +20,26 @@ public class OrigamiSMTP{
 	private ServerSocket smtpSocket;
 	private List<StatusListener> statusListeners;
 	private int port;
+        
+        /** Creates an instance opened to the specified port
+         * @param port  The port to open SMTP on
+         */
+        public OrigamiSMTP(int port)
+        {
+            this(port,0);
+        }
 	
 	/** Creates an instance opened to the specified port
 	 * @param port The port to open SMTP on
+         * @param maxInboxSize size how many messages the inbox will hold before
+         * deleting old messages
 	 */
-	public OrigamiSMTP(int port)
+	public OrigamiSMTP(int port, int maxInboxSize)
 	{
 		this.port = port;
 		statusListeners = new ArrayList<StatusListener>();
+                Inbox inbox = Inbox.getInstance();
+                inbox.setSize(maxInboxSize);
 	}
 	
 	

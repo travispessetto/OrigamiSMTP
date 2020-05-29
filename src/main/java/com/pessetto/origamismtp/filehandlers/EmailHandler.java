@@ -28,6 +28,7 @@ public class EmailHandler
 			message.setTo(rcpt.getRecipient());
 			message.setSubject(Integer.toString(getUnixTime()));
 			message.setMessage(data.getData());
+                        message.process();
 			inbox.addMessage(message);
 		}
 	}

@@ -138,7 +138,6 @@ public class Message implements Serializable
   public void setMessage(String message)
   {
     this.message = message;
-    processMessage();
   }
 
   /** Gets the message formatted as HTML
@@ -159,7 +158,7 @@ public class Message implements Serializable
 
   /** Processes the message
    */
-  public void processMessage()
+  public void process()
   {
     System.out.println("Process message");
     try

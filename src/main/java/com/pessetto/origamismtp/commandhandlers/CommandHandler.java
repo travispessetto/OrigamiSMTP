@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 import javax.net.ssl.SSLSocket;
-
-import com.pessetto.origamismtp.commandhandlers.*;
 import com.pessetto.origamismtp.constants.Constants;
 import com.pessetto.origamismtp.filehandlers.EmailHandler;
 import com.pessetto.origamismtp.status.*;
@@ -64,7 +62,7 @@ public class CommandHandler
 		{
 			data.processMessage(inFromClient);
 			handleResponse(data.getResponse());
-			EmailHandler eh = new EmailHandler(this.mail,this.rcpt,this.data);
+                        EmailHandler emailHandler = new EmailHandler(this.mail,this.rcpt,this.data);
 		}
 	}
 	
