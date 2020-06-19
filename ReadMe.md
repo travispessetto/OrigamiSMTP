@@ -49,6 +49,16 @@ This server requires:
 
 To start the server run the following from the terminal or command line. (Linux and Mac users may need to change the semicolon to a colon in the classpath)
 
+**Prefered Way:**
+
+`java -jar OrigamiSMTP-2.0.0.jar`
+
+If you want to specify the port use the --port or -p parameter
+
+`java -jar OrigamiSMTP-2.0.0.jar --port 2560`
+
+**Another Way:**
+
 `java -cp .\OrigamiSMTP\lib\*;OrigamiSMTP-2.0.0.jar com.pessetto.origamismtp.OrigamiSMTP`
 
 The default port is 2525 but you can use whatever port you wish using the port parameter (-p or --p)
