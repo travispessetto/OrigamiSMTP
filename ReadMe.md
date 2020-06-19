@@ -47,11 +47,13 @@ This server requires:
 
 ## Starting the Server
 
-To start the server run the following from the terminal or command line.
+To start the server run the following from the terminal or command line. (Linux and Mac users may need to change the semicolon to a colon in the classpath)
 
-`java -jar origami.jar 2525`
+`java -cp .\OrigamiSMTP\lib\*;OrigamiSMTP-2.0.0.jar com.pessetto.origamismtp.OrigamiSMTP`
 
-You may replace 2525 with the port you would like to use.
+The default port is 2525 but you can use whatever port you wish using the port parameter (-p or --p)
+
+`java -cp .\OrigamiSMTP\lib\*;OrigamiSMTP-2.0.0.jar com.pessetto.origamismtp.OrigamiSMTP -p 2560`
 
 ## Working with STARTLS
 

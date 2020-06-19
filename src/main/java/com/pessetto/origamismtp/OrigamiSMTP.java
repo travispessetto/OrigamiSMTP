@@ -9,17 +9,24 @@ import java.util.concurrent.Executors;
 import com.pessetto.origamismtp.status.StatusListener;
 import com.pessetto.origamismtp.threads.ConnectionHandler;
 import java.io.*;
+import java.util.concurrent.Callable;
+import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 
 
 /** The OrigamiSMTP main class
  * @author Travis Pessetto
  * @author pessetto.com
  */
-public class OrigamiSMTP{
+@Command(name = "Origami SMTP", mixinStandardHelpOptions = true, version = "2.0.0",
+         description = "Starts a local SMTP server.")
+public class OrigamiSMTP implements Callable<Integer>{
 
 	private ServerSocket smtpSocket;
 	private List<StatusListener> statusListeners;
-	private int port;
+        @Option(names = {"-p", "--port"}, description = "Port to bind to (default 2525)")
+	private int port = 2525;
         
         /** Creates an instance opened to the specified port
          * @param port  The port to open SMTP on
@@ -27,6 +34,15 @@ public class OrigamiSMTP{
         public OrigamiSMTP(int port)
         {
             this(port,0);
+        }
+        
+        /** Creates an instance of Origami SMTP meant to be used via CLI
+         * 
+         */
+        public OrigamiSMTP()
+        {
+            statusListeners = new ArrayList<StatusListener>();
+            Inbox inbox = Inbox.getInstance();
         }
 	
 	/** Creates an instance opened to the specified port
@@ -49,18 +65,8 @@ public class OrigamiSMTP{
 	 */
 	public static void main(String args[]) throws Exception
 	{
-		int bindPort = 2525;
-		if(args.length == 1)
-		{
-			System.out.println("Setting port to " + args[0]);
-			bindPort = Integer.parseInt(args[0]);
-		}
-		else
-		{
-			System.out.println("Default to 2525");
-		}
-		OrigamiSMTP console = new OrigamiSMTP(bindPort);
-		console.startSMTP();
+            int exitCode = new CommandLine(new OrigamiSMTP()).execute(args);  
+            System.exit(exitCode);
 	}
 	
 	/**
@@ -149,4 +155,11 @@ public class OrigamiSMTP{
 			listener.smtpStopped();
 		}
 	}
+
+    @Override
+    public Integer call() throws Exception {
+        OrigamiSMTP console = new OrigamiSMTP();
+        console.startSMTP();
+        return 0;
+    }
 }
