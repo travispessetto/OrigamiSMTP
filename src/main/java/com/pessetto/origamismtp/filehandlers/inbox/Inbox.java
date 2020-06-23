@@ -64,7 +64,7 @@ public class Inbox implements Serializable
                 if(size > 0 && messages.size() == size)
                 {
                     // remove the message and notify event listeners
-                    deleteMessage(messages.hashCode() - 1);
+                    deleteMessage(messages.size() - 1);
                 }
 		messages.add(0,msg);
                 if(newMessageListeners != null)
