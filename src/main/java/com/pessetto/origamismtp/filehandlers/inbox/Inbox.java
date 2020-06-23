@@ -51,7 +51,7 @@ public class Inbox implements Serializable
 	{
 		if(deleteMessageListeners == null)
 		{
-			deleteMessageListeners = new ArrayList<DeleteMessageListener>();
+                    deleteMessageListeners = new ArrayList<DeleteMessageListener>();
 		}
 		deleteMessageListeners.add(listener);
 	}
@@ -61,15 +61,16 @@ public class Inbox implements Serializable
 	 */
 	public void addMessage(Message msg)
 	{
-		if(newMessageListeners != null)
+                if(size > 0 && messages.size() == size)
+                {
+                    // remove the message and notify event listeners
+                    deleteMessage(messages.hashCode() - 1);
+                }
+		messages.add(0,msg);
+                if(newMessageListeners != null)
 		{
                     notifyListenersOfNewMessage();
 		}
-                if(size > 0 && messages.size() == size)
-                {
-                    messages.removeLast();
-                }
-		messages.add(0,msg);
 		this.serialize();
 	}
 	
@@ -91,7 +92,7 @@ public class Inbox implements Serializable
 		messages.remove(id);
 		if(deleteMessageListeners != null)
 		{
-			this.notifyListenersOfDeletedMessage(id);
+                    this.notifyListenersOfDeletedMessage(id);
 		}
 		this.serialize();
 	}
@@ -151,7 +152,7 @@ public class Inbox implements Serializable
 	 */
 	public Message getNewestMessage()
 	{
-		if(messages.size() == 0)
+		if(messages.isEmpty())
 		{
                     return null;
 		}
