@@ -19,7 +19,7 @@ import picocli.CommandLine.Option;
  * @author Travis Pessetto
  * @author pessetto.com
  */
-@Command(name = "Origami SMTP", mixinStandardHelpOptions = true, version = "2.0.0",
+@Command(name = "Origami SMTP", mixinStandardHelpOptions = true, version = "2.0.3",
          description = "Starts a local SMTP server.")
 public class OrigamiSMTP implements Callable<Integer>{
 
