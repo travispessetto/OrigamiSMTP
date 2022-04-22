@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.LinkedList;
 import java.util.Properties;
 import java.util.regex.Matcher;
