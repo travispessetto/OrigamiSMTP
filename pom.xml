@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.pessetto.origamismtp</groupId>
     <artifactId>OrigamiSMTP</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1</version>
     <name>Origami SMTP</name>
     <url>https://travispessetto.github.io/OrigamiSMTP/</url>
     <description>
@@ -229,7 +229,7 @@
         <dependency>
             <groupId>info.picocli</groupId>
             <artifactId>picocli</artifactId>
-            <version>4.3.0</version>
+            <version>4.6.3</version>
         </dependency>
     </dependencies>
 

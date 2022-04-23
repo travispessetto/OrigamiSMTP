@@ -15,6 +15,7 @@ public class InboxTest {
     @Test
     public void testInboxSetSizeReduction()
     {
+        
         String msgTwoSub = "Goodbye John";
         Message one = new Message();
         one.setFrom("james.doe@example.com");
@@ -30,10 +31,13 @@ public class InboxTest {
         assertEquals(msgTwoSub,two.getSubject());
         
         Inbox inbox = Inbox.getInstance();
+        // make sure inbox is large
+        inbox.setSize(5);
         inbox.clearInbox();
         inbox.addMessage(one);
         inbox.addMessage(one);
         inbox.addMessage(two);
+        inbox.setSize(3);
         
         // make sure inbox currently has 3 messages
         assertEquals(3,inbox.getMessageCount());
