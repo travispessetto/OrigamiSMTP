@@ -37,6 +37,9 @@ public class InboxTest {
         inbox.addMessage(one);
         inbox.addMessage(one);
         inbox.addMessage(two);
+        inbox.addMessage(one);
+        inbox.addMessage(one);
+        inbox.addMessage(two);
         inbox.setSize(3);
         
         // make sure inbox currently has 3 messages
