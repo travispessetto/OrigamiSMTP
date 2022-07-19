@@ -33,7 +33,7 @@ public class Message implements Serializable
   private String plainMessage;
   private String htmlMessage;
   private boolean read;
-  private transient boolean isRead;
+  private transient SimpleBooleanProperty isRead;
   private final LinkedList<Attachment> attachments;
 
   /** Constructs a new instance of Message
@@ -48,7 +48,7 @@ public class Message implements Serializable
   /** Gets the read flag.  It is read if true.
    * @return SimpleBooleanProperty if the message has been read or not
    */
-  public boolean isRead()
+  public SimpleBooleanProperty isRead()
   {
     if (isRead == null)
     {

@@ -6,6 +6,8 @@
 module OrigamiSMTP {
     requires info.picocli;
     requires mail;
-    
+    requires javafx.base;
+    requires org.jsoup;
+
     exports com.pessetto.origamismtp;
 }
