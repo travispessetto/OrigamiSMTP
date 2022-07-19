@@ -1,5 +1,3 @@
-[![Gitter chat](https://badges.gitter.im/OrigamiSMTP/gitter.png)](https://gitter.im/OrigamiSMTP) [![Build Status](https://travis-ci.org/travispessetto/OrigamiSMTP.svg?branch=master)](https://travis-ci.org/travispessetto/OrigamiSMTP)
-
 # ![Imgur][12] Origami SMTP
 
 Origami SMTP is a fake SMTP server with SSL (STARTTLS) support. The
