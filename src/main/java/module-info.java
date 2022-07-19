@@ -3,11 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/module-info.java to edit this template
  */
 
-module OrigamiSMTP {
+module com.pessetto.origamismtp {
     requires info.picocli;
     requires mail;
     requires javafx.base;
     requires org.jsoup;
 
     exports com.pessetto.origamismtp;
+    exports com.pessetto.origamismtp.filehandlers.inbox;
 }
