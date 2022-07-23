@@ -4,7 +4,7 @@
   <groupId>com.pessetto.origamismtp</groupId>
   <artifactId>com.pessetto.origamismtp</artifactId>
   <name>Origami SMTP</name>
-  <version>3.0.2</version>
+  <version>3.0.3</version>
   <description>A TLS Enabled Fake SMTP Server for Development https://travispessetto.github.io/OrigamiSMTP</description>
   <url>https://travispessetto.github.io/OrigamiSMTP/</url>
   <developers>
