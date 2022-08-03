@@ -146,4 +146,10 @@ public class OrigamiSMTP implements Callable<Integer>{
         console.startSMTP();
         return 0;
     }
+
+	public static void main(String[] args) throws BindException
+	{
+		OrigamiSMTP server = new OrigamiSMTP();
+		server.startSMTP();
+	}
 }
