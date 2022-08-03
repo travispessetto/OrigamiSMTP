@@ -36,7 +36,7 @@ public class ConnectionHandler implements Runnable {
 			Scanner inFromClient = new Scanner(connectionSocket.getInputStream());
 			CommandHandler commandHandler = new CommandHandler(outToClient,inFromClient);
 			inFromClient.useDelimiter(Constants.CRLF);
-			String welcome = "220 127.0.0.1 SMTP Ready"+Constants.CRLF;
+			String welcome = "220 local.origamimail.us SMTP Ready"+Constants.CRLF;
 			outToClient.writeBytes(welcome);
 			String cmd = "";
 			boolean quit = false;
