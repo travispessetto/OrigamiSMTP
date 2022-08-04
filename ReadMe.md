@@ -1,6 +1,8 @@
-# ![Imgur][12] Origami SMTP
+# ![Imgur][12] Origami Mail
 
-Origami SMTP is a fake SMTP server with SSL (STARTTLS) support. The
+**Notice:** I am transitioning the name of this project from OrigamiSMTP to Origami Mail.  This project will now be found at https://github.com/OrigamiMail.  I am going to be refactoring some of the application to make it so components can be swapped out in order to create a pro version.
+
+Origami Mail is a fake SMTP server with SSL (STARTTLS) support. The
 reason it was developed was so that developers could test their
 applications that require a secure SMTP server without having
 to change more than just a couple settings.
