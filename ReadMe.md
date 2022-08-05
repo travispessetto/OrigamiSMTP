@@ -2,48 +2,28 @@
 
 **Notice:** I am transitioning the name of this project from OrigamiSMTP to Origami Mail.  This project will now be found at https://github.com/OrigamiMail.  I am going to be refactoring some of the application to make it so components can be swapped out in order to create a pro version.
 
-Origami Mail is a fake SMTP server with SSL (STARTTLS) support. The
-reason it was developed was so that developers could test their
-applications that require a secure SMTP server without having
-to change more than just a couple settings.
+Origami Mail is a fake SMTP with TLS support as it's primary goal.
 
-This project is the runnable jar file but you can download a easier to
-use application (also know as Origami SMTP) from the [official website][10]
+This project has an installer for Windows and Debian based linux systems.  I am working on getting a AppImage done. Right now there is a runnable jar file you can get from the [official website][10].
 
 ## How to Help the Project
 
-The best way you can help support this project is by suggesting features via 
-the issue tracker and posting a bounty for it.  There will be a link to post
-a bounty after the issue is submitted.
+There is several ways to help this project.  If you know how to code Java consider contributing.  If not consider making a dontation.
 
 ## Getting Help
 
-If you need help the best way to obtain it is by visiting [https://pessetto.com/submit-ticket][11].  Select department of Open Source and the Product of 
-Origami SMTP.  Support has two levels you can choose from; free and paid. To
-upgrade support just wait for the response offering paid support and you will
-be provided an invoice for your request which can be paid online with a credit
-card via the billing portal.
-
-Paid support will be invoiced based on estimated work required.  Minimum of
-$10.00 (USD) charge applies to paid request.
-
-### Free Support
-
-* 1 week minimum wait time
-* Major issues may take significant time
-
-### Paid Support
-
-* Issue will be handled with no wait time
-* Major issues can be solved in a timely manner
-* Helps keep the project alive
+If you think you found a bug then report an issue.  If you would like a custom feature make a suggestion and if you really want a feature we can work something out.
 
 ## Requirements
 
 This server requires:
 
-* [Java 1.8 or higher][6]
-* [Java JCE][1]
+* [Java 17 or higher (I use SapMachine 17)][6]
+* Maybe [Java JCE][1]
+
+Development Requires:
+
+* [Apache Maven][13]
 
 ## Starting the Server
 
@@ -85,9 +65,8 @@ council this file must be downloaded from the link provided.  Follow the instruc
 
 ### Using Swaks
 
-To use Swaks to debug you will need Perl installed.  To do this on Windows we suggest
-the use of [ActivePerl][3] as we could not get it to work with Strawberry Perl. After
-that is installed you can use the following command to help with debugging.
+To use [Swaks][2] to debug you will need Perl installed.  To do this on Windows  I suggest using Windows Subsystem for Linux (WSL).  I use the Ubuntu releases from the Windows store.  After downloading
+Swaks the following command can be used for testing:
 
 ```sh
 swaks.pl -t john.doe@example.com -f jane.doe@example.com -s localhost -p 2525 -tls --tls-verify --tls-ca-path /path/to/origami/ca.crt
@@ -124,10 +103,11 @@ Contributing is simple just fork this on GitHub and then send a pull request.
 [3]: https://www.activestate.com/activeperl/downloads
 [4]: https://raw.githubusercontent.com/travispessetto/OrigamiSMTP/master/src/main/resources/certs/CA/Origami_CA.crt
 [5]: https://technet.microsoft.com/en-us/library/cc754841(v=ws.11).aspx
-[6]: https://java.com
+[6]: https://sap.github.io/SapMachine/
 [7]: https://github.com/travispessetto/OrigamiGUI
 [8]: https://github.com/travispessetto/OrigamiGUI/releases
 [9]: https://github.com/travispessetto/OrigamiSMTP/releases
 [10]: https://travispessetto.github.io/OrigamiSMTP
 [11]: https://pessetto.com/submit-ticket/
 [12]: https://i.imgur.com/Cs9GmyW.png
+[13]: https://maven.apache.org/
