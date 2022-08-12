@@ -45,8 +45,8 @@ public class DataHandler implements Validatable
 		{
 			data = inFromClient.next();
 			// Clear out buffer
-			//inFromClient.nextLine();
-			//inFromClient.nextLine();
+			inFromClient.nextLine();
+			inFromClient.nextLine();
 			response = "250 OK" + Constants.CRLF;
 		}
 		else
