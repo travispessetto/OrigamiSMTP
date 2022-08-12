@@ -85,6 +85,7 @@ public class ConnectionHandler implements Runnable {
 				else if(cmdId.equals("quit"))
 				{
 					commandHandler.handleQuit();
+                                        connectionSocket.close();
 					quit = true;
 				}
 

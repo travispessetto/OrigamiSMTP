@@ -166,6 +166,7 @@ public class Message implements Serializable
       Session session = Session.getDefaultInstance(new Properties());
       InputStream inputStream = new ByteArrayInputStream(message.getBytes());
       MimeMessage mimeMessage = new MimeMessage(session, inputStream);
+      System.out.println("Content type: "+mimeMessage.getContentType());
       if (mimeMessage.isMimeType(Constants.PLAIN_MIME))
       {
         plainMessage = mimeMessage.getContent().toString();
@@ -180,23 +181,11 @@ public class Message implements Serializable
     }
     catch (Exception ex)
     {
+      System.out.println(ex.getMessage());
       ex.printStackTrace(System.err);
     }
   }
 
-  /** Converts a Byte[] array to a byte[] array
-   * @param array
-   * @return byte[]
-   */
-  private byte[] convertByteObjectArrayToPrimativeByteArray(Byte[] array)
-  {
-	  byte[] bytes = new byte[array.length];
-	  for(int i = 0; i < array.length; ++i)
-	  {
-		  bytes[i] = array[i];
-	  }
-	  return bytes;
-  }
   
   /** Processes the multipart part of the message
    * @param mimeMultipart
