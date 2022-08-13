@@ -243,7 +243,9 @@ public class Message implements Serializable
       {
           
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bodyPart.writeTo(bos);
+        bodyPart.getDataHandler().writeTo(bos);
+        
+        
         byte[] content = bos.toByteArray();
         Attachment attach = new Attachment(fileName, content, content.length);
         attachments.add(attach);
@@ -303,7 +305,7 @@ public class Message implements Serializable
     catch (MessagingException | IOException e)
     {
       System.err.println("Could not get file name or read file content");
-      e.printStackTrace();
+      e.printStackTrace(System.err);
     }
   }
 
