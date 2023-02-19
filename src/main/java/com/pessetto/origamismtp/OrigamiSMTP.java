@@ -207,6 +207,14 @@ public class OrigamiSMTP implements Callable<Integer>{
                                     
                                 }
                                 break;
+                            case "REMOVE-ACCOUNT":
+                                if(i+1 < args.length)
+                                {
+                                    var userName = args[i+1];
+                                    accounts.removeAccount(userName);
+                                    System.out.println("Account removed");
+                                }
+                                break;
                             case "LIST-SETTINGS":
                                 System.out.println("PORT: "+settings.getPort());
                                 System.out.print("Sign in In Required: " + settings.getRequireSignIn());

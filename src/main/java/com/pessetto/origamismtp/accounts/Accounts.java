@@ -74,9 +74,9 @@ public class Accounts implements Serializable{
         if(Accounts.containsKey(userName.toUpperCase()))
         {
             Accounts.remove(userName.toUpperCase());
+            serialize();
             return true;
         }
-        serialize();
         return false;
     }
     
@@ -88,7 +88,7 @@ public class Accounts implements Serializable{
         }
         return null;
     }
-    
+
     public void removeAllAccounts()
     {
         Accounts = new HashMap<String,Account>();
