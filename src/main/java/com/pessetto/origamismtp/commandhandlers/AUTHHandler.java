@@ -1,5 +1,7 @@
 package com.pessetto.origamismtp.commandhandlers;
 
+import com.pessetto.origamismtp.Settings;
+import com.pessetto.origamismtp.accounts.Accounts;
 import com.pessetto.origamismtp.commandhandlers.interfaces.IAUTHHandler;
 import java.io.DataOutputStream;
 import java.util.Scanner;
@@ -42,6 +44,7 @@ public class AUTHHandler implements IAUTHHandler
 	public String getResponse(String cmd)
 	{
 		String[] cmdSections = cmd.replace(Constants.CRLF, "").split("\\s");
+                var settings = Settings.getInstance();
 		System.out.println("Command sections: "+cmdSections.length);
 		System.out.println("Auth Status: " + authStatus);
 		System.out.println("CMD: " + cmd);
@@ -65,19 +68,31 @@ public class AUTHHandler implements IAUTHHandler
                     {
                         // check user name and password
                         var password = new String(Base64.getDecoder().decode(cmd));
-                        if(userName.equals("foo") && password.equals("bar"))
+                        var accounts = Accounts.getInstance();
+                        var account = accounts.getAccount(userName);
+                        try
                         {
-                            ++loginCount;
+                            if(!settings.getRequireSignIn() || (account != null && account.isPasswordValid(password)))
+                            {
+                                ++loginCount;
+                                authStatus = AuthStatus.FINISHED;
+                                return "235 2.7.0 Authentication successful"+Constants.CRLF;
+                            }
+                            else
+                            {
+                                authStatus = AuthStatus.START;
+                                return "535 5.7.8  Authentication credentials invalid"+Constants.CRLF;
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                             authStatus = AuthStatus.START;
+                             return "535 5.7.8  Authentication credentials invalid"+Constants.CRLF;
+                        }
+                        finally
+                        {
                             step = 0;
-                            authStatus = AuthStatus.FINISHED;
-                            return "235 2.7.0 Authentication successful"+Constants.CRLF;
                         }
-                        else
-                        {
-                            authStatus = AuthStatus.START;
-                            return "535 5.7.8  Authentication credentials invalid"+Constants.CRLF;
-                        }
-                        
                     }
                 }
                 else if(authStatus != AuthStatus.CONTINUE && cmdSections.length == 2 && cmdSections[1].toLowerCase().equals("plain"))
