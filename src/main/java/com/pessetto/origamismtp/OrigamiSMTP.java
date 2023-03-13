@@ -176,12 +176,12 @@ public class OrigamiSMTP implements Callable<Integer>{
                                     settings.setPort(port);
                                 }
                                 break;
-                            case "REQUIRE-SIGNIN":
+                            case "REQUIRE-VALID-SIGNIN":
                                 if(i + 1 < args.length)
                                 {
-                                    var signInRequired = parseBoolean(args[i+1]);
-                                    System.out.println("Sign in required set to  "+signInRequired);
-                                    settings.requireSignIn(signInRequired);
+                                    var validSignInRequired = parseBoolean(args[i+1]);
+                                    System.out.println("Sign in required set to  "+validSignInRequired);
+                                    settings.requireValidSignIn(validSignInRequired);
                                 }
                                 break;
                             case "ADD-ACCOUNT":

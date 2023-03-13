@@ -20,13 +20,13 @@ import java.io.Serializable;
 public class Settings implements Serializable{
     private static Settings Instance;
     private int Port;
-    private boolean RequireSignIn;
+    private boolean RequireValidSignIn;
     private static final long serialVersionUID = -1686234852843453027L;
     
     private Settings()
     {
         Port = 2525;
-        RequireSignIn = false;
+        RequireValidSignIn = false;
     }
     
     public static Settings getInstance()
@@ -69,15 +69,15 @@ public class Settings implements Serializable{
         return Port;
     }
     
-    public void requireSignIn(boolean require)
+    public void requireValidSignIn(boolean require)
     {
-        RequireSignIn = require;
+        RequireValidSignIn = require;
         serialize();
     }
     
     public boolean getRequireSignIn()
     {
-        return RequireSignIn;
+        return RequireValidSignIn;
     }
     
     /** Serializes the class to store on disk
