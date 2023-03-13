@@ -16,6 +16,12 @@ public class Constants {
 	public final static String INBOX_FOLDER = System.getProperty("user.dir")+"/Origami SMTP/";
 	/** Constant for the inbox file*/
 	public final static String INBOX_FILE = INBOX_FOLDER + "inbox.ser";
+        /** Constant for the settings folder**/
+        public final static String SETTINGS_FOLDER = System.getProperty("user.dir") + "/Origami SMTP/";
+        /** Constant for the settings file **/
+        public final static String SETTINGS_FILE = SETTINGS_FOLDER + "settings.ser";
+        /** Constant for the accounts file **/
+        public final static String ACCOUNT_FILE = SETTINGS_FOLDER + "accounts.ser";
 	/** Constant representing plain mime type */
 	public final static String PLAIN_MIME = "text/plain";
 	/** Constant representing the multipart mime type */

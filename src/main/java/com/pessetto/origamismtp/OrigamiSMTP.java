@@ -1,5 +1,6 @@
 package com.pessetto.origamismtp;
 
+import com.pessetto.origamismtp.accounts.Accounts;
 import com.pessetto.origamismtp.filehandlers.inbox.Inbox;
 import java.net.*;
 import java.util.ArrayList;
@@ -9,6 +10,8 @@ import java.util.concurrent.Executors;
 import com.pessetto.origamismtp.status.StatusListener;
 import com.pessetto.origamismtp.threads.ConnectionHandler;
 import java.io.*;
+import static java.lang.Boolean.parseBoolean;
+import static java.lang.Integer.parseInt;
 import java.util.concurrent.Callable;
 
 
@@ -20,7 +23,7 @@ public class OrigamiSMTP implements Callable<Integer>{
 
 	private ServerSocket smtpSocket;
 	private List<StatusListener> statusListeners;
-	private int port = 2525;
+	private int Port = 2525;
         
         /** Creates an instance opened to the specified port
          * @param port  The port to open SMTP on
@@ -46,7 +49,7 @@ public class OrigamiSMTP implements Callable<Integer>{
 	 */
 	public OrigamiSMTP(int port, int maxInboxSize)
 	{
-		this.port = port;
+		Port = port;
 		statusListeners = new ArrayList<StatusListener>();
                 Inbox inbox = Inbox.getInstance();
                 inbox.setSize(maxInboxSize);
@@ -85,8 +88,8 @@ public class OrigamiSMTP implements Callable<Integer>{
 			java.lang.System.setProperty("sun.security.ssl.allowUnsafeRenegotiation", "true");
 			java.lang.System.setProperty("sun.security.ssl.allowLegacyHelloMessages", "true");
 			Socket ssls = null;
-			System.out.println("Starting SMTP");
-			InetSocketAddress bindAddress = new InetSocketAddress(port);
+			System.out.println("Starting SMTP on PORT "+Port);
+			InetSocketAddress bindAddress = new InetSocketAddress(Port);
 			smtpSocket = new ServerSocket();
 			smtpSocket.setReuseAddress(true);
 			smtpSocket.bind(bindAddress);
@@ -149,7 +152,76 @@ public class OrigamiSMTP implements Callable<Integer>{
 
 	public static void main(String[] args) throws BindException
 	{
-		OrigamiSMTP server = new OrigamiSMTP();
+            var settings = Settings.getInstance();
+            var accounts = Accounts.getInstance();
+            if(args.length == 0)
+            {
+		OrigamiSMTP server = new OrigamiSMTP(settings.getPort());
 		server.startSMTP();
+            }
+            else
+            {
+                for(int i = 0; i < args.length; ++i)
+                {
+                    if(args[i].indexOf("--") == 0 && i< args.length)
+                    {
+                        var arg = args[i].substring(2).toUpperCase();
+                        switch(arg)
+                        {
+                            case "PORT":
+                                if(i + 1 < args.length)
+                                {
+                                    var port = parseInt(args[i+1]);
+                                    System.out.println("Port set to "+port);
+                                    settings.setPort(port);
+                                }
+                                break;
+                            case "REQUIRE-VALID-SIGNIN":
+                                if(i + 1 < args.length)
+                                {
+                                    var validSignInRequired = parseBoolean(args[i+1]);
+                                    System.out.println("Sign in required set to  "+validSignInRequired);
+                                    settings.requireValidSignIn(validSignInRequired);
+                                }
+                                break;
+                            case "ADD-ACCOUNT":
+                                if(i + 2 < args.length)
+                                {
+                                    var userName = args[i+1];
+                                    var password = args[i+2];
+                                    try
+                                    {
+                                        if(accounts.addAccount(userName, password))
+                                        {
+                                            System.out.println("Account added");
+                                        }
+                                        else
+                                        {
+                                            System.out.println("Account could not be added");
+                                        }
+                                    }
+                                    catch(Exception ex)
+                                    {
+                                        System.out.println("Could not add account:" + ex.getLocalizedMessage());
+                                    }
+                                    
+                                }
+                                break;
+                            case "REMOVE-ACCOUNT":
+                                if(i+1 < args.length)
+                                {
+                                    var userName = args[i+1];
+                                    accounts.removeAccount(userName);
+                                    System.out.println("Account removed");
+                                }
+                                break;
+                            case "LIST-SETTINGS":
+                                System.out.println("PORT: "+settings.getPort());
+                                System.out.print("Sign in In Required: " + settings.getRequireSignIn());
+                                break;
+                        }
+                    }
+                }
+            }
 	}
 }

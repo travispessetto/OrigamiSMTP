@@ -23,15 +23,13 @@ public class EHLOHandler implements Validatable
 			{
 				
 				response = "250-localhost WELCOME TLS ENABLED"+Constants.CRLF;
-				response += "250-AUTH PLAIN" + Constants.CRLF;
-				response += "250-AUTH LOGIN" + Constants.CRLF;
+				response += "250-AUTH LOGIN PLAIN" + Constants.CRLF;
 				response += "250 STARTTLS"+Constants.CRLF;
 			}
 			else
 			{
 				response = "250-localhost WELCOME" + Constants.CRLF;
-				response += "250-AUTH LOGIN" + Constants.CRLF;
-				response += "250 AUTH PLAIN" + Constants.CRLF;
+				response += "250-AUTH LOGIN PLAIN" + Constants.CRLF;
 			}
 		}
 		else
@@ -53,7 +51,7 @@ public class EHLOHandler implements Validatable
 			{
 				
 				response = "250-localhost WELCOME TLS ENABLED"+Constants.CRLF;
-				response += "250-AUTH PLAIN" + Constants.CRLF;
+				response += "250-AUTH LOGIN PLAIN" + Constants.CRLF;
 				response += "250 STARTTLS"+Constants.CRLF;
 			}
 			else

@@ -9,13 +9,14 @@ import java.util.LinkedList;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.mail.BodyPart;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import jakarta.mail.BodyPart;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 import com.pessetto.origamismtp.constants.Constants;
-import com.sun.mail.util.BASE64DecoderStream;
+import java.io.ByteArrayOutputStream;
+//import com.sun.mail.util.BASE64DecoderStream;
 import javafx.beans.property.SimpleBooleanProperty;
 
 /** Represents a message
@@ -165,6 +166,7 @@ public class Message implements Serializable
       Session session = Session.getDefaultInstance(new Properties());
       InputStream inputStream = new ByteArrayInputStream(message.getBytes());
       MimeMessage mimeMessage = new MimeMessage(session, inputStream);
+      System.out.println("Content type: "+mimeMessage.getContentType());
       if (mimeMessage.isMimeType(Constants.PLAIN_MIME))
       {
         plainMessage = mimeMessage.getContent().toString();
@@ -179,23 +181,11 @@ public class Message implements Serializable
     }
     catch (Exception ex)
     {
+      System.out.println(ex.getMessage());
       ex.printStackTrace(System.err);
     }
   }
 
-  /** Converts a Byte[] array to a byte[] array
-   * @param array
-   * @return byte[]
-   */
-  private byte[] convertByteObjectArrayToPrimativeByteArray(Byte[] array)
-  {
-	  byte[] bytes = new byte[array.length];
-	  for(int i = 0; i < array.length; ++i)
-	  {
-		  bytes[i] = array[i];
-	  }
-	  return bytes;
-  }
   
   /** Processes the multipart part of the message
    * @param mimeMultipart
@@ -251,18 +241,13 @@ public class Message implements Serializable
       }
       else
       {
-        BASE64DecoderStream ds = (BASE64DecoderStream) bodyPart.getContent();
-        ArrayList<Byte> contentList = new ArrayList<Byte>();
-        int intVal;
-        while((intVal = ds.read()) >= 0)
-        {
-        	byte byteVal = (byte)intVal;
-        	contentList.add(byteVal);
-        }
-        int size = contentList.size();
-        Byte[] ByteContent = contentList.toArray(new Byte[contentList.size()]);
-        byte[] content = this.convertByteObjectArrayToPrimativeByteArray(ByteContent);
-        Attachment attach = new Attachment(fileName, content, size);
+          
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bodyPart.getDataHandler().writeTo(bos);
+        
+        
+        byte[] content = bos.toByteArray();
+        Attachment attach = new Attachment(fileName, content, content.length);
         attachments.add(attach);
       }
     }
@@ -320,7 +305,7 @@ public class Message implements Serializable
     catch (MessagingException | IOException e)
     {
       System.err.println("Could not get file name or read file content");
-      e.printStackTrace();
+      e.printStackTrace(System.err);
     }
   }
 

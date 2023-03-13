@@ -7,12 +7,12 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import org.junit.Test;
 
 
@@ -69,7 +69,7 @@ public class TestSMTPServerTest {
             Session session = Session.getDefaultInstance(props);
             MimeMessage msg = new MimeMessage(session);
             msg.setFrom(new InternetAddress("test@example.com"));
-            msg.setRecipient(javax.mail.Message.RecipientType.TO,new InternetAddress("testTo@example.com"));
+            msg.setRecipient(jakarta.mail.Message.RecipientType.TO,new InternetAddress("testTo@example.com"));
             msg.setSubject("Test email");
             msg.setText("Hello!");
             Transport.send(msg);

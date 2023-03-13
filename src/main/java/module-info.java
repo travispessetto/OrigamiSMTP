@@ -4,9 +4,10 @@
  */
 
 module com.pessetto.origamismtp {
-    requires mail;
     requires javafx.base;
     requires org.jsoup;
+    requires jakarta.mail;
+    requires jakarta.activation;
 
     exports com.pessetto.origamismtp;
     exports com.pessetto.origamismtp.filehandlers.inbox;

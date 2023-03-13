@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.pessetto.origamismtp</groupId>
     <artifactId>com.pessetto.origamismtp</artifactId>
-    <version>3.0.4</version>
+    <version>3.1.0</version>
     <name>Origami SMTP</name>
     <url>https://travispessetto.github.io/OrigamiSMTP/</url>
     <description>
@@ -187,11 +187,17 @@
             <artifactId>javafx-base</artifactId>
             <version>17.0.2</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.eclipse.angus/jakarta.mail -->
         <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>1.4.7</version>
-            <type>jar</type>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.eclipse.angus/angus-mail -->
+        <dependency>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>angus-mail</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>

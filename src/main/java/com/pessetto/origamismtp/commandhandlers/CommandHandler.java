@@ -1,5 +1,6 @@
 package com.pessetto.origamismtp.commandhandlers;
 
+import com.pessetto.origamismtp.commandhandlers.interfaces.IAUTHHandler;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
@@ -16,7 +17,7 @@ import com.pessetto.origamismtp.status.*;
  */
 public class CommandHandler
 {
-	private AUTHHandler auth;
+	private IAUTHHandler auth;
 	private DataHandler data;
 	private EHLOHandler ehlo;
 	private MAILHandler mail;
@@ -45,9 +46,9 @@ public class CommandHandler
 	{
 		if(auth == null)
 		{
-			auth = new AUTHHandler(fullAuth);
+                    auth = new AUTHHandler();
 		}
-		handleResponse(auth.getResponse());
+		handleResponse(auth.getResponse(fullAuth));
 		return auth.getStatus();
 	}
 	
